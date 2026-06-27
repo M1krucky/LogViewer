@@ -1,0 +1,5 @@
+2026-06-27 08:2026-06-27 08:30:00 INFO Application started
+2026-06-27 08:31:10 WARNING Disk space is low
+2026-06-27 08:32:45 ERROR Failed to connect to database
+2026-06-27 08:33:20 INFO User logged in
+2026-06-27 08:34:05 WARNING High memory usage detected
