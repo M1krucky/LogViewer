@@ -6,11 +6,13 @@
         xmlns:local="clr-namespace:LogViewer"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="0*"/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-
-    </Grid>
-</Window>
+	<Grid>
+		<DataGrid Name="LogGrid" AutoGenerateColumns="False">
+			<DataGrid.Columns>
+				<DataGridTextColumn Header="Timestamp" Binding="{Binding Timestamp}"/>
+				<DataGridTextColumn Header="Level" Binding="{Binding Level}"/>
+				<DataGridTextColumn Header="Message" Binding="{Binding Message}"/>
+			</DataGrid.Columns>
+		</DataGrid>
+	</Grid>
+</Window>  

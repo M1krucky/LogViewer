@@ -21,16 +21,12 @@ namespace LogViewer
         public MainWindow()
         {
             InitializeComponent();
-
+           
             LogParserService parser = new LogParserService();  // create a new LogParserService object.
             var logEntries = parser.Parse();  // call the Parse() method and store the returned list.
 
-            foreach (LogEntry item in logEntries)  // // display each parsed log entry
-            {
-                MessageBox.Show(
-                    $"[{item.Timestamp}] {item.Level}: {item.Message}"
-                );
-            }
+            LogGrid.ItemsSource = logEntries;  // bind the parsed log entries to the DataGrid
         }
+        
     }
 }

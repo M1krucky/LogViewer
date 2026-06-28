@@ -9,6 +9,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="sample.log" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="sample.log">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Views\" />
     <Folder Include="ViewModels\" />
   </ItemGroup>
