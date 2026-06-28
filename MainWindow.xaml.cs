@@ -9,6 +9,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using LogViewer.Services;
+using LogViewer.Models;  // imports the LogEntry model
 
 namespace LogViewer
 {
@@ -24,9 +25,11 @@ namespace LogViewer
             LogParserService parser = new LogParserService();  // create a new LogParserService object.
             var logEntries = parser.Parse();  // call the Parse() method and store the returned list.
 
-            if (logEntries.Count > 0)  // check that the list contains at least one log entry.
+            foreach (LogEntry item in logEntries)  // // display each parsed log entry
             {
-            MessageBox.Show(logEntries[0].Message);   // display the message of the first log entry.
+                MessageBox.Show(
+                    $"[{item.Timestamp}] {item.Level}: {item.Message}"
+                );
             }
         }
     }
