@@ -12,11 +12,13 @@
 			<RowDefinition Height="*"/>
 		</Grid.RowDefinitions>
 
-		<Button Content="Open Log File"
+		<Button Name="OpenFileButton"
+			    Content="Open Log File"
 				Width="120"
 				Height="30"
 				Margin="10"
-				HorizontalAlignment="Left"/>
+				HorizontalAlignment="Left"
+			    Click="OpenFileButton_Click"/>
 
 		<DataGrid Name="LogGrid"
 				  Grid.Row="1"
