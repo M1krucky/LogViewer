@@ -14,7 +14,7 @@ using LogViewer.Models;  // imports the LogEntry model
 namespace LogViewer
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Controls the application's main window and connects the UI to the application logic.
     /// </summary>
     public partial class MainWindow : Window
     {
@@ -23,9 +23,9 @@ namespace LogViewer
             InitializeComponent();
            
             LogParserService parser = new LogParserService();  // create a new LogParserService object.
-            var logEntries = parser.Parse();  // call the Parse() method and store the returned list.
+            List<LogEntry> parsedLogEntries = parser.Parse("sample.log");  // call the Parse() method and store the returned list.
 
-            LogGrid.ItemsSource = logEntries;  // bind the parsed log entries to the DataGrid
+            LogGrid.ItemsSource = parsedLogEntries;  // bind the parsed log entries to the DataGrid (connect the UI to the application logic)
         }
         
     }

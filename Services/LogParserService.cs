@@ -6,11 +6,14 @@ using System.IO;  // provides classes for working with files and directories.
 
 namespace LogViewer.Services
 {
+    /// <summary>
+    /// Reads log data and converts it into LogEntry objects.
+    /// </summary>
     internal class LogParserService
     {
-        public List<LogEntry> Parse()  // parse log data and return a list of log entries (method definition)
+        public List<LogEntry> Parse(string filePath)  // parse log data from the selected file and return a list of log entries (method definition)
         {
-            string[] lines = File.ReadAllLines("sample.log");  // reads all lines from the log file
+            string[] lines = File.ReadAllLines(filePath);  // reads all lines from the selected log file
 
             List<LogEntry> logEntries = new List<LogEntry>();  // creates an empty list of log entries
 

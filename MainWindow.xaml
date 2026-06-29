@@ -7,7 +7,9 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
 	<Grid>
-		<DataGrid Name="LogGrid" AutoGenerateColumns="False">
+		<DataGrid Name="LogGrid"
+				  AutoGenerateColumns="False"  
+				  CanUserAddRows="False">  
 			<DataGrid.Columns>
 				<DataGridTextColumn Header="Timestamp" Binding="{Binding Timestamp}"/>
 				<DataGridTextColumn Header="Level" Binding="{Binding Level}"/>
