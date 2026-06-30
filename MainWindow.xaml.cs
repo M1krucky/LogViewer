@@ -1,4 +1,8 @@
-﻿using System.Text;
+﻿using LogViewer.Models;  // imports the LogEntry model
+using LogViewer.Services;
+using Microsoft.Win32;  // provides the OpenFileDialog class for selecting files
+using System.Linq;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -8,10 +12,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using LogViewer.Services;
-using LogViewer.Models;  // imports the LogEntry model
-using Microsoft.Win32;
-using System.Linq.Expressions;  // provides the OpenFileDialog class for selecting files
 
 namespace LogViewer // groups related classes together, like a folder for code (created by VS)
 {
@@ -20,6 +20,9 @@ namespace LogViewer // groups related classes together, like a folder for code (
     /// </summary>
     public partial class MainWindow : Window  // define the application's main window (split between XAML and C#)
     {
+        
+        private List<LogEntry> allLogEntries = new List<LogEntry>();  // store all loaded log entries for search and filtering
+    
         public MainWindow()  // constructor (runs automatically when the window is created)
         {
             InitializeComponent();  // load and initialize the UI from MainWindow.xaml
@@ -39,18 +42,34 @@ namespace LogViewer // groups related classes together, like a folder for code (
             }
         }
 
+        private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)  // handles the TextChanged event raised by SearchTextBox
+        {
+        string searchText = SearchTextBox.Text;  // get the current text entered in the SearchTextBox
+
+         List<LogEntry> filteredLogEntries = allLogEntries
+        .Where(item =>
+            item.Message.Contains(searchText, StringComparison.OrdinalIgnoreCase))
+        .ToList();
+
+            LogGrid.ItemsSource = filteredLogEntries;
+        }
+
         private void LoadLogFile(string filePath)  // parse the specified log file and display its contents
         {
             try
             {
                 LogParserService parser = new LogParserService();  // create a new LogParserService object
-                List<LogEntry> parsedLogEntries = parser.Parse(filePath);  // parse the specified log file and store the returned list
+                allLogEntries = parser.Parse(filePath);  // parse the specified log file and store all loaded log entries
 
-                LogGrid.ItemsSource = parsedLogEntries;  // bind the parsed log entries to the DataGrid
+                LogGrid.ItemsSource = allLogEntries;  // display all loaded log entries in the DataGrid
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Failed to load log file: {ex.Message}");
+                MessageBox.Show($"Failed to load log file.\n\n{ex.Message}",  // display a user-friendly error message followed by the exception details
+                    "Error",  // set the message box window title
+                    MessageBoxButton.OK,  // display an OK button
+                    MessageBoxImage.Error  // display the standard Windows error icon
+                 );
             }
 
         }

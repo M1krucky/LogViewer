@@ -12,13 +12,23 @@
 			<RowDefinition Height="*"/>
 		</Grid.RowDefinitions>
 
-		<Button Name="OpenFileButton"
-			    Content="Open Log File"
-				Width="120"
-				Height="30"
-				Margin="10"
-				HorizontalAlignment="Left"
-			    Click="OpenFileButton_Click"/>
+		<StackPanel Orientation="Horizontal" Margin="10">
+
+			<Button Name="OpenFileButton"
+					Content="Open Log File"
+					Width="120"
+					Height="30"
+					Click="OpenFileButton_Click"/>
+
+			<TextBlock Text="Search:"
+					   Margin="20,0,5,0"
+					   VerticalAlignment="Center"/>
+
+			<TextBox Name="SearchTextBox"
+					 Width="200"
+					 TextChanged="SearchTextBox_TextChanged"/>
+
+		</StackPanel>
 
 		<DataGrid Name="LogGrid"
 				  Grid.Row="1"
