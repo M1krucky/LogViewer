@@ -17,30 +17,33 @@ namespace LogViewer // groups related classes together, like a folder for code (
     /// <summary>
     /// Controls the application's main window and connects the UI to the application logic.
     /// </summary>
-    public partial class MainWindow : Window  // define the application's main window class, split across XAML and C# files, and inherit the built-in WPF Window functionality.
+    public partial class MainWindow : Window  // define the application's main window (split between XAML and C#)
     {
-        public MainWindow()  // the constructor (created by VS).This method is executed automatically when the window is created.
+        public MainWindow()  // constructor (runs automatically when the window is created)
         {
-            InitializeComponent();  // created by VS, load MainWindow.xaml, create all UI controls (Button, DataGrid, etc.), assign their names (e.g., LogGrid), connect event handlers (e.g., Click), and initialize the window. 
+            InitializeComponent();  // load and initialize the UI from MainWindow.xaml
 
-            LogParserService parser = new LogParserService();  // create a new LogParserService object.
-            List<LogEntry> parsedLogEntries = parser.Parse("sample.log");  // call the Parse() method and store the returned list.
-
-            LogGrid.ItemsSource = parsedLogEntries;  // bind the parsed log entries to the DataGrid (connect the UI to the application logic)
+            LoadLogFile("sample.log");  // load the default log file when the application starts
         }
+
         private void OpenFileButton_Click(object sender, RoutedEventArgs e)  // handle the Open Log File button click event
         {
-
-            OpenFileDialog dialog = new OpenFileDialog();  // create a Windows file selection dialog (it is a .NET class)
-
+            OpenFileDialog dialog = new OpenFileDialog();  // create a Windows file selection dialog
             dialog.Filter = "Log files (*.log)|*.log|All files (*.*)|*.*";  // display .log files by default, with an option to show all files
             dialog.Title = "Select a log file";  // set the dialog window title
 
-            if (dialog.ShowDialog() == true)  // display the dialog and continue only if the user clicks Open (dialog.ShowDialog() is a method that opens the Windows file picker)
+            if (dialog.ShowDialog() == true)  // continue only if the user clicks Open
             {
-                MessageBox.Show(dialog.FileName);  // display the full path of the selected file
+                LoadLogFile(dialog.FileName);  // load the selected log file
             }
         }
 
-}
+        private void LoadLogFile(string filePath)  // parse the specified log file and display its contents
+        {
+            LogParserService parser = new LogParserService();  // create a new LogParserService object
+            List<LogEntry> parsedLogEntries = parser.Parse(filePath);  // parse the specified log file and store the returned list
+
+            LogGrid.ItemsSource = parsedLogEntries;  // bind the parsed log entries to the DataGrid
+        }
+    }
 }
