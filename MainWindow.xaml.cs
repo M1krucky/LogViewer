@@ -10,7 +10,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using LogViewer.Services;
 using LogViewer.Models;  // imports the LogEntry model
-using Microsoft.Win32;  // provides the OpenFileDialog class for selecting files
+using Microsoft.Win32;
+using System.Linq.Expressions;  // provides the OpenFileDialog class for selecting files
 
 namespace LogViewer // groups related classes together, like a folder for code (created by VS)
 {
@@ -26,7 +27,7 @@ namespace LogViewer // groups related classes together, like a folder for code (
             LoadLogFile("sample.log");  // load the default log file when the application starts
         }
 
-        private void OpenFileButton_Click(object sender, RoutedEventArgs e)  // handle the Open Log File button click event
+        private void OpenFileButton_Click(object sender, RoutedEventArgs e)  // handles the Click event raised by the OpenFileButton (WPF supplies: sender = the control that raised the event, e = information about the Click event; WPF requires both parameters)
         {
             OpenFileDialog dialog = new OpenFileDialog();  // create a Windows file selection dialog
             dialog.Filter = "Log files (*.log)|*.log|All files (*.*)|*.*";  // display .log files by default, with an option to show all files
@@ -40,10 +41,18 @@ namespace LogViewer // groups related classes together, like a folder for code (
 
         private void LoadLogFile(string filePath)  // parse the specified log file and display its contents
         {
-            LogParserService parser = new LogParserService();  // create a new LogParserService object
-            List<LogEntry> parsedLogEntries = parser.Parse(filePath);  // parse the specified log file and store the returned list
+            try
+            {
+                LogParserService parser = new LogParserService();  // create a new LogParserService object
+                List<LogEntry> parsedLogEntries = parser.Parse(filePath);  // parse the specified log file and store the returned list
 
-            LogGrid.ItemsSource = parsedLogEntries;  // bind the parsed log entries to the DataGrid
+                LogGrid.ItemsSource = parsedLogEntries;  // bind the parsed log entries to the DataGrid
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Failed to load log file: {ex.Message}");
+            }
+
         }
     }
 }
