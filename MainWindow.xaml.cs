@@ -80,5 +80,11 @@ namespace LogViewer // groups related classes together, like a folder for code (
             }
 
         }
+        private void StatisticsButton_Click(object sender, RoutedEventArgs e)  // handles the Click event raised by the StatisticsButton
+        {
+            StatisticsWindow statisticsWindow = new StatisticsWindow(allLogEntries);  // create a new StatisticsWindow object
+            statisticsWindow.Show();  // display the Statistics window
+        }
+
     }
 }
