@@ -44,12 +44,19 @@ namespace LogViewer // groups related classes together, like a folder for code (
 
         private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)  // handles the TextChanged event raised by SearchTextBox
         {
-        string searchText = SearchTextBox.Text;  // get the current text entered in the SearchTextBox
+            string searchText = SearchTextBox.Text;  // get the current text entered in the SearchTextBox
 
-         List<LogEntry> filteredLogEntries = allLogEntries
-        .Where(item =>
-            item.Message.Contains(searchText, StringComparison.OrdinalIgnoreCase))
-        .ToList();
+            List<LogEntry> filteredLogEntries = allLogEntries
+                .Where(item =>
+                {
+                    bool matchesSearch =
+
+                        item.Message.Contains(searchText, StringComparison.OrdinalIgnoreCase)
+                        || item.Level.Contains(searchText, StringComparison.OrdinalIgnoreCase)
+                        || item.Timestamp.ToString().Contains(searchText, StringComparison.OrdinalIgnoreCase);
+                      
+                    return matchesSearch;
+                }).ToList();
 
             LogGrid.ItemsSource = filteredLogEntries;
         }
