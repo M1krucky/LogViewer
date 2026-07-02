@@ -10,6 +10,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Linq;  // provides LINQ methods such as Count()
 
 namespace LogViewer
 {
@@ -18,11 +19,27 @@ namespace LogViewer
     /// </summary>
     public partial class StatisticsWindow : Window
     {
-        public StatisticsWindow(List<LogEntry> logEntries)  // constructor that receives the loaded log entries
+        public StatisticsWindow(List<LogEntry> logEntries)  // constructor that receives the loaded log entries (from MainWindow)
         {
             InitializeComponent();
 
-            StatisticsTextBlock.Text = $"Total log entries: {logEntries.Count}";
+            DisplayStatistics(logEntries);
+        }
+
+        private void DisplayStatistics(List<LogEntry> logEntries)  // calculate and display log statistics
+        {
+            int totalCount = logEntries.Count;
+            int infoCount = logEntries.Count(item => item.Level == "INFO");
+            int warningCount = logEntries.Count(item => item.Level == "WARNING");
+            int errorCount = logEntries.Count(item => item.Level == "ERROR");
+            DateTime latestTimestamp = logEntries.Max(item => item.Timestamp);  // find the latest timestamp
+
+            StatisticsTextBlock.Text =
+                $"Total entries: {totalCount}\n" +
+                $"INFO: {infoCount}\n" +
+                $"WARNING: {warningCount}\n" +
+                $"ERROR: {errorCount}\n" +
+                $"Latest log: {latestTimestamp}";
         }
     }
 }
