@@ -8,9 +8,84 @@
         Title="StatisticsWindow" Height="450" Width="800">
     <Grid Margin="20">
 
-        <TextBlock Name="StatisticsTextBlock"
-               FontSize="16"
-               Text="Statistics will appear here."/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid Margin="20">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Grid.Row="0"
+           Grid.Column="0"
+           Text="Total entries:"/>
+
+            <TextBlock Name="TotalEntriesTextBlock"
+           Grid.Row="0"
+           Grid.Column="1"
+           Margin="10,0,0,0"
+           Text="0"/>
+
+            <TextBlock Grid.Row="1"
+           Grid.Column="0"
+           Text="INFO:"/>
+
+            <TextBlock Name="InfoCountTextBlock"
+           Grid.Row="1"
+           Grid.Column="1"
+           Margin="10,0,0,0"
+           Text="0"/>
+
+            <TextBlock Grid.Row="2"
+           Grid.Column="0"
+           Text="WARNING:"/>
+
+            <TextBlock Name="WarningCountTextBlock"
+           Grid.Row="2"
+           Grid.Column="1"
+           Margin="10,0,0,0"
+           Text="0"/>
+
+            <TextBlock Grid.Row="3"
+           Grid.Column="0"
+           Text="ERROR:"/>
+
+            <TextBlock Name="ErrorCountTextBlock"
+           Grid.Row="3"
+           Grid.Column="1"
+           Margin="10,0,0,0"
+           Text="0"/>
+
+            <TextBlock Grid.Row="4"
+           Grid.Column="0"
+           Text="Latest log:"/>
+
+            <TextBlock Name="LatestLogTextBlock"
+           Grid.Row="4"
+           Grid.Column="1"
+           Margin="10,0,0,0"            
+           Text="-"/>
+
+        </Grid>
     </Grid>
 </Window>

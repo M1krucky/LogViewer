@@ -34,12 +34,11 @@ namespace LogViewer
             int errorCount = logEntries.Count(item => item.Level == "ERROR");
             DateTime latestTimestamp = logEntries.Max(item => item.Timestamp);  // find the latest timestamp
 
-            StatisticsTextBlock.Text =
-                $"Total entries: {totalCount}\n" +
-                $"INFO: {infoCount}\n" +
-                $"WARNING: {warningCount}\n" +
-                $"ERROR: {errorCount}\n" +
-                $"Latest log: {latestTimestamp}";
+            TotalEntriesTextBlock.Text = totalCount.ToString();
+            InfoCountTextBlock.Text = infoCount.ToString();
+            WarningCountTextBlock.Text = warningCount.ToString();
+            ErrorCountTextBlock.Text = errorCount.ToString();
+            LatestLogTextBlock.Text = latestTimestamp.ToString("yyyy-MM-dd HH:mm:ss");
         }
     }
 }
