@@ -51,13 +51,13 @@ LogViewer/
 - [x] Create `LogEntry` model
 - [x] Create `LogParserService`
 - [x] Display sample log entry
-- [ ] Read log entries from a file
-- [ ] Parse multiple log entries
-- [ ] Display log entries in a table
-- [ ] Implement filtering
+- [x] Read log entries from a file
+- [x] Parse multiple log entries
+- [x] Display log entries in a table
+- [x] Implement filtering
 - [ ] Implement sorting
-- [ ] Add statistics panel
-- [ ] Support opening log files
+- [x] Add statistics window
+- [x] Support opening log files
 - [ ] Highlight ERROR and WARNING entries
 - [ ] Export filtered results
 - [ ] Add dark mode
