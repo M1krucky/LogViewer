@@ -11,6 +11,7 @@
 			<RowDefinition Height="Auto"/>
 			<RowDefinition Height="*"/>
 		</Grid.RowDefinitions>
+
 		<StackPanel Orientation="Horizontal" Margin="10">
 
 			<Button Name="OpenFileButton"
@@ -18,13 +19,6 @@
 					Width="120"
 					Height="30"
 					Click="OpenFileButton_Click"/>
-
-			<Button Name="StatisticsButton"
-					Content="Statistics"
-					Width="100"
-					Height="30"
-					Margin="10,0,0,0"
-					Click="StatisticsButton_Click"/>
 
 			<TextBlock Text="Search:"
 					   Margin="20,0,5,0"
@@ -40,6 +34,23 @@
 				  Grid.Row="1"
 				  AutoGenerateColumns="False"
 				  CanUserAddRows="False">
+			
+			<DataGrid.RowStyle>
+				<Style TargetType="DataGridRow">
+					<Style.Triggers>
+						
+						<DataTrigger Binding="{Binding Level}" Value="ERROR">
+							<Setter Property="Background" Value="#FFCDD2"/>
+						</DataTrigger>
+						
+						<DataTrigger Binding="{Binding Level}" Value="WARNING">
+							<Setter Property="Background" Value="#FFF9C4"/>
+						</DataTrigger>
+						
+					</Style.Triggers>
+				</Style>
+			</DataGrid.RowStyle>
+			
 			<DataGrid.Columns>
 				<DataGridTextColumn Header="Timestamp" Binding="{Binding Timestamp}"/>
 				<DataGridTextColumn Header="Level" Binding="{Binding Level}"/>
