@@ -66,7 +66,7 @@ namespace LogViewer // groups related classes together, like a folder for code (
             try
             {
                 LogParserService parser = new LogParserService();  // create a new LogParserService object
-                allLogEntries = parser.Parse(filePath);  // parse the specified log file and store all loaded log entries
+                allLogEntries = parser.Parse(filePath);  // parse the specified log file and store all loaded log entries (Call the Parse() method of the parser object and pass filePath as an argument)
 
                 LogGrid.ItemsSource = allLogEntries;  // display all loaded log entries in the DataGrid
             }
