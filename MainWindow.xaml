@@ -19,6 +19,13 @@
 					Width="120"
 					Height="30"
 					Click="OpenFileButton_Click"/>
+			
+			<Button Name="StatisticsButton"
+					Content="Statistics"
+					Width="100"
+					Height="30"
+					Margin="10,0,0,0"
+					Click="StatisticsButton_Click"/>
 
 			<TextBlock Text="Search:"
 					   Margin="20,0,5,0"
