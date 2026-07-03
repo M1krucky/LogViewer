@@ -6,11 +6,11 @@ A Windows desktop application for viewing and analyzing log files, built with C#
 
 - Parse log files
 - Display log entries
-- Filter log entries by level, date, and text
-- Search log messages
+- Search and filter log entries by text, level, and timestamp
 - Sort log entries by timestamp, level, and message
 - Open log files from disk
 - Display log statistics
+- Display a simple statistics chart
 - Support large log files
 - Highlight ERROR and WARNING entries
 - Export filtered results
