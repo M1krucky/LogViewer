@@ -55,7 +55,7 @@ LogViewer/
 - [x] Parse multiple log entries
 - [x] Display log entries in a table
 - [x] Implement filtering
-- [ ] Implement sorting
+- [x] Implement sorting
 - [x] Add statistics window
 - [ ] Add simple statistics chart
 - [x] Support opening log files
