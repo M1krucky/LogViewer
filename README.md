@@ -57,6 +57,7 @@ LogViewer/
 - [x] Implement filtering
 - [ ] Implement sorting
 - [x] Add statistics window
+- [ ] Add simple statistics chart
 - [x] Support opening log files
 - [ ] Highlight ERROR and WARNING entries
 - [ ] Export filtered results
