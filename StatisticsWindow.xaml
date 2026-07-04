@@ -87,13 +87,23 @@
 
         </Grid>
 
-        <!-- Chart -->
-        <lvc:CartesianChart
-            Grid.Row="1"
-            Margin="0,20,0,0"
+            <!-- Chart -->
+        <StackPanel Grid.Row="1"
+                Margin="0,20,0,0">
+
+            <TextBlock
+            Text="Log Level Distribution"
+            FontSize="14"
+            FontWeight="Bold"
+            Margin="0,0,0,10"/>
+
+            <lvc:CartesianChart
+            Height="250"
             Series="{Binding LogLevelSeries}"
             XAxes="{Binding LogLevelXAxes}"
             YAxes="{Binding LogLevelYAxes}" />
+
+        </StackPanel>
 
     </Grid>
 

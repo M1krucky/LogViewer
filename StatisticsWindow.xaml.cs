@@ -36,6 +36,21 @@ namespace LogViewer
 
         private void DisplayStatistics(List<LogEntry> allLogEntries)  // calculate and display log statistics
         {
+            if (allLogEntries.Count == 0)
+            {
+                TotalEntriesTextBlock.Text = "0";
+                InfoCountTextBlock.Text = "0";
+                WarningCountTextBlock.Text = "0";
+                ErrorCountTextBlock.Text = "0";
+                LatestLogTextBlock.Text = "-";
+
+                LogLevelSeries = Array.Empty<ISeries>();
+                LogLevelXAxes = Array.Empty<Axis>();
+                LogLevelYAxes = Array.Empty<Axis>();
+
+                return;  // exit the entire method/function 
+            }
+
             int totalCount = allLogEntries.Count;
             int infoCount = allLogEntries.Count(item => item.Level == "INFO");
             int warningCount = allLogEntries.Count(item => item.Level == "WARNING");
@@ -63,7 +78,8 @@ namespace LogViewer
             {
                 new Axis  // Create the X-axis
                 {
-                    Labels = new[] { "INFO", "WARNING", "ERROR" }  // set the labels displayed on the X-axis
+                    Labels = new[] { "INFO", "WARNING", "ERROR" },  // set the labels displayed on the X-axis
+                    TextSize = 14  // font size of the axis labels
                 }
             };
 
@@ -73,6 +89,7 @@ namespace LogViewer
                 new Axis  // create the Y-axis
                 {
                     Name = "Count",  // display the Y-axis title
+                    NameTextSize = 16,  // font size of the axis title
                     MinLimit = 0  // start the Y-axis at 0 instead of auto-calculating the minimum
                 }
             };

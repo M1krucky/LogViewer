@@ -22,13 +22,17 @@ namespace LogViewer // groups related classes together, like a folder for code (
     {
         
         private List<LogEntry> allLogEntries = new List<LogEntry>();  // store all loaded log entries for search and filtering
-    
+
+        private List<LogEntry> filteredLogEntries = new List<LogEntry>();  // store the log entries after applying the current filters
+
+
         public MainWindow()  // constructor (runs automatically when the window is created)
         {
             InitializeComponent();  // load and initialize the UI from MainWindow.xaml
 
             LoadLogFile("sample.log");  // load the default log file when the application starts
         }
+
 
         private void OpenFileButton_Click(object sender, RoutedEventArgs e)  // handles the Click event raised by the OpenFileButton (WPF supplies: sender = the control that raised the event, e = information about the Click event; WPF requires both parameters)
         {
@@ -42,11 +46,18 @@ namespace LogViewer // groups related classes together, like a folder for code (
             }
         }
 
+
         private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)  // handles the TextChanged event raised by SearchTextBox
+        {
+            ApplyFilters();
+        }
+
+
+        private void ApplyFilters()
         {
             string searchText = SearchTextBox.Text;  // get the current text entered in the SearchTextBox
 
-            List<LogEntry> filteredLogEntries = allLogEntries
+            filteredLogEntries = allLogEntries
                 .Where(item =>
                 {
                     bool matchesSearch =
@@ -54,21 +65,25 @@ namespace LogViewer // groups related classes together, like a folder for code (
                         item.Message.Contains(searchText, StringComparison.OrdinalIgnoreCase)
                         || item.Level.Contains(searchText, StringComparison.OrdinalIgnoreCase)
                         || item.Timestamp.ToString().Contains(searchText, StringComparison.OrdinalIgnoreCase);
-                      
+
                     return matchesSearch;
                 }).ToList();
 
             LogGrid.ItemsSource = filteredLogEntries;
         }
 
+
         private void LoadLogFile(string filePath)  // parse the specified log file and display its contents
         {
             try
             {
                 LogParserService parser = new LogParserService();  // create a new LogParserService object
+
                 allLogEntries = parser.Parse(filePath);  // parse the specified log file and store all loaded log entries (Call the Parse() method of the parser object and pass filePath as an argument)
 
-                LogGrid.ItemsSource = allLogEntries;  // display all loaded log entries in the DataGrid
+                filteredLogEntries = allLogEntries;  // show all entries before any filters are applied
+
+                LogGrid.ItemsSource = filteredLogEntries;  // display all loaded log entries in the DataGrid
             }
             catch (Exception ex)
             {
@@ -82,7 +97,7 @@ namespace LogViewer // groups related classes together, like a folder for code (
         }
         private void StatisticsButton_Click(object sender, RoutedEventArgs e)  // handles the Click event raised by the StatisticsButton
         {
-            StatisticsWindow statisticsWindow = new StatisticsWindow(allLogEntries);  // create a new StatisticsWindow object
+            StatisticsWindow statisticsWindow = new StatisticsWindow(filteredLogEntries);  // create a new StatisticsWindow object
             statisticsWindow.Show();  // display the Statistics window
         }
 
