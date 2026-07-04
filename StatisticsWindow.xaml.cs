@@ -47,6 +47,14 @@ namespace LogViewer
             WarningCountTextBlock.Text = warningCount.ToString();
             ErrorCountTextBlock.Text = errorCount.ToString();
             LatestLogTextBlock.Text = latestTimestamp.ToString("yyyy-MM-dd HH:mm:ss");
+
+            LogLevelSeries = new ISeries[]  // create a new array of chart data series
+            {
+                new ColumnSeries<int>  // create a bar chart series that stores integer values
+                {
+                    Values = new int[] { infoCount, warningCount, errorCount }  // Set the bar heights using the calculated log counts
+                }
+            };
         }
     }
 }
