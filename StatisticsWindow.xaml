@@ -1,34 +1,30 @@
-﻿    <Window x:Class="LogViewer.StatisticsWindow"
+﻿<Window x:Class="LogViewer.StatisticsWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
         xmlns:local="clr-namespace:LogViewer"
         mc:Ignorable="d"
-        xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
-            
-        Title="StatisticsWindow" Height="450" Width="800">
-        
-    <Grid Margin="20">
+ 
+               
+        Title="Statistics"
+        Height="450"
+        Width="800">
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
+    <Grid Margin="20">
 
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Grid Margin="20">
+        <!-- Statistics -->
+        <Grid Grid.Row="0">
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
             <Grid.RowDefinitions>
@@ -40,59 +36,65 @@
             </Grid.RowDefinitions>
 
             <TextBlock Grid.Row="0"
-           Grid.Column="0"
-           Text="Total entries:"/>
+                       Grid.Column="0"
+                       Text="Total entries:"/>
 
             <TextBlock Name="TotalEntriesTextBlock"
-           Grid.Row="0"
-           Grid.Column="1"
-           Margin="10,0,0,0"
-           Text="0"/>
+                       Grid.Row="0"
+                       Grid.Column="1"
+                       Margin="10,0,0,0"
+                       Text="0"/>
 
             <TextBlock Grid.Row="1"
-           Grid.Column="0"
-           Text="INFO:"/>
+                       Grid.Column="0"
+                       Text="INFO:"/>
 
             <TextBlock Name="InfoCountTextBlock"
-           Grid.Row="1"
-           Grid.Column="1"
-           Margin="10,0,0,0"
-           Text="0"/>
+                       Grid.Row="1"
+                       Grid.Column="1"
+                       Margin="10,0,0,0"
+                       Text="0"/>
 
             <TextBlock Grid.Row="2"
-           Grid.Column="0"
-           Text="WARNING:"/>
+                       Grid.Column="0"
+                       Text="WARNING:"/>
 
             <TextBlock Name="WarningCountTextBlock"
-           Grid.Row="2"
-           Grid.Column="1"
-           Margin="10,0,0,0"
-           Text="0"/>
+                       Grid.Row="2"
+                       Grid.Column="1"
+                       Margin="10,0,0,0"
+                       Text="0"/>
 
             <TextBlock Grid.Row="3"
-           Grid.Column="0"
-           Text="ERROR:"/>
+                       Grid.Column="0"
+                       Text="ERROR:"/>
 
             <TextBlock Name="ErrorCountTextBlock"
-           Grid.Row="3"
-           Grid.Column="1"
-           Margin="10,0,0,0"
-           Text="0"/>
+                       Grid.Row="3"
+                       Grid.Column="1"
+                       Margin="10,0,0,0"
+                       Text="0"/>
 
             <TextBlock Grid.Row="4"
-           Grid.Column="0"
-           Text="Latest log:"/>
+                       Grid.Column="0"
+                       Text="Latest log:"/>
 
             <TextBlock Name="LatestLogTextBlock"
-           Grid.Row="4"
-           Grid.Column="1"
-           Margin="10,0,0,0"            
-           Text="-"/>
-            
-         <lvc:CartesianChart
-         Height="250"
-         Margin="0,20,0,0" />
+                       Grid.Row="4"
+                       Grid.Column="1"
+                       Margin="10,0,0,0"
+                       Text="-"/>
 
         </Grid>
+
+        <!-- Chart -->
+        <lvc:CartesianChart
+            Grid.Row="1"
+            Margin="0,20,0,0"
+            Series="{Binding LogLevelSeries}"
+            XAxes="{Binding LogLevelXAxes}"
+            YAxes="{Binding LogLevelYAxes}" />
+
     </Grid>
+
 </Window>

@@ -21,9 +21,9 @@ namespace LogViewer
     /// </summary>
     public partial class StatisticsWindow : Window
     {
-        public ISeries[] LogLevelSeries { get; set; } // data series displayed on the chart.
-        public Axis[] LogLevelXAxes { get; set; }  // X-axis configuration (INFO, WARNING, ERROR). 
-        public Axis[] LogLevelYAxes { get; set; }  // Y-axis configuration (log count). 
+        public ISeries[] LogLevelSeries { get; set; } = Array.Empty<ISeries>(); // stores the chart data series (initialized as an empty array). "Array.Empty<ISeries>()" -> call the built-in Empty() method of the Array class to get an empty array of ISeries.
+        public Axis[] LogLevelXAxes { get; set; } = Array.Empty<Axis>();  // stores the X-axis configuration (initialized as an empty array)
+        public Axis[] LogLevelYAxes { get; set; } = Array.Empty<Axis>();  // stores the Y-axis configuration (initialized as an empty array)
 
         public StatisticsWindow(List<LogEntry> allLogEntries)  // constructor that receives the loaded log entries (from MainWindow)
         {
@@ -48,11 +48,32 @@ namespace LogViewer
             ErrorCountTextBlock.Text = errorCount.ToString();
             LatestLogTextBlock.Text = latestTimestamp.ToString("yyyy-MM-dd HH:mm:ss");
 
+
             LogLevelSeries = new ISeries[]  // create a new array of chart data series
             {
                 new ColumnSeries<int>  // create a bar chart series that stores integer values
                 {
-                    Values = new int[] { infoCount, warningCount, errorCount }  // Set the bar heights using the calculated log counts
+                    Values = new int[] { infoCount, warningCount, errorCount },  // Set the bar heights using the calculated log counts
+                    Name = "Log Count"  // set the chart series name shown in the legend/tooltip
+                }
+            };
+
+
+            LogLevelXAxes = new Axis[]  // create a new array of X-axis configurations
+            {
+                new Axis  // Create the X-axis
+                {
+                    Labels = new[] { "INFO", "WARNING", "ERROR" }  // set the labels displayed on the X-axis
+                }
+            };
+
+
+            LogLevelYAxes = new Axis[]  // create a new array of Y-axis configurations
+            {
+                new Axis  // create the Y-axis
+                {
+                    Name = "Count",  // display the Y-axis title
+                    MinLimit = 0  // start the Y-axis at 0 instead of auto-calculating the minimum
                 }
             };
         }
