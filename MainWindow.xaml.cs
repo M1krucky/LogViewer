@@ -103,11 +103,22 @@ namespace LogViewer // groups related classes together, like a folder for code (
         }
         private void StatisticsButton_Click(object sender, RoutedEventArgs e)  // handles the Click event raised by the StatisticsButton
         {
-            if (statisticsWindow == null)
+            if (statisticsWindow == null)  // create a new Statistics window only if no Statistics window is currently open; otherwise, reuse the existing one
             {
                 statisticsWindow = new StatisticsWindow(filteredLogEntries);  // create a new StatisticsWindow object
+                statisticsWindow.Closed += StatisticsWindow_Closed; // call StatisticsWindow_Closed when the Statistics window is closed
                 statisticsWindow.Show();  // display the Statistics window
             }
+            else
+            {
+                statisticsWindow.Activate();  // each time the Statistics button is clicked, bring the existing Statistics window to the front and make it the active window to prevent it from remaining hidden behind another window
+            }
+        }
+
+
+        private void StatisticsWindow_Closed(object? sender, EventArgs e)  // handles the Closed event raised by the Statistics window
+        {
+            statisticsWindow = null;  // clear the reference so MainWindow knows the Statistics window is no longer open and can create a new one when the Statistics button is clicked again, fixing the issue where the Statistics window could not be reopened after being closed
         }
 
     }

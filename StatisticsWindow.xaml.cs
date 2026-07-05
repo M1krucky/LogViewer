@@ -38,6 +38,9 @@ namespace LogViewer
         public void RefreshStatistics(List<LogEntry> filteredLogEntries)  // refresh statistics and chart using the latest filtered log entries
         {
             DisplayStatistics(filteredLogEntries);
+
+            DataContext = null; // Reload the bindings from this StatisticsWindow object (bug fix solution - synchronization of chart with filtering) )
+            DataContext = this;
         }
 
 
