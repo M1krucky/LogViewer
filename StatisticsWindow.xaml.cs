@@ -34,6 +34,13 @@ namespace LogViewer
             DataContext = this;  // // set this window as the source for XAML data bindings
         }
 
+
+        public void RefreshStatistics(List<LogEntry> filteredLogEntries)  // refresh statistics and chart using the latest filtered log entries
+        {
+            DisplayStatistics(filteredLogEntries);
+        }
+
+
         private void DisplayStatistics(List<LogEntry> allLogEntries)  // calculate and display log statistics
         {
             if (allLogEntries.Count == 0)

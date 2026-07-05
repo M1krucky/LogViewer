@@ -25,6 +25,7 @@ namespace LogViewer // groups related classes together, like a folder for code (
 
         private List<LogEntry> filteredLogEntries = new List<LogEntry>();  // store the log entries after applying the current filters
 
+        private StatisticsWindow? statisticsWindow;  // stores the currently opened Statistics window (or null until a window is created)
 
         public MainWindow()  // constructor (runs automatically when the window is created)
         {
@@ -70,6 +71,11 @@ namespace LogViewer // groups related classes together, like a folder for code (
                 }).ToList();
 
             LogGrid.ItemsSource = filteredLogEntries;
+
+            if (statisticsWindow != null)  // refresh the Statistics window only if the StatisticsWindow object exists
+            {
+                statisticsWindow.RefreshStatistics(filteredLogEntries);  // update the statistics and chart using the latest filtered log entries
+            }
         }
 
 
@@ -97,8 +103,11 @@ namespace LogViewer // groups related classes together, like a folder for code (
         }
         private void StatisticsButton_Click(object sender, RoutedEventArgs e)  // handles the Click event raised by the StatisticsButton
         {
-            StatisticsWindow statisticsWindow = new StatisticsWindow(filteredLogEntries);  // create a new StatisticsWindow object
-            statisticsWindow.Show();  // display the Statistics window
+            if (statisticsWindow == null)
+            {
+                statisticsWindow = new StatisticsWindow(filteredLogEntries);  // create a new StatisticsWindow object
+                statisticsWindow.Show();  // display the Statistics window
+            }
         }
 
     }
