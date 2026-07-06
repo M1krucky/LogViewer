@@ -54,9 +54,22 @@ namespace LogViewer // groups related classes together, like a folder for code (
         }
 
 
-        private void ApplyFilters()
+        private void LevelFilterComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)  // handles the SelectionChanged event raised by the LevelFilterComboBox
         {
+            ApplyFilters();  
+        }
+
+
+        private void ApplyFilters()  // applies all active filters
+        {
+            if (LogGrid == null)  // exit the method if the DataGrid has not been created yet during window initialization (t's a guard against code running too early)
+            {
+                return;  // prevent a NullReferenceException while the UI is still being initialized
+            }
+
             string searchText = SearchTextBox.Text;  // get the current text entered in the SearchTextBox
+
+            string selectedLevel = ((ComboBoxItem)LevelFilterComboBox.SelectedItem).Content.ToString() ?? "All";  // get the selected log level from the ComboBox (use "All" as a safe default if the result is null)
 
             filteredLogEntries = allLogEntries
                 .Where(item =>
@@ -67,10 +80,16 @@ namespace LogViewer // groups related classes together, like a folder for code (
                         || item.Level.Contains(searchText, StringComparison.OrdinalIgnoreCase)
                         || item.Timestamp.ToString().Contains(searchText, StringComparison.OrdinalIgnoreCase);
 
-                    return matchesSearch;
+                    bool matchesLevel =
+
+                         selectedLevel == "All"
+                         || item.Level == selectedLevel;
+
+                    return matchesSearch && matchesLevel;
+
                 }).ToList();
 
-            LogGrid.ItemsSource = filteredLogEntries;
+            LogGrid.ItemsSource = filteredLogEntries; // display the filteredLogEntries list in the table with logs on the MainWindow
 
             if (statisticsWindow != null)  // refresh the Statistics window only if the StatisticsWindow object exists
             {
@@ -89,7 +108,7 @@ namespace LogViewer // groups related classes together, like a folder for code (
 
                 filteredLogEntries = allLogEntries;  // show all entries before any filters are applied
 
-                LogGrid.ItemsSource = filteredLogEntries;  // display all loaded log entries in the DataGrid
+                LogGrid.ItemsSource = filteredLogEntries;  // display all loaded log entries in the DataGrid (table with logs on the MainWindow)
             }
             catch (Exception ex)
             {

@@ -34,7 +34,22 @@
 			<TextBox Name="SearchTextBox"
 					 Width="200"
 					 TextChanged="SearchTextBox_TextChanged"/>
+			
+			<TextBlock Text="Level:"
+					   VerticalAlignment="Center"
+				       Margin="10,0,5,0"/>
 
+			<ComboBox Name="LevelFilterComboBox"
+					  Width="100"
+					  SelectedIndex="0"
+				      VerticalContentAlignment="Center"
+					  SelectionChanged="LevelFilterComboBox_SelectionChanged">
+				<ComboBoxItem Content="All"/>
+				<ComboBoxItem Content="INFO"/>
+				<ComboBoxItem Content="WARNING"/>
+				<ComboBoxItem Content="ERROR"/>
+			</ComboBox>
+			
 		</StackPanel>
 
 		<DataGrid Name="LogGrid"
