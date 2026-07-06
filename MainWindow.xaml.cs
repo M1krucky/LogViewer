@@ -60,6 +60,12 @@ namespace LogViewer // groups related classes together, like a folder for code (
         }
 
 
+        private void DatePicker_SelectedDateChanged(object? sender, SelectionChangedEventArgs e)  // handles date changes in FromDatePicker and ToDatePicker
+        {
+            ApplyFilters();  // apply all active filters whenever the selected date range changes
+        }
+
+
         private void ApplyFilters()  // applies all active filters
         {
             if (LogGrid == null)  // exit the method if the DataGrid has not been created yet during window initialization (t's a guard against code running too early)
@@ -70,6 +76,10 @@ namespace LogViewer // groups related classes together, like a folder for code (
             string searchText = SearchTextBox.Text;  // get the current text entered in the SearchTextBox
 
             string selectedLevel = ((ComboBoxItem)LevelFilterComboBox.SelectedItem).Content.ToString() ?? "All";  // get the selected log level from the ComboBox (use "All" as a safe default if the result is null)
+
+            DateTime? fromDate = FromDatePicker.SelectedDate;  // get the selected start date (null means no lower date limit)
+
+            DateTime? toDate = ToDatePicker.SelectedDate;  // get the selected end date (null means no upper date limit)
 
             filteredLogEntries = allLogEntries
                 .Where(item =>
@@ -85,7 +95,15 @@ namespace LogViewer // groups related classes together, like a folder for code (
                          selectedLevel == "All"
                          || item.Level == selectedLevel;
 
-                    return matchesSearch && matchesLevel;
+                    bool matchesFromDate =
+                         fromDate == null
+                         || item.Timestamp.Date >= fromDate.Value.Date;
+
+                    bool matchesToDate =
+                         toDate == null
+                         || item.Timestamp.Date <= toDate.Value.Date;
+
+                    return matchesSearch && matchesLevel && matchesFromDate && matchesToDate;
 
                 }).ToList();
 
@@ -139,6 +157,6 @@ namespace LogViewer // groups related classes together, like a folder for code (
         {
             statisticsWindow = null;  // clear the reference so MainWindow knows the Statistics window is no longer open and can create a new one when the Statistics button is clicked again, fixing the issue where the Statistics window could not be reopened after being closed
         }
-
+                   
     }
 }

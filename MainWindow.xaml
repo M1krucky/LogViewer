@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LogViewer"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="550" Width="1000">
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"/>
@@ -19,14 +19,7 @@
 					Width="120"
 					Height="30"
 					Click="OpenFileButton_Click"/>
-			
-			<Button Name="StatisticsButton"
-					Content="Statistics"
-					Width="100"
-					Height="30"
-					Margin="10,0,0,0"
-					Click="StatisticsButton_Click"/>
-
+	
 			<TextBlock Text="Search:"
 					   Margin="20,0,5,0"
 					   VerticalAlignment="Center"/>
@@ -44,11 +37,39 @@
 					  SelectedIndex="0"
 				      VerticalContentAlignment="Center"
 					  SelectionChanged="LevelFilterComboBox_SelectionChanged">
+				
 				<ComboBoxItem Content="All"/>
 				<ComboBoxItem Content="INFO"/>
 				<ComboBoxItem Content="WARNING"/>
 				<ComboBoxItem Content="ERROR"/>
-			</ComboBox>
+				
+			</ComboBox>	
+
+			<TextBlock Text="From:"
+			           VerticalAlignment="Center"
+			           Margin="10,0,5,0"/>
+
+			<DatePicker Name="FromDatePicker"
+						Width="120"
+			            VerticalAlignment="Center"
+			            SelectedDateChanged="DatePicker_SelectedDateChanged"/>
+
+			<TextBlock Text="To:"
+						VerticalAlignment="Center"
+						Margin="10,0,5,0"/>
+
+			<DatePicker Name="ToDatePicker"
+						Width="120"
+						VerticalAlignment="Center"
+						SelectedDateChanged="DatePicker_SelectedDateChanged"/>
+
+			<Button Name="StatisticsButton"
+						Content="Statistics"
+						Width="100"
+						Height="30"
+						Margin="10,0,0,0"
+						Click="StatisticsButton_Click"/>
+			
 			
 		</StackPanel>
 

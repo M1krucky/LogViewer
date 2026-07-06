@@ -11,8 +11,8 @@ A Windows desktop application for viewing and analyzing log files, built with C#
 - Filter log entries by date range
 - Sort log entries by timestamp, level, and message
 - Open log files from disk
-- Display statistics based on currently filtered results
-- Display an interactive log level distribution chart using LiveCharts2
+- Display live statistics based on currently filtered results
+- Display a live interactive log level distribution chart using LiveCharts2
 - Display future error trend chart by hour/day/week/month
 - Support large log files
 - Highlight ERROR and WARNING entries
@@ -58,15 +58,15 @@ LogViewer/
 - [x] Parse multiple log entries
 - [x] Display log entries in a table
 - [x] Implement text filtering
-- [ ] Add level filter
+- [x] Add level filter
 - [ ] Add date range filter
-- [ ] Centralize filtering in `ApplyFilters()`
-- [ ] Store current filtered results separately
+- [x] Centralize filtering in `ApplyFilters()`
+- [x] Store current filtered results separately
 - [x] Implement sorting
 - [x] Add statistics window
-- [ ] Connect statistics to current filtered results
+- [x] Connect statistics to current filtered results
 - [x] Add LiveCharts2 log level distribution chart
-- [ ] Connect chart to current filtered results
+- [x] Connect chart to current filtered results
 - [ ] Add future error trend chart by hour/day/week/month
 - [x] Support opening log files
 - [x] Highlight ERROR and WARNING entries
