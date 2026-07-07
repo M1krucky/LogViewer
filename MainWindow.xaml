@@ -5,13 +5,22 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LogViewer"
         mc:Ignorable="d"
-        Title="MainWindow" Height="550" Width="1000">
+		
+        Title="MainWindow"
+        Height="550"
+        Width="1000">
+
+	<!-- main layout container -->
 	<Grid>
+
+		<!-- divide the window into three rows: toolbar, log table, and details panel -->
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"/>
 			<RowDefinition Height="*"/>
+			<RowDefinition Height="Auto"/>
 		</Grid.RowDefinitions>
 
+		<!-- top toolbar containing file operations, filters, and statistics -->
 		<StackPanel Orientation="Horizontal" Margin="10">
 
 			<Button Name="OpenFileButton"
@@ -19,7 +28,7 @@
 					Width="120"
 					Height="30"
 					Click="OpenFileButton_Click"/>
-	
+
 			<TextBlock Text="Search:"
 					   Margin="20,0,5,0"
 					   VerticalAlignment="Center"/>
@@ -27,36 +36,36 @@
 			<TextBox Name="SearchTextBox"
 					 Width="200"
 					 TextChanged="SearchTextBox_TextChanged"/>
-			
+
 			<TextBlock Text="Level:"
 					   VerticalAlignment="Center"
-				       Margin="10,0,5,0"/>
+					   Margin="10,0,5,0"/>
 
 			<ComboBox Name="LevelFilterComboBox"
 					  Width="100"
 					  SelectedIndex="0"
-				      VerticalContentAlignment="Center"
+					  VerticalContentAlignment="Center"
 					  SelectionChanged="LevelFilterComboBox_SelectionChanged">
-				
+
 				<ComboBoxItem Content="All"/>
 				<ComboBoxItem Content="INFO"/>
 				<ComboBoxItem Content="WARNING"/>
 				<ComboBoxItem Content="ERROR"/>
-				
-			</ComboBox>	
+
+			</ComboBox>
 
 			<TextBlock Text="From:"
-			           VerticalAlignment="Center"
-			           Margin="10,0,5,0"/>
+					   VerticalAlignment="Center"
+					   Margin="10,0,5,0"/>
 
 			<DatePicker Name="FromDatePicker"
 						Width="120"
-			            VerticalAlignment="Center"
-			            SelectedDateChanged="DatePicker_SelectedDateChanged"/>
+						VerticalAlignment="Center"
+						SelectedDateChanged="DatePicker_SelectedDateChanged"/>
 
 			<TextBlock Text="To:"
-						VerticalAlignment="Center"
-						Margin="10,0,5,0"/>
+					   VerticalAlignment="Center"
+					   Margin="10,0,5,0"/>
 
 			<DatePicker Name="ToDatePicker"
 						Width="120"
@@ -64,41 +73,90 @@
 						SelectedDateChanged="DatePicker_SelectedDateChanged"/>
 
 			<Button Name="StatisticsButton"
-						Content="Statistics"
-						Width="100"
-						Height="30"
-						Margin="10,0,0,0"
-						Click="StatisticsButton_Click"/>
-			
-			
+					Content="Statistics"
+					Width="100"
+					Height="30"
+					Margin="10,0,0,0"
+					Click="StatisticsButton_Click"/>
+
 		</StackPanel>
 
+		<!-- display parsed and filtered log entries -->
 		<DataGrid Name="LogGrid"
 				  Grid.Row="1"
 				  AutoGenerateColumns="False"
-				  CanUserAddRows="False">
-			
+				  CanUserAddRows="False"
+				  SelectionChanged="LogGrid_SelectionChanged">
+
+			<!-- highlight log entries based on their severity level -->
 			<DataGrid.RowStyle>
+
 				<Style TargetType="DataGridRow">
 					<Style.Triggers>
-						
+
 						<DataTrigger Binding="{Binding Level}" Value="ERROR">
 							<Setter Property="Background" Value="#FFCDD2"/>
 						</DataTrigger>
-						
+
 						<DataTrigger Binding="{Binding Level}" Value="WARNING">
 							<Setter Property="Background" Value="#FFF9C4"/>
 						</DataTrigger>
-						
+
 					</Style.Triggers>
 				</Style>
+
 			</DataGrid.RowStyle>
-			
+
+			<!-- define the columns displayed in the log table -->
 			<DataGrid.Columns>
-				<DataGridTextColumn Header="Timestamp" Binding="{Binding Timestamp}"/>
-				<DataGridTextColumn Header="Level" Binding="{Binding Level}"/>
-				<DataGridTextColumn Header="Message" Binding="{Binding Message}"/>
+
+				<!-- display the timestamp of each log entry -->
+				<DataGridTextColumn Header="Timestamp"
+									Binding="{Binding Timestamp}"/>
+
+				<!-- display the severity level of each log entry -->
+				<DataGridTextColumn Header="Level"
+									Binding="{Binding Level}"/>
+
+				<!-- display the log message of each log entry -->
+				<DataGridTextColumn Header="Message"
+									Binding="{Binding Message}"/>
+
 			</DataGrid.Columns>
+
 		</DataGrid>
+
+		<!-- display details of the currently selected log entry -->
+		<Border Grid.Row="2"
+				Margin="10"
+				Padding="10"
+				BorderBrush="LightGray"
+				BorderThickness="1">
+
+			<!-- organize the selected log entry information vertically -->
+			<StackPanel>
+
+				<TextBlock Text="Selected Log Details"
+						   FontWeight="Bold"
+						   FontSize="14"
+						   Margin="0,0,0,10"/>
+
+				<TextBlock Name="SelectedTimestampTextBlock"
+						   Text="Timestamp: -"
+						   Margin="0,0,0,5"/>
+
+				<TextBlock Name="SelectedLevelTextBlock"
+						   Text="Level: -"
+						   Margin="0,0,0,5"/>
+
+				<TextBlock Name="SelectedMessageTextBlock"
+						   Text="Message: -"
+						   TextWrapping="Wrap"/>
+
+			</StackPanel>
+
+		</Border>
+
 	</Grid>
-</Window>  
+
+</Window>

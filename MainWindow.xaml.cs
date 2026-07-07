@@ -66,6 +66,24 @@ namespace LogViewer // groups related classes together, like a folder for code (
         }
 
 
+        private void LogGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)  // handles the SelectionChanged event raised by the LogGrid
+        {
+            LogEntry? selectedLogEntry = LogGrid.SelectedItem as LogEntry;  // get the currently selected log entry (null if no row is selected)
+
+            if (selectedLogEntry == null)
+            {
+                SelectedTimestampTextBlock.Text = "Timestamp: -";
+                SelectedLevelTextBlock.Text = "Level: -";
+                SelectedMessageTextBlock.Text = "Message: -";
+                return;
+            }
+
+            SelectedTimestampTextBlock.Text = $"Timestamp: {selectedLogEntry.Timestamp}";
+            SelectedLevelTextBlock.Text = $"Level: {selectedLogEntry.Level}";
+            SelectedMessageTextBlock.Text = $"Message: {selectedLogEntry.Message}";
+        }
+
+
         private void ApplyFilters()  // applies all active filters
         {
             if (LogGrid == null)  // exit the method if the DataGrid has not been created yet during window initialization (t's a guard against code running too early)
