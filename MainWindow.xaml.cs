@@ -25,17 +25,25 @@ namespace LogViewer // groups related classes together, like a folder for code (
 
         private List<LogEntry> filteredLogEntries = new List<LogEntry>();  // store the log entries after applying the current filters
 
+        private bool isLoading = false;  // tracks whether a log file is currently being loaded
+
         private StatisticsWindow? statisticsWindow;  // stores the currently opened Statistics window (or null until a window is created)
 
         public MainWindow()  // constructor (runs automatically when the window is created)
         {
             InitializeComponent();  // load and initialize the UI from MainWindow.xaml
 
-            LoadLogFile("sample.log");  // load the default log file when the application starts
+            Loaded += MainWindow_Loaded;  // load the default log file after the window is fully initialized ("When the Loaded event happens, call MainWindow_Loaded")
         }
 
 
-        private void OpenFileButton_Click(object sender, RoutedEventArgs e)  // handles the Click event raised by the OpenFileButton (WPF supplies: sender = the control that raised the event, e = information about the Click event; WPF requires both parameters)
+        private async void MainWindow_Loaded(object sender, RoutedEventArgs e)  // loads the default log file after the window is ready
+        {
+            await LoadLogFileAsync("sample.log");  // load the default log file without blocking the UI during startup
+        }
+
+
+        private async void OpenFileButton_Click(object sender, RoutedEventArgs e)  // handles the Click event raised by the OpenFileButton without blocking the UI while a log file is loading
         {
             OpenFileDialog dialog = new OpenFileDialog();  // create a Windows file selection dialog
             dialog.Filter = "Log files (*.log)|*.log|All files (*.*)|*.*";  // display .log files by default, with an option to show all files
@@ -43,7 +51,7 @@ namespace LogViewer // groups related classes together, like a folder for code (
 
             if (dialog.ShowDialog() == true)  // continue only if the user clicks Open
             {
-                LoadLogFile(dialog.FileName);  // load the selected log file
+                await LoadLogFileAsync(dialog.FileName);  // / load the selected log file without blocking the UI
             }
         }
 
@@ -134,13 +142,13 @@ namespace LogViewer // groups related classes together, like a folder for code (
         }
 
 
-        private void LoadLogFile(string filePath)  // parse the specified log file and display its contents
+        private async Task LoadLogFileAsync(string filePath)  // load the specified log file without blocking the UI (async load)
         {
             try
             {
                 LogParserService parser = new LogParserService();  // create a new LogParserService object
 
-                allLogEntries = parser.Parse(filePath);  // parse the specified log file and store all loaded log entries (Call the Parse() method of the parser object and pass filePath as an argument)
+                allLogEntries = await Task.Run(() => parser.Parse(filePath));  // parse the log file on a background thread so the UI stays responsive
 
                 filteredLogEntries = allLogEntries;  // show all entries before any filters are applied
 
@@ -175,6 +183,6 @@ namespace LogViewer // groups related classes together, like a folder for code (
         {
             statisticsWindow = null;  // clear the reference so MainWindow knows the Statistics window is no longer open and can create a new one when the Statistics button is clicked again, fixing the issue where the Statistics window could not be reopened after being closed
         }
-                   
+          
     }
 }
