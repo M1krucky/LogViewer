@@ -23,11 +23,15 @@ namespace LogViewer.Services
 
                 LogEntry entry = new LogEntry();  // creates a new log entry object
 
-                entry.Timestamp = DateTime.Parse(parts[0] + " " + parts[1]);  // parses date and time (DateTime.Parse(...) is a built-in method that converts text into an object).
-                entry.Level = parts[2];  // stores the log level
+                entry.Timestamp = DateTime.Parse(parts[0] + " " + parts[1]);  // parses date and time from the log line
+
+                string level = parts[2].Trim('[', ']');  // normalize bracketed log levels so [ERROR] and ERROR are treated the same
+
+                entry.Level = level;  // stores the normalized log level
+
                 entry.Message = parts[3];  // stores the log message
 
-                logEntries.Add(entry);  // // adds the parsed log entry object to the list
+                logEntries.Add(entry);  // adds the parsed log entry object to the list
             }
 
             return logEntries;  // returns all parsed log entries

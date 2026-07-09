@@ -81,20 +81,6 @@
 
 		</StackPanel>
 
-		<!-- show loading status while a log file is being loaded -->
-		<StackPanel x:Name="LoadingPanel"
-					Orientation="Horizontal"
-					Visibility="Collapsed" 
-					Margin="0,8,0,8">
-			<ProgressBar Width="160"
-						 Height="16"
-						 IsIndeterminate="True"
-						 Margin="0,0,10,0" />
-
-			<TextBlock Text="Loading log file..."
-					   VerticalAlignment="Center" />
-		</StackPanel>
-
 		<!-- display parsed and filtered log entries -->
 		<DataGrid Name="LogGrid"
 				  Grid.Row="1"
@@ -166,6 +152,20 @@
 				<TextBlock Name="SelectedMessageTextBlock"
 						   Text="Message: -"
 						   TextWrapping="Wrap"/>
+
+				<!-- show loading status while a log file is being loaded -->
+				<StackPanel x:Name="LoadingPanel"
+							Orientation="Horizontal"
+							Visibility="Collapsed"
+							Margin="0,8,0,8">
+					<ProgressBar Width="160"
+								 Height="16"
+								 IsIndeterminate="True"
+								 Margin="0,0,10,0" />
+
+					<TextBlock Text="Loading log file..."
+							   VerticalAlignment="Center" />
+				</StackPanel>
 
 			</StackPanel>
 

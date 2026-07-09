@@ -153,13 +153,17 @@ namespace LogViewer // groups related classes together, like a folder for code (
             isLoading = true;  // mark the application as busy while the log file is loading
 
             LoadingPanel.Visibility = Visibility.Visible;  // display the loading indicator while the log file is loading
-            
+
+            OpenFileButton.IsEnabled = false;  // prevent the user from starting another file load while the current file is loading
+
+            StatisticsButton.IsEnabled = false;  // prevent opening statistics while log data is still loading
+
             try
             {
                 LogParserService parser = new LogParserService();  // create a new LogParserService object
 
                 allLogEntries = await Task.Run(() => parser.Parse(filePath));  // parse the log file on a background thread so the UI stays responsive
-                await Task.Delay(3000);  // temporary delay to verify the loading indicator and UI responsiveness
+                
                 filteredLogEntries = allLogEntries;  // show all entries before any filters are applied
 
                 LogGrid.ItemsSource = filteredLogEntries;  // display all loaded log entries in the DataGrid (table with logs on the MainWindow)
@@ -176,7 +180,12 @@ namespace LogViewer // groups related classes together, like a folder for code (
             finally
             {
                 isLoading = false;  // mark the application as ready after loading finishes or fails
+
                 LoadingPanel.Visibility = Visibility.Collapsed;  // hide the loading indicator after loading finishes
+
+                OpenFileButton.IsEnabled = true;  // allow the user to open another log file after loading finishes
+
+                StatisticsButton.IsEnabled = true;  // allow viewing statistics after loading finishes
             }
         }
 
