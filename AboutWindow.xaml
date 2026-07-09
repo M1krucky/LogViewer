@@ -1,0 +1,50 @@
+﻿<Window x:Class="LogViewer.AboutWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        
+        Title="About LogViewer"
+        Height="350"
+        Width="530"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        ShowInTaskbar="False">
+
+    <!-- present application information in a dedicated About dialog -->
+    <Grid Margin="20">
+        <StackPanel>
+
+            <TextBlock Text="LogViewer"
+               FontSize="18"
+               FontWeight="Bold"
+               Margin="0,0,0,12" />
+
+            <TextBlock Text="A desktop application for opening, filtering, analyzing, and reviewing log files."
+               TextWrapping="Wrap"
+               Margin="0,0,0,16" />
+
+            <TextBlock Text="Version 1.0"
+               Margin="0,0,0,16" />
+
+            <TextBlock Text="Built with:"
+               FontWeight="Bold" />
+
+            <TextBlock Text="• C#" />
+            <TextBlock Text="• .NET 10" />
+            <TextBlock Text="• WPF" />
+            <TextBlock Text="• LiveCharts2"
+               Margin="0,0,0,16" />
+
+            <TextBlock Text="Developed by:"
+               FontWeight="Bold" />
+
+            <TextBlock Text="Mikhail Kryukov"
+               Margin="0,0,0,20" />
+
+            <Button Content="OK"
+            Width="80"
+            HorizontalAlignment="Right"
+            Click="OkButton_Click" />
+
+        </StackPanel>
+    </Grid>
+</Window>

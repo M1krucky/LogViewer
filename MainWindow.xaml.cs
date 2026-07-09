@@ -56,6 +56,22 @@ namespace LogViewer // groups related classes together, like a folder for code (
         }
 
 
+        private void ExitMenuItem_Click(object sender, RoutedEventArgs e)  // handles the Click event raised by the Exit menu item
+        {
+            Close();  // close the main application window and exit the application (Window provides a built-in Close() method)
+        }
+
+
+        private void AboutMenuItem_Click(object sender, RoutedEventArgs e)  // handles the Click event raised by the About menu item
+        {
+            AboutWindow aboutWindow = new AboutWindow();  // create a new About window
+
+            aboutWindow.Owner = this;  // set MainWindow as the owner so the About dialog stays centered relative to the application
+
+            aboutWindow.ShowDialog();  // display the About window as a modal dialog and wait until it is closed
+        }
+
+
         private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)  // handles the TextChanged event raised by SearchTextBox
         {
             ApplyFilters();

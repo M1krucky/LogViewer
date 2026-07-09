@@ -10,6 +10,7 @@
         Title="Statistics"
         Height="450"
         Width="800">
+    
 
     <!-- main layout container for statistics and chart -->
     <Grid Margin="20">
@@ -61,9 +62,9 @@
 
             <!-- chart title -->
             <TextBlock Text="Log Level Distribution"
-                       FontSize="14"
-                       FontWeight="Bold"
-                       Margin="0,0,0,10"/>
+                        FontSize="14"
+                        FontWeight="Bold"
+                        Margin="0,0,0,10"/>
 
             <!-- display the LiveCharts2 bar chart for INFO, WARNING, and ERROR counts -->
             <lvc:CartesianChart
