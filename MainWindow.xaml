@@ -15,7 +15,15 @@
 		<Menu DockPanel.Dock="Top">
 			<MenuItem Header="_File">
 				<MenuItem Header="_Open Log File..." Click="OpenFileButton_Click" />
+				
 				<Separator />
+				
+	            <!-- display the list of recently opened log files -->
+				<MenuItem x:Name="RecentFilesMenuItem"
+						  Header="_Recent Files" />
+
+				<Separator />
+				
 				<MenuItem Header="E_xit" Click="ExitMenuItem_Click" />
 			</MenuItem>
 

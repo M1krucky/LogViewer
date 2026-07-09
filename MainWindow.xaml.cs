@@ -29,6 +29,9 @@ namespace LogViewer // groups related classes together, like a folder for code (
 
         private StatisticsWindow? statisticsWindow;  // stores the currently opened Statistics window (or null until a window is created)
 
+        private readonly List<string> recentFiles = new List<string>();  // store the most recently opened log files for quick access from the File menu
+
+
         public MainWindow()  // constructor (runs automatically when the window is created)
         {
             InitializeComponent();  // load and initialize the UI from MainWindow.xaml
@@ -205,6 +208,19 @@ namespace LogViewer // groups related classes together, like a folder for code (
                 OpenFileButton.IsEnabled = true;  // allow the user to open another log file after loading finishes
 
                 StatisticsButton.IsEnabled = true;  // allow viewing statistics after loading finishes
+            }
+        }
+
+
+        private void AddRecentFile(string filePath)  // add the successfully opened file to the recent files list
+        {
+            recentFiles.Remove(filePath);  // prevent duplicate entries by removing the file if it already exists
+
+            recentFiles.Insert(0, filePath);  // add the file to the top of the recent files list
+
+            if (recentFiles.Count > 5)  // keep only the five most recent files
+            {
+                recentFiles.RemoveAt(5);  // remove the oldest file from the list
             }
         }
 
