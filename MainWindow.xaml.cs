@@ -183,7 +183,10 @@ namespace LogViewer // groups related classes together, like a folder for code (
                 filteredLogEntries = allLogEntries;  // show all entries before any filters are applied
 
                 LogGrid.ItemsSource = filteredLogEntries;  // display all loaded log entries in the DataGrid (table with logs on the MainWindow)
+
+                CurrentFileTextBlock.Text = $"Opened file:  {filePath}";  // display the currently opened log file in the application status bar
             }
+
             catch (Exception ex)
             {
                 MessageBox.Show($"Failed to load log file.\n\n{ex.Message}",  // display a user-friendly error message followed by the exception details

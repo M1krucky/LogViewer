@@ -23,6 +23,14 @@
 				<MenuItem Header="_About" Click="AboutMenuItem_Click" />
 			</MenuItem>
 		</Menu>
+
+		<!-- display current application status and active log file information -->
+		<StatusBar DockPanel.Dock="Bottom">
+			<StatusBarItem>
+				<TextBlock x:Name="CurrentFileTextBlock"
+						   Text="File: No file opened" />
+			</StatusBarItem>
+		</StatusBar>
 		
 		<!-- main layout container -->
 		<Grid>
