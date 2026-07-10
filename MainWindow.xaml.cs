@@ -188,6 +188,8 @@ namespace LogViewer // groups related classes together, like a folder for code (
                 LogGrid.ItemsSource = filteredLogEntries;  // display all loaded log entries in the DataGrid (table with logs on the MainWindow)
 
                 CurrentFileTextBlock.Text = $"Opened file:  {filePath}";  // display the currently opened log file in the application status bar
+
+                AddRecentFile(filePath);  // update the recent files list after the log file is successfully loaded
             }
 
             catch (Exception ex)
@@ -212,6 +214,15 @@ namespace LogViewer // groups related classes together, like a folder for code (
         }
 
 
+        private async void RecentFileMenuItem_Click(object sender, RoutedEventArgs e)  // handles opening a file selected from the Recent Files menu
+        {
+            if (sender is MenuItem menuItem && menuItem.Tag is string filePath)
+            {
+                await LoadLogFileAsync(filePath);  // load the selected recent file
+            }
+        }
+
+
         private void AddRecentFile(string filePath)  // add the successfully opened file to the recent files list
         {
             recentFiles.Remove(filePath);  // prevent duplicate entries by removing the file if it already exists
@@ -221,6 +232,25 @@ namespace LogViewer // groups related classes together, like a folder for code (
             if (recentFiles.Count > 5)  // keep only the five most recent files
             {
                 recentFiles.RemoveAt(5);  // remove the oldest file from the list
+            }
+
+        RefreshRecentFilesMenu();  // update the Recent Files menu after the recent files list changes
+        }
+
+
+        private void RefreshRecentFilesMenu()  // rebuild the Recent Files submenu using the latest file list
+        {
+            RecentFilesMenuItem.Items.Clear();  // remove previously displayed recent files
+
+            foreach (string item in recentFiles)  // create one menu item for each recent file
+            {
+                MenuItem recentFileMenuItem = new MenuItem();  // create a new menu item
+
+                recentFileMenuItem.Header = System.IO.Path.GetFileName(item);  // display only the file name
+                recentFileMenuItem.Tag = item;  // store the full file path
+                recentFileMenuItem.Click += RecentFileMenuItem_Click;  // handle clicks on this menu item
+
+                RecentFilesMenuItem.Items.Add(recentFileMenuItem);  // add the menu item to the Recent Files submenu (attaches the object to the UI)
             }
         }
 
