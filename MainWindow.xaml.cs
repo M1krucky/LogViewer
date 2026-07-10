@@ -31,6 +31,12 @@ namespace LogViewer // groups related classes together, like a folder for code (
 
         private readonly List<string> recentFiles = new List<string>();  // store the most recently opened log files for quick access from the File menu
 
+        
+        private readonly string recentFilesPath = System.IO.Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+            "LogViewer",
+            "recent-files.txt");  // store the recent files list outside the application installation folder so it persists between application launches
+
 
         public MainWindow()  // constructor (runs automatically when the window is created)
         {
