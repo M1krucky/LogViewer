@@ -1,6 +1,7 @@
 ﻿using LogViewer.Models;  // imports the LogEntry model
 using LogViewer.Services;
 using Microsoft.Win32;  // provides the OpenFileDialog class for selecting files
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -43,6 +44,8 @@ namespace LogViewer // groups related classes together, like a folder for code (
             InitializeComponent();  // load and initialize the UI from MainWindow.xaml
 
             Loaded += MainWindow_Loaded;  // load the default log file after the window is fully initialized ("When the Loaded event happens, call MainWindow_Loaded")
+
+            LoadRecentFiles();  // restore the recent files list when the application starts
         }
 
 
@@ -224,7 +227,18 @@ namespace LogViewer // groups related classes together, like a folder for code (
         {
             if (sender is MenuItem menuItem && menuItem.Tag is string filePath)
             {
-                await LoadLogFileAsync(filePath);  // load the selected recent file
+                if (!File.Exists(filePath))  // stop if the recent file no longer exists at the saved location
+                {
+                    MessageBox.Show(
+                        "The selected recent file could not be found.",
+                        "File Not Found",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Warning);
+
+                    return;
+                }
+
+                await LoadLogFileAsync(filePath);  // load the selected recent file without blocking the UI
             }
         }
 
@@ -241,6 +255,8 @@ namespace LogViewer // groups related classes together, like a folder for code (
             }
 
         RefreshRecentFilesMenu();  // update the Recent Files menu after the recent files list changes
+
+        SaveRecentFiles();  // save the updated recent files list
         }
 
 
@@ -258,6 +274,31 @@ namespace LogViewer // groups related classes together, like a folder for code (
 
                 RecentFilesMenuItem.Items.Add(recentFileMenuItem);  // add the menu item to the Recent Files submenu (attaches the object to the UI)
             }
+        }
+
+
+        private void SaveRecentFiles()  // save the current recent files list to a text file
+        {
+            string directory = System.IO.Path.GetDirectoryName(recentFilesPath)!;  // get the folder that will contain the recent files file
+                                                                                   
+            Directory.CreateDirectory(directory);  // create the folder if it does not already exist
+
+            File.WriteAllLines(recentFilesPath, recentFiles);  // save the current recent files list as one file path per line
+        }
+
+
+        private void LoadRecentFiles()  // restore the saved recent files list when the application starts
+        {
+            if (!File.Exists(recentFilesPath))  // stop if the recent files settings file has not been created yet
+            {
+                return;
+            }
+
+            recentFiles.Clear();  // remove any current entries before restoring the saved list
+
+            recentFiles.AddRange(File.ReadAllLines(recentFilesPath));  // read each saved file path and add it to the recent files list
+
+            RefreshRecentFilesMenu();  // display the restored recent files in the File menu
         }
 
 
