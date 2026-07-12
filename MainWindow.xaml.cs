@@ -90,6 +90,12 @@ namespace LogViewer // groups related classes together, like a folder for code (
         }
 
 
+        private void SearchModeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)  // handles changes between OR and AND search modes
+        {
+            ApplyFilters();  // immediately refresh the displayed logs using the selected search mode
+        }
+
+
         private void LevelFilterComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)  // handles the SelectionChanged event raised by the LevelFilterComboBox
         {
             ApplyFilters();  

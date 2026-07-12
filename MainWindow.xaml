@@ -8,7 +8,7 @@
 		
         Title="MainWindow"
         Height="550"
-        Width="1000">
+        Width="1070">
 
 	<DockPanel>
 		<!-- provide the main application menu for file management and user assistance -->
@@ -66,6 +66,19 @@
 				<TextBox Name="SearchTextBox"
 						 Width="200"
 						 TextChanged="SearchTextBox_TextChanged"/>
+
+				<!-- allow the user to choose whether any or all search words must match -->
+				<ComboBox Name="SearchModeComboBox"
+						  Width="70"
+						  Margin="5,0,0,0"
+						  SelectedIndex="0"
+						  VerticalContentAlignment="Center"
+						  SelectionChanged="SearchModeComboBox_SelectionChanged">
+
+					<ComboBoxItem Content="OR"/>
+					<ComboBoxItem Content="AND"/>
+
+				</ComboBox>
 
 				<TextBlock Text="Level:"
 						   VerticalAlignment="Center"
