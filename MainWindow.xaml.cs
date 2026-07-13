@@ -107,13 +107,7 @@ namespace LogViewer // groups related classes together, like a folder for code (
             ApplyFilters();  // apply all active filters whenever the selected date range changes
         }
 
-
-        private static bool MatchesSearchTerm(LogEntry item, string term)  // checks whether one search term appears in any searchable field of a log entry
-        {
-            return item.Message.Contains(term, StringComparison.OrdinalIgnoreCase) || item.Level.Contains(term, StringComparison.OrdinalIgnoreCase) || item.Timestamp.ToString().Contains(term, StringComparison.OrdinalIgnoreCase);
-        }
-
-
+               
         private void LogGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)  // handles the SelectionChanged event raised by the LogGrid
         {
             LogEntry? selectedLogEntry = LogGrid.SelectedItem as LogEntry;  // get the currently selected log entry (null if no row is selected)
@@ -151,31 +145,7 @@ namespace LogViewer // groups related classes together, like a folder for code (
 
             DateTime? toDate = ToDatePicker.SelectedDate;  // get the selected end date (null means no upper date limit)
 
-            filteredLogEntries = allLogEntries
-                .Where(item =>
-                {
-                    bool matchesSearch = 
-                    
-                    searchTerms.Length == 0
-                    || (searchMode == "AND" ? searchTerms.All(term => MatchesSearchTerm(item, term)) : 
-                    searchTerms.Any(term => MatchesSearchTerm(item, term)));
-
-                    bool matchesLevel =
-
-                         selectedLevel == "All"
-                         || item.Level == selectedLevel;
-
-                    bool matchesFromDate =
-                         fromDate == null
-                         || item.Timestamp.Date >= fromDate.Value.Date;
-
-                    bool matchesToDate =
-                         toDate == null
-                         || item.Timestamp.Date <= toDate.Value.Date;
-
-                    return matchesSearch && matchesLevel && matchesFromDate && matchesToDate;
-
-                }).ToList();
+            filteredLogEntries = LogFilterService.Filter(allLogEntries, searchTerms, searchMode, selectedLevel, fromDate, toDate);  // apply all current filters through the filtering service
 
             LogGrid.ItemsSource = filteredLogEntries; // display the filteredLogEntries list in the table with logs on the MainWindow
 
