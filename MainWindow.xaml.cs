@@ -108,6 +108,12 @@ namespace LogViewer // groups related classes together, like a folder for code (
         }
 
 
+        private static bool MatchesSearchTerm(LogEntry item, string term)  // checks whether one search term appears in any searchable field of a log entry
+        {
+            return item.Message.Contains(term, StringComparison.OrdinalIgnoreCase) || item.Level.Contains(term, StringComparison.OrdinalIgnoreCase) || item.Timestamp.ToString().Contains(term, StringComparison.OrdinalIgnoreCase);
+        }
+
+
         private void LogGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)  // handles the SelectionChanged event raised by the LogGrid
         {
             LogEntry? selectedLogEntry = LogGrid.SelectedItem as LogEntry;  // get the currently selected log entry (null if no row is selected)
@@ -135,7 +141,11 @@ namespace LogViewer // groups related classes together, like a folder for code (
 
             string searchText = SearchTextBox.Text;  // get the current text entered in the SearchTextBox
 
+            string[] searchTerms = searchText.Split(' ',StringSplitOptions.RemoveEmptyEntries);  // divide the search text into separate non-empty words
+
             string selectedLevel = ((ComboBoxItem)LevelFilterComboBox.SelectedItem).Content.ToString() ?? "All";  // get the selected log level from the ComboBox (use "All" as a safe default if the result is null)
+
+            string searchMode = ((ComboBoxItem)SearchModeComboBox.SelectedItem).Content.ToString() ?? "OR";  // get the selected search mode (use "OR" as a safe default if the result is null)
 
             DateTime? fromDate = FromDatePicker.SelectedDate;  // get the selected start date (null means no lower date limit)
 
@@ -144,11 +154,11 @@ namespace LogViewer // groups related classes together, like a folder for code (
             filteredLogEntries = allLogEntries
                 .Where(item =>
                 {
-                    bool matchesSearch =
-
-                        item.Message.Contains(searchText, StringComparison.OrdinalIgnoreCase)
-                        || item.Level.Contains(searchText, StringComparison.OrdinalIgnoreCase)
-                        || item.Timestamp.ToString().Contains(searchText, StringComparison.OrdinalIgnoreCase);
+                    bool matchesSearch = 
+                    
+                    searchTerms.Length == 0
+                    || (searchMode == "AND" ? searchTerms.All(term => MatchesSearchTerm(item, term)) : 
+                    searchTerms.Any(term => MatchesSearchTerm(item, term)));
 
                     bool matchesLevel =
 
@@ -197,10 +207,8 @@ namespace LogViewer // groups related classes together, like a folder for code (
                 LogParserService parser = new LogParserService();  // create a new LogParserService object
 
                 allLogEntries = await Task.Run(() => parser.Parse(filePath));  // parse the log file on a background thread so the UI stays responsive
-                
-                filteredLogEntries = allLogEntries;  // show all entries before any filters are applied
 
-                LogGrid.ItemsSource = filteredLogEntries;  // display all loaded log entries in the DataGrid (table with logs on the MainWindow)
+                ApplyFilters();  // apply the currently selected search, level, and date filters to the newly loaded file
 
                 CurrentFileTextBlock.Text = $"Opened file:  {filePath}";  // display the currently opened log file in the application status bar
 
