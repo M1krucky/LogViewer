@@ -1,37 +1,39 @@
 ### LogViewer
 
-A Windows desktop application for viewing and analyzing log files, built with C#, .NET, and WPF.
+A Windows desktop application for opening, filtering, analyzing, and reviewing log files, built with C#, .NET 10, WPF, and LiveCharts2.
 
 #### Features
 
-- Parse log files
-- Display log entries
-- Search and filter log entries by text
+- Open log files from disk
+- Parse standard and bracketed log formats
+- Display log entries in a sortable DataGrid
+- Search log entries by text
+- Support multi-word AND/OR search
 - Filter log entries by log level
 - Filter log entries by date range
 - Sort log entries by timestamp, level, and message
-- Open log files from disk
 - Display live statistics based on currently filtered results
-- Display a live interactive log level distribution chart using LiveCharts2
-- Display future error trend chart by hour/day/week/month
-- Support large log files
+- Display a live log level distribution chart using LiveCharts2
+- Load large log files asynchronously with a loading indicator
 - Highlight ERROR and WARNING entries
-- Export filtered results
-- Dark mode
-- Keyboard shortcuts
+- Recent Files menu with persistent history
+- About window
+- Status bar showing the currently opened file
 
 #### Architecture
 
 - WPF (UI)
 - C#
-- .NET
-- MVVM architecture (planned)
+- .NET 10
+- Service-based architecture
+- MVVM migration planned for Version 2
 
 #### Tech Stack
 
 - C#
-- .NET
+- .NET 10
 - WPF
+- LiveCharts2
 - Git
 - GitHub
 
@@ -41,9 +43,13 @@ A Windows desktop application for viewing and analyzing log files, built with C#
 LogViewer/
 ├── Models/
 ├── Services/
-├── ViewModels/
+│   ├── LogParserService.cs
+│   └── LogFilterService.cs
+├── ViewModels/ (planned)
 ├── Views/
 ├── MainWindow.xaml
+├── StatisticsWindow.xaml
+├── AboutWindow.xaml
 ├── App.xaml
 └── sample.log
 ```
@@ -53,28 +59,27 @@ LogViewer/
 - [x] Create project structure
 - [x] Create `LogEntry` model
 - [x] Create `LogParserService`
-- [x] Display sample log entry
-- [x] Read log entries from a file
-- [x] Parse multiple log entries
-- [x] Display log entries in a table
-- [x] Implement text filtering
+- [x] Create `LogFilterService`
+- [x] Read and parse log files
+- [x] Support standard and bracketed log formats
+- [x] Display log entries in a DataGrid
+- [x] Implement text search
+- [x] Implement AND/OR search
 - [x] Add level filter
-- [ ] Add date range filter
-- [x] Centralize filtering in `ApplyFilters()`
-- [x] Store current filtered results separately
+- [x] Add date range filter
 - [x] Implement sorting
 - [x] Add statistics window
-- [x] Connect statistics to current filtered results
 - [x] Add LiveCharts2 log level distribution chart
-- [x] Connect chart to current filtered results
-- [ ] Add future error trend chart by hour/day/week/month
-- [x] Support opening log files
-- [x] Highlight ERROR and WARNING entries
-- [ ] Export filtered results
-- [ ] Add dark mode
-- [ ] Add keyboard shortcuts
+- [x] Support asynchronous file loading
+- [x] Add loading indicator
+- [x] Add Recent Files with persistence
+- [x] Add status bar
+- [x] Add About window
+- [ ] Export filtered results to CSV
+- [ ] Add error trend chart
 - [ ] Final UI polish
+- [ ] Create installer and first release
 
 #### Status
 
-🚧 In development
+🚧 **Version 1 in active development (~80–85% complete)**
