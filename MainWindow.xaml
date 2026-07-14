@@ -8,7 +8,7 @@
 		
         Title="MainWindow"
         Height="550"
-        Width="1070">
+        Width="1170">
 
 	<DockPanel>
 		<!-- provide the main application menu for file management and user assistance -->
@@ -121,6 +121,13 @@
 						Height="30"
 						Margin="10,0,0,0"
 						Click="StatisticsButton_Click"/>
+
+				<Button Name="ExportButton"
+						Content="Export CSV"
+						Width="100"
+						Height="30"
+						Margin="10,0,0,0"
+						Click="ExportButton_Click"/>
 
 			</StackPanel>
 

@@ -305,6 +305,22 @@ namespace LogViewer // groups related classes together, like a folder for code (
         {
             statisticsWindow = null;  // clear the reference so MainWindow knows the Statistics window is no longer open and can create a new one when the Statistics button is clicked again, fixing the issue where the Statistics window could not be reopened after being closed
         }
-          
+
+
+        private void ExportButton_Click(object sender, RoutedEventArgs e)  // handles the Click event raised by the Export CSV button
+        {
+            SaveFileDialog dialog = new SaveFileDialog();
+
+            dialog.Filter = "CSV files (*.csv)|*.csv|All files (*.*)|*.*";
+
+            dialog.Title = "Export filtered log entries";
+
+            dialog.FileName = "log-export.csv";
+
+            if (dialog.ShowDialog() == true)
+            {
+                MessageBox.Show(dialog.FileName);
+            }
+        }
     }
 }
