@@ -1,4 +1,6 @@
-﻿using LogViewer.Models;
+﻿
+using LogViewer.Services;
+using LogViewer.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -24,6 +26,12 @@ namespace LogViewer
         public ISeries[] LogLevelSeries { get; set; } = Array.Empty<ISeries>(); // stores the chart data series (initialized as an empty array). "Array.Empty<ISeries>()" -> call the built-in Empty() method of the Array class to get an empty array of ISeries.
         public Axis[] LogLevelXAxes { get; set; } = Array.Empty<Axis>();  // stores the X-axis configuration (initialized as an empty array)
         public Axis[] LogLevelYAxes { get; set; } = Array.Empty<Axis>();  // stores the Y-axis configuration (initialized as an empty array)
+
+
+        public ISeries[] ErrorTrendSeries { get; set; } = Array.Empty<ISeries>();  // stores the error trend chart data series
+        public Axis[] ErrorTrendXAxes { get; set; } = Array.Empty<Axis>();  // stores the error trend X-axis configuration
+        public Axis[] ErrorTrendYAxes { get; set; } = Array.Empty<Axis>();  // stores the error trend Y-axis configuration
+
 
         public StatisticsWindow(List<LogEntry> allLogEntries)  // constructor that receives the loaded log entries (from MainWindow)
         {
@@ -54,9 +62,11 @@ namespace LogViewer
                 ErrorCountTextBlock.Text = "0";
                 LatestLogTextBlock.Text = "-";
 
-                LogLevelSeries = Array.Empty<ISeries>();
-                LogLevelXAxes = Array.Empty<Axis>();
-                LogLevelYAxes = Array.Empty<Axis>();
+                var chart = LogChartService.CreateLogLevelChart(allLogEntries);  // prepare the log level distribution chart
+
+                LogLevelSeries = chart.Series;  // receive the chart data series
+                LogLevelXAxes = chart.XAxes;  // receive the X-axis configuration
+                LogLevelYAxes = chart.YAxes;  // receive the Y-axis configuration
 
                 return;  // exit the entire method/function 
             }
