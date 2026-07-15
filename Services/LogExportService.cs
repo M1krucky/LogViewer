@@ -10,7 +10,7 @@ namespace LogViewer.Services
         {
             StringBuilder csvBuilder = new StringBuilder();  // collect all CSV rows before writing the file
 
-            csvBuilder.AppendLine("Timestamp,Level,Message");  // add the CSV header row
+            csvBuilder.AppendLine("Timestamp;Level;Message");  // add the CSV header row
 
             foreach (LogEntry item in logEntries)  // process each log entry
             {
@@ -18,12 +18,12 @@ namespace LogViewer.Services
                 string level = EscapeCsvValue(item.Level);  // prepare the log level for CSV
                 string message = EscapeCsvValue(item.Message);  // prepare the log message for CSV
 
-                csvBuilder.AppendLine($"{timestamp},{level},{message}");  // add one CSV row
+                csvBuilder.AppendLine($"{timestamp};{level};{message}");  // add one CSV row
             }
 
             File.WriteAllText(filePath, csvBuilder.ToString());  // save the CSV file to disk
         }
-
+    
         private static string EscapeCsvValue(string value)
         {
             string escapedValue = value.Replace("\"", "\"\"");  // duplicate quotation marks as required by the CSV format

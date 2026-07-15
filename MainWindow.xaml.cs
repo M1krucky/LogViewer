@@ -319,7 +319,9 @@ namespace LogViewer // groups related classes together, like a folder for code (
 
             if (dialog.ShowDialog() == true)
             {
-                MessageBox.Show(dialog.FileName);
+                LogExportService.ExportToCsv(filteredLogEntries, dialog.FileName);  // export the currently filtered log entries to the selected CSV file
+
+                MessageBox.Show("Log entries exported successfully.", "Export Complete", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
     }
