@@ -62,13 +62,15 @@ namespace LogViewer
                 ErrorCountTextBlock.Text = "0";
                 LatestLogTextBlock.Text = "-";
 
-                var chart = LogChartService.CreateLogLevelChart(allLogEntries);  // prepare the log level distribution chart
+                LogLevelSeries = Array.Empty<ISeries>();
+                LogLevelXAxes = Array.Empty<Axis>();
+                LogLevelYAxes = Array.Empty<Axis>();
 
-                LogLevelSeries = chart.Series;  // receive the chart data series
-                LogLevelXAxes = chart.XAxes;  // receive the X-axis configuration
-                LogLevelYAxes = chart.YAxes;  // receive the Y-axis configuration
+                ErrorTrendSeries = Array.Empty<ISeries>();
+                ErrorTrendXAxes = Array.Empty<Axis>();
+                ErrorTrendYAxes = Array.Empty<Axis>();
 
-                return;  // exit the entire method/function 
+                return;
             }
 
             int totalCount = allLogEntries.Count;
@@ -82,6 +84,18 @@ namespace LogViewer
             WarningCountTextBlock.Text = warningCount.ToString();
             ErrorCountTextBlock.Text = errorCount.ToString();
             LatestLogTextBlock.Text = latestTimestamp.ToString("yyyy-MM-dd HH:mm:ss");
+
+            var chart = LogChartService.CreateLogLevelChart(allLogEntries);  // prepare the log level distribution chart
+
+            LogLevelSeries = chart.Series;
+            LogLevelXAxes = chart.XAxes;
+            LogLevelYAxes = chart.YAxes;
+
+            var errorTrendChart = LogChartService.CreateErrorTrendChart();  // prepare the temporary error trend chart
+
+            ErrorTrendSeries = errorTrendChart.Series;
+            ErrorTrendXAxes = errorTrendChart.XAxes;
+            ErrorTrendYAxes = errorTrendChart.YAxes;
 
 
             LogLevelSeries = new ISeries[]  // create a new array of chart data series

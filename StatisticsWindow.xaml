@@ -8,16 +8,17 @@
         mc:Ignorable="d"
         
         Title="Statistics"
-        Height="450"
-        Width="800">
+        Height="700"
+        Width="900">
     
 
     <!-- main layout container for statistics and chart -->
     <Grid Margin="20">
 
-        <!-- divide the window into two rows: statistics summary and chart area -->
+        <!-- divide the window into summary, distribution chart, and error trend chart areas -->
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
@@ -74,6 +75,61 @@
                 YAxes="{Binding LogLevelYAxes}" />
 
         </StackPanel>
+
+        <!-- display the error trend chart below the log level distribution chart -->
+        <Grid Grid.Row="2"
+        Margin="0,20,0,0">
+
+            <!-- divide the error trend area into a header row and a chart row -->
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- display the chart title and grouping selector -->
+            <DockPanel Grid.Row="0"
+               Margin="0,0,0,10">
+
+                <!-- chart title -->
+                <TextBlock Text="Error Trend"
+                   FontSize="14"
+                   FontWeight="Bold"
+                   VerticalAlignment="Center"/>
+
+                <!-- display the grouping selector on the right side -->
+                <StackPanel DockPanel.Dock="Right"
+                    Orientation="Horizontal">
+
+                    <!-- grouping selector label -->
+                    <TextBlock Text="Group by:"
+                       Margin="20,0,5,0"
+                       VerticalAlignment="Center"/>
+
+                    <!-- allow the user to group ERROR entries by different time periods -->
+                    <ComboBox Name="ErrorTrendGroupingComboBox"
+                      Width="90"
+                      SelectedIndex="1"
+                      VerticalContentAlignment="Center">
+
+                        <ComboBoxItem Content="Hour"/>
+                        <ComboBoxItem Content="Day"/>
+                        <ComboBoxItem Content="Week"/>
+                        <ComboBoxItem Content="Month"/>
+
+                    </ComboBox>
+
+                </StackPanel>
+
+            </DockPanel>
+
+
+            <!-- display the LiveCharts2 line chart showing ERROR counts over time -->
+            <lvc:CartesianChart Grid.Row="1"
+                        Series="{Binding ErrorTrendSeries}"
+                        XAxes="{Binding ErrorTrendXAxes}"
+                        YAxes="{Binding ErrorTrendYAxes}"/>
+
+        </Grid>
 
     </Grid>
 

@@ -43,5 +43,38 @@ namespace LogViewer.Services
 
             return (series, xAxes, yAxes);  // return all chart components together
         }
+
+
+        public static (ISeries[] Series, Axis[] XAxes, Axis[] YAxes) CreateErrorTrendChart()
+        {
+            ISeries[] series =
+            {
+                new LineSeries<int>
+                {
+                    Values = new[] { 3, 7, 5, 10, 6 }  // temporary sample data
+                }
+            };
+
+            Axis[] xAxes =
+            {
+                new Axis
+                {
+                    Labels = new[] { "Mon", "Tue", "Wed", "Thu", "Fri" }  // temporary X-axis labels
+                }
+            };
+
+            Axis[] yAxes =
+            {
+                new Axis
+                {
+                    Name = "Errors",  // display the number of ERROR log entries
+                    MinLimit = 0
+                }
+            };
+
+            return (series, xAxes, yAxes);
+
+        }
+     
     }
 }
