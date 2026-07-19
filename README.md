@@ -76,11 +76,12 @@ LogViewer/
 - [x] Add Recent Files with persistence
 - [x] Add status bar
 - [x] Add About window
-- [ ] Export filtered results to CSV
+- [x] Export filtered results to CSV
 - [x] Add error trend chart with time grouping
 - [ ] Final UI polish
-- [ ] Create installer and first release
+- [ ] Create installer
+- [ ] Publish Version 1.0 on GitHub
 
 #### Status
 
-🚧 **Version 1 in active development (~85% complete)**
+🚧 **Version 1 in active development (~90% complete)**
