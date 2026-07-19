@@ -109,7 +109,8 @@
                     <ComboBox Name="ErrorTrendGroupingComboBox"
                       Width="90"
                       SelectedIndex="1"
-                      VerticalContentAlignment="Center">
+                      VerticalContentAlignment="Center"
+                      SelectionChanged="ErrorTrendGroupingComboBox_SelectionChanged">
 
                         <ComboBoxItem Content="Hour"/>
                         <ComboBoxItem Content="Day"/>

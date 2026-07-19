@@ -33,9 +33,14 @@ namespace LogViewer
         public Axis[] ErrorTrendYAxes { get; set; } = Array.Empty<Axis>();  // stores the error trend Y-axis configuration
 
 
+        private List<LogEntry> currentLogEntries = new List<LogEntry>();  // store the entries currently displayed in the statistics window
+
+
         public StatisticsWindow(List<LogEntry> allLogEntries)  // constructor that receives the loaded log entries (from MainWindow)
         {
             InitializeComponent();  // // create the UI defined in StatisticsWindow.xaml
+
+            currentLogEntries = allLogEntries;  // remember the entries for rebuilding the error trend chart
 
             DisplayStatistics(allLogEntries);  // calculate statistics and update the UI
 
@@ -43,12 +48,25 @@ namespace LogViewer
         }
 
 
-        public void RefreshStatistics(List<LogEntry> filteredLogEntries)  // refresh statistics and chart using the latest filtered log entries
+        public void RefreshStatistics(List<LogEntry> filteredLogEntries)  // refresh statistics and charts using the latest filtered log entries
         {
+            currentLogEntries = filteredLogEntries;  // remember the latest log entries
+
             DisplayStatistics(filteredLogEntries);
 
-            DataContext = null; // Reload the bindings from this StatisticsWindow object (bug fix solution - synchronization of chart with filtering) )
-            DataContext = this;
+            DataContext = null;  // reload the bindings from this StatisticsWindow object (disconnect all bindings)
+            DataContext = this;  // reconnect and read the current property values again
+        }
+
+
+        private void ErrorTrendGroupingComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)  // rebuild the charts when the selected grouping changes
+        {
+            if (currentLogEntries.Count == 0) return;  // do nothing until log entries are available
+
+            DisplayStatistics(currentLogEntries);
+
+            DataContext = null;  // disconnect the existing bindings
+            DataContext = this;  // reconnect the bindings using the updated chart properties
         }
 
 
@@ -91,7 +109,14 @@ namespace LogViewer
             LogLevelXAxes = chart.XAxes;
             LogLevelYAxes = chart.YAxes;
 
-            var errorTrendChart = LogChartService.CreateErrorTrendChart();  // prepare the temporary error trend chart
+            string selectedGrouping = ((ComboBoxItem)ErrorTrendGroupingComboBox.SelectedItem).Content.ToString() ?? "Day";  // read the selected grouping option
+
+            ErrorTrendGrouping grouping = Enum.TryParse(selectedGrouping, out ErrorTrendGrouping parsedGrouping) 
+                        ? parsedGrouping 
+                        : ErrorTrendGrouping.Day;  // convert the selected grouping name into an enum value, or use Day if the conversion fails
+
+
+            var errorTrendChart = LogChartService.CreateErrorTrendChart(allLogEntries, grouping);  // prepare the error trend chart using the selected grouping
 
             ErrorTrendSeries = errorTrendChart.Series;
             ErrorTrendXAxes = errorTrendChart.XAxes;
