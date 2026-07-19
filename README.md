@@ -14,6 +14,7 @@ A Windows desktop application for opening, filtering, analyzing, and reviewing l
 - Sort log entries by timestamp, level, and message
 - Display live statistics based on currently filtered results
 - Display a live log level distribution chart using LiveCharts2
+- Display an error trend chart with Hour, Day, Week, and Month grouping
 - Load large log files asynchronously with a loading indicator
 - Highlight ERROR and WARNING entries
 - Recent Files menu with persistent history
@@ -76,10 +77,10 @@ LogViewer/
 - [x] Add status bar
 - [x] Add About window
 - [ ] Export filtered results to CSV
-- [ ] Add error trend chart
+- [x] Add error trend chart with time grouping
 - [ ] Final UI polish
 - [ ] Create installer and first release
 
 #### Status
 
-🚧 **Version 1 in active development (~80–85% complete)**
+🚧 **Version 1 in active development (~85% complete)**
