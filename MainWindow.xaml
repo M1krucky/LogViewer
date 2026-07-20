@@ -5,71 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LogViewer"
         mc:Ignorable="d"
+        Style="{StaticResource DarkWindowStyle}"
         Title="MainWindow"
         Height="550"
         Width="1070">
 
-    <Window.Resources>
-
-        <!-- style for toolbar buttons -->
-        <Style x:Key="ToolbarButtonStyle"
-               TargetType="Button">
-
-            <Setter Property="Height" Value="28"/>
-            <Setter Property="Padding" Value="10,0"/>
-            <Setter Property="Margin" Value="0,0,6,0"/>
-            <Setter Property="Background" Value="#F3F3F3"/>
-            <Setter Property="BorderBrush" Value="#CFCFCF"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="FontSize" Value="13"/>
-            <Setter Property="FontFamily" Value="Segoe UI"/>
-            <Setter Property="Cursor" Value="Hand"/>
-
-            <Setter Property="Template">
-                <Setter.Value>
-
-                    <ControlTemplate TargetType="Button">
-
-                        <Border x:Name="border"
-                                Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="4">
-
-                            <ContentPresenter HorizontalAlignment="Center"
-                                              VerticalAlignment="Center"/>
-
-                        </Border>
-
-                        <ControlTemplate.Triggers>
-
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border"
-                                        Property="Background"
-                                        Value="#E7F1FB"/>
-                                <Setter TargetName="border"
-                                        Property="BorderBrush"
-                                        Value="#5B9BD5"/>
-                            </Trigger>
-
-                            <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="border"
-                                        Property="Background"
-                                        Value="#DCEBFA"/>
-                            </Trigger>
-
-                        </ControlTemplate.Triggers>
-
-                    </ControlTemplate>
-
-                </Setter.Value>
-            </Setter>
-
-        </Style>
-
-    </Window.Resources>
-
-    <DockPanel>
+        <DockPanel>
 		<!-- provide the main application menu for file management and user assistance -->
 		<Menu DockPanel.Dock="Top">
 			<MenuItem Header="_File">
@@ -121,7 +62,6 @@
 
                 <!-- provide quick access to opening a log file -->
                 <Button Name="OpenFileButton"
-				Style="{StaticResource ToolbarButtonStyle}"
 				Width="82"
 				Click="OpenFileButton_Click">
 
@@ -140,7 +80,6 @@
 
                 <!-- provide quick access to log statistics -->
                 <Button Name="StatisticsButton"
-				Style="{StaticResource ToolbarButtonStyle}"
 				Width="110"
 				Click="StatisticsButton_Click">
 
@@ -229,12 +168,12 @@
 						<Style.Triggers>
 
 							<DataTrigger Binding="{Binding Level}" Value="ERROR">
-								<Setter Property="Background" Value="#FFCDD2"/>
-							</DataTrigger>
+                                <Setter Property="Background" Value="{StaticResource ErrorRowBrush}"/>
+                            </DataTrigger>
 
 							<DataTrigger Binding="{Binding Level}" Value="WARNING">
-								<Setter Property="Background" Value="#FFF9C4"/>
-							</DataTrigger>
+                                <Setter Property="Background" Value="{StaticResource WarningRowBrush}"/>
+                            </DataTrigger>
 
 						</Style.Triggers>
 					</Style>
