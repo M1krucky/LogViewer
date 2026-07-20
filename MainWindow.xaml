@@ -5,12 +5,71 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LogViewer"
         mc:Ignorable="d"
-		
         Title="MainWindow"
         Height="550"
         Width="1070">
 
-	<DockPanel>
+    <Window.Resources>
+
+        <!-- style for toolbar buttons -->
+        <Style x:Key="ToolbarButtonStyle"
+               TargetType="Button">
+
+            <Setter Property="Height" Value="28"/>
+            <Setter Property="Padding" Value="10,0"/>
+            <Setter Property="Margin" Value="0,0,6,0"/>
+            <Setter Property="Background" Value="#F3F3F3"/>
+            <Setter Property="BorderBrush" Value="#CFCFCF"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="Cursor" Value="Hand"/>
+
+            <Setter Property="Template">
+                <Setter.Value>
+
+                    <ControlTemplate TargetType="Button">
+
+                        <Border x:Name="border"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="4">
+
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border"
+                                        Property="Background"
+                                        Value="#E7F1FB"/>
+                                <Setter TargetName="border"
+                                        Property="BorderBrush"
+                                        Value="#5B9BD5"/>
+                            </Trigger>
+
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border"
+                                        Property="Background"
+                                        Value="#DCEBFA"/>
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+
+                    </ControlTemplate>
+
+                </Setter.Value>
+            </Setter>
+
+        </Style>
+
+    </Window.Resources>
+
+    <DockPanel>
 		<!-- provide the main application menu for file management and user assistance -->
 		<Menu DockPanel.Dock="Top">
 			<MenuItem Header="_File">
@@ -56,81 +115,107 @@
 				<RowDefinition Height="Auto"/>
 			</Grid.RowDefinitions>
 
-			<!-- top toolbar containing file operations, filters, and statistics -->
-			<StackPanel Orientation="Horizontal" Margin="10">
+            <!-- top toolbar containing file operations, filters, and statistics -->
+            <StackPanel Orientation="Horizontal"
+			Margin="10,8">
 
-				<Button Name="OpenFileButton"
-						Content="Open Log File"
-						Width="120"
-						Height="30"
-						Click="OpenFileButton_Click"/>
+                <!-- provide quick access to opening a log file -->
+                <Button Name="OpenFileButton"
+				Style="{StaticResource ToolbarButtonStyle}"
+				Width="82"
+				Click="OpenFileButton_Click">
 
-				<TextBlock Text="Search:"
-						   Margin="20,0,5,0"
-						   VerticalAlignment="Center"/>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="&#xE8E5;"
+					   FontFamily="Segoe MDL2 Assets"
+					   FontSize="16"
+					   Margin="0,0,7,0"
+					   VerticalAlignment="Center"/>
 
-				<TextBox Name="SearchTextBox"
-						 Width="200"
-						 TextChanged="SearchTextBox_TextChanged"/>
+                        <TextBlock Text="Open"
+					   VerticalAlignment="Center"/>
+                    </StackPanel>
 
-				<!-- allow the user to choose whether any or all search words must match -->
-				<ComboBox Name="SearchModeComboBox"
-						  Width="70"
-						  Margin="5,0,0,0"
-						  SelectedIndex="0"
-						  VerticalContentAlignment="Center"
-						  SelectionChanged="SearchModeComboBox_SelectionChanged">
+                </Button>
 
-					<ComboBoxItem Content="OR"/>
-					<ComboBoxItem Content="AND"/>
+                <!-- provide quick access to log statistics -->
+                <Button Name="StatisticsButton"
+				Style="{StaticResource ToolbarButtonStyle}"
+				Width="110"
+				Click="StatisticsButton_Click">
 
-				</ComboBox>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="&#xE9D2;"
+					   FontFamily="Segoe MDL2 Assets"
+					   FontSize="16"
+					   Margin="0,0,7,0"
+					   VerticalAlignment="Center"/>
 
-				<TextBlock Text="Level:"
-						   VerticalAlignment="Center"
-						   Margin="10,0,5,0"/>
+                        <TextBlock Text="Statistics"
+					   VerticalAlignment="Center"/>
+                    </StackPanel>
 
-				<ComboBox Name="LevelFilterComboBox"
-						  Width="100"
-						  SelectedIndex="0"
-						  VerticalContentAlignment="Center"
-						  SelectionChanged="LevelFilterComboBox_SelectionChanged">
+                </Button>
 
-					<ComboBoxItem Content="All"/>
-					<ComboBoxItem Content="INFO"/>
-					<ComboBoxItem Content="WARNING"/>
-					<ComboBoxItem Content="ERROR"/>
+                <TextBlock Text="Search:"
+			   Margin="20,0,5,0"
+			   VerticalAlignment="Center"/>
 
-				</ComboBox>
+                <TextBox Name="SearchTextBox"
+			 Width="200"
+			 TextChanged="SearchTextBox_TextChanged"/>
 
-				<TextBlock Text="From:"
-						   VerticalAlignment="Center"
-						   Margin="10,0,5,0"/>
+                <!-- allow the user to choose whether any or all search words must match -->
+                <ComboBox Name="SearchModeComboBox"
+			  Width="70"
+			  Margin="5,0,0,0"
+			  SelectedIndex="0"
+			  VerticalContentAlignment="Center"
+			  SelectionChanged="SearchModeComboBox_SelectionChanged">
 
-				<DatePicker Name="FromDatePicker"
-							Width="120"
-							VerticalAlignment="Center"
-							SelectedDateChanged="DatePicker_SelectedDateChanged"/>
+                    <ComboBoxItem Content="OR"/>
+                    <ComboBoxItem Content="AND"/>
 
-				<TextBlock Text="To:"
-						   VerticalAlignment="Center"
-						   Margin="10,0,5,0"/>
+                </ComboBox>
 
-				<DatePicker Name="ToDatePicker"
-							Width="120"
-							VerticalAlignment="Center"
-							SelectedDateChanged="DatePicker_SelectedDateChanged"/>
+                <TextBlock Text="Level:"
+			   VerticalAlignment="Center"
+			   Margin="10,0,5,0"/>
 
-				<Button Name="StatisticsButton"
-						Content="Statistics"
-						Width="100"
-						Height="30"
-						Margin="10,0,0,0"
-						Click="StatisticsButton_Click"/>
+                <ComboBox Name="LevelFilterComboBox"
+			  Width="100"
+			  SelectedIndex="0"
+			  VerticalContentAlignment="Center"
+			  SelectionChanged="LevelFilterComboBox_SelectionChanged">
 
-			</StackPanel>
+                    <ComboBoxItem Content="All"/>
+                    <ComboBoxItem Content="INFO"/>
+                    <ComboBoxItem Content="WARNING"/>
+                    <ComboBoxItem Content="ERROR"/>
 
-			<!-- display parsed and filtered log entries -->
+                </ComboBox>
+
+                <TextBlock Text="From:"
+			   VerticalAlignment="Center"
+			   Margin="10,0,5,0"/>
+
+                <DatePicker Name="FromDatePicker"
+				Width="120"
+				VerticalAlignment="Center"
+				SelectedDateChanged="DatePicker_SelectedDateChanged"/>
+
+                <TextBlock Text="To:"
+			   VerticalAlignment="Center"
+			   Margin="10,0,5,0"/>
+
+                <DatePicker Name="ToDatePicker"
+				Width="120"
+				VerticalAlignment="Center"
+				SelectedDateChanged="DatePicker_SelectedDateChanged"/>
+
+            </StackPanel>
+
+            <!-- display parsed and filtered log entries -->
 			<DataGrid Name="LogGrid"
 					  Grid.Row="1"
 					  AutoGenerateColumns="False"
