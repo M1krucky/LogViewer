@@ -4,14 +4,31 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LogViewer"
+        xmlns:controls="clr-namespace:LogViewer.Controls"
+        xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
         mc:Ignorable="d"
         Style="{StaticResource DarkWindowStyle}"
-        Title="MainWindow"
+        Title="LogViewer"
         Height="550"
-        Width="1070">
+        Width="1070"
+        WindowStyle="None">
+
+    <!-- provide native resizing and a custom window frame -->
+    <shell:WindowChrome.WindowChrome>
+        <shell:WindowChrome CaptionHeight="36"
+                            ResizeBorderThickness="6"
+                            CornerRadius="8"
+                            GlassFrameThickness="0"
+                            UseAeroCaptionButtons="False" />
+    </shell:WindowChrome.WindowChrome>
 
         <DockPanel>
-		<!-- provide the main application menu for file management and user assistance -->
+
+        <!-- display a custom title bar -->
+        <controls:TitleBar DockPanel.Dock="Top"
+                   Title="LogViewer" />
+
+        <!-- provide the main application menu for file management and user assistance -->
 		<Menu DockPanel.Dock="Top">
 			<MenuItem Header="_File">
 				<MenuItem Header="_Open Log File..." Click="OpenFileButton_Click" />
