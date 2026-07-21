@@ -1,7 +1,10 @@
 ﻿// prepare chart data for the Statistics window
-using LogViewer.Models;
 using LiveChartsCore;
 using LiveChartsCore.SkiaSharpView;
+using LiveChartsCore.SkiaSharpView.Painting;
+using LogViewer.Models;
+using SkiaSharp;
+using System.Globalization;
 
 namespace LogViewer.Services
 {
@@ -94,23 +97,25 @@ namespace LogViewer.Services
 
             List<string> labels = new List<string>();  // prepare readable labels for the X-axis
 
+            CultureInfo culture = new CultureInfo("en-US");
+
             foreach (DateTime period in orderedPeriods)
             {
                 if (grouping == ErrorTrendGrouping.Hour)
                 {
-                    labels.Add(period.ToString("dd MMM HH:mm"));  // display the date and hour
+                    labels.Add(period.ToString("dd MMM HH:mm", culture));  // display the date and hour in English
                 }
                 else if (grouping == ErrorTrendGrouping.Day)
                 {
-                    labels.Add(period.ToString("dd MMM"));  // display the day and month
+                    labels.Add(period.ToString("dd MMM", culture));  // display the day and month in English
                 }
                 else if (grouping == ErrorTrendGrouping.Week)
                 {
-                    labels.Add($"Week of {period:dd MMM}");  // display the first day of the week
+                    labels.Add($"Week of {period.ToString("dd MMM", culture)}");  // display the first day of the week in English
                 }
                 else
                 {
-                    labels.Add(period.ToString("MMM yyyy"));  // display the month and year
+                    labels.Add(period.ToString("MMM yyyy", culture));  // display the month and year in English
                 }
             }
 
@@ -128,7 +133,8 @@ namespace LogViewer.Services
                 new Axis
                 {
                     Labels = labels,
-                    TextSize = 12
+                    TextSize = 12,
+                    LabelsPaint = new SolidColorPaint(SKColors.White),  // display numeric labels clearly on the dark background
                 }
             };
 
@@ -138,8 +144,10 @@ namespace LogViewer.Services
                 {
                     Name = "Errors",
                     NameTextSize = 16,
-                    MinLimit = 0
-                }
+                    MinLimit = 0,
+                    LabelsPaint = new SolidColorPaint(SKColors.White),  // display numeric labels clearly on the dark background
+                    NamePaint = new SolidColorPaint(SKColors.White)  // display the axis title clearly on the dark background
+                }   
             };
 
             return (series, xAxes, yAxes);  // return all error trend chart components

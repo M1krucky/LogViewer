@@ -6,6 +6,8 @@
         xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
         xmlns:local="clr-namespace:LogViewer"
         mc:Ignorable="d"
+        Background="#1E1E1E"
+        Foreground="White"
         
         Title="Statistics"
         Height="700"
@@ -70,9 +72,11 @@
             <!-- display the LiveCharts2 bar chart for INFO, WARNING, and ERROR counts -->
             <lvc:CartesianChart
                 Height="250"
+                Background="Transparent"
                 Series="{Binding LogLevelSeries}"
                 XAxes="{Binding LogLevelXAxes}"
                 YAxes="{Binding LogLevelYAxes}" />
+
 
         </StackPanel>
 
@@ -125,12 +129,13 @@
 
 
             <!-- display the LiveCharts2 line chart showing ERROR counts over time -->
-            <lvc:CartesianChart Grid.Row="1"
+                    <lvc:CartesianChart Grid.Row="1"
+                        Background="Transparent"
                         Series="{Binding ErrorTrendSeries}"
                         XAxes="{Binding ErrorTrendXAxes}"
                         YAxes="{Binding ErrorTrendYAxes}"/>
 
-        </Grid>
+                </Grid>
 
     </Grid>
 

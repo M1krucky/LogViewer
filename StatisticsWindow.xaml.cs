@@ -1,8 +1,13 @@
 ﻿
-using LogViewer.Services;
+using LiveChartsCore;  // Core chart interfaces (ISeries, etc.)
+using LiveChartsCore.SkiaSharpView;  // WPF chart controls and chart types (Axis, ColumnSeries, etc.)
+using LiveChartsCore.SkiaSharpView.Painting;
 using LogViewer.Models;
+using LogViewer.Services;
+using SkiaSharp;
 using System;
 using System.Collections.Generic;
+using System.Linq;  // provides LINQ methods such as Count()
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -12,9 +17,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using System.Linq;  // provides LINQ methods such as Count()
-using LiveChartsCore;  // Core chart interfaces (ISeries, etc.)
-using LiveChartsCore.SkiaSharpView;  // WPF chart controls and chart types (Axis, ColumnSeries, etc.)
+
 
 namespace LogViewer
 {
@@ -103,16 +106,11 @@ namespace LogViewer
             ErrorCountTextBlock.Text = errorCount.ToString();
             LatestLogTextBlock.Text = latestTimestamp.ToString("yyyy-MM-dd HH:mm:ss");
 
-            var chart = LogChartService.CreateLogLevelChart(allLogEntries);  // prepare the log level distribution chart
-
-            LogLevelSeries = chart.Series;
-            LogLevelXAxes = chart.XAxes;
-            LogLevelYAxes = chart.YAxes;
 
             string selectedGrouping = ((ComboBoxItem)ErrorTrendGroupingComboBox.SelectedItem).Content.ToString() ?? "Day";  // read the selected grouping option
 
-            ErrorTrendGrouping grouping = Enum.TryParse(selectedGrouping, out ErrorTrendGrouping parsedGrouping) 
-                        ? parsedGrouping 
+            ErrorTrendGrouping grouping = Enum.TryParse(selectedGrouping, out ErrorTrendGrouping parsedGrouping)
+                        ? parsedGrouping
                         : ErrorTrendGrouping.Day;  // convert the selected grouping name into an enum value, or use Day if the conversion fails
 
 
@@ -128,7 +126,7 @@ namespace LogViewer
                 new ColumnSeries<int>  // create a bar chart series that stores integer values
                 {
                     Values = new int[] { infoCount, warningCount, errorCount },  // Set the bar heights using the calculated log counts
-                    Name = "Log Count"  // set the chart series name shown in the legend/tooltip
+                    Name = "Log Count",  // set the chart series name shown in the legend/tooltip
                 }
             };
 
@@ -138,7 +136,8 @@ namespace LogViewer
                 new Axis  // Create the X-axis
                 {
                     Labels = new[] { "INFO", "WARNING", "ERROR" },  // set the labels displayed on the X-axis
-                    TextSize = 14  // font size of the axis labels
+                    TextSize = 14,  // font size of the axis labels
+                    LabelsPaint = new SolidColorPaint(SKColors.White)  // display numeric labels clearly on the dark background
                 }
             };
 
@@ -149,9 +148,15 @@ namespace LogViewer
                 {
                     Name = "Count",  // display the Y-axis title
                     NameTextSize = 16,  // font size of the axis title
-                    MinLimit = 0  // start the Y-axis at 0 instead of auto-calculating the minimum
+                    MinLimit = 0,  // start the Y-axis at 0 instead of auto-calculating the minimum
+                    LabelsPaint = new SolidColorPaint(SKColors.White),  // display numeric labels clearly on the dark background
+                    NamePaint = new SolidColorPaint(SKColors.White)  // display the axis title clearly on the dark background
                 }
+
             };
+
+            
         }
     }
+    
 }
