@@ -107,6 +107,7 @@ namespace LogViewer
             LatestLogTextBlock.Text = latestTimestamp.ToString("yyyy-MM-dd HH:mm:ss");
 
 
+
             string selectedGrouping = ((ComboBoxItem)ErrorTrendGroupingComboBox.SelectedItem).Content.ToString() ?? "Day";  // read the selected grouping option
 
             ErrorTrendGrouping grouping = Enum.TryParse(selectedGrouping, out ErrorTrendGrouping parsedGrouping)
@@ -121,24 +122,31 @@ namespace LogViewer
             ErrorTrendYAxes = errorTrendChart.YAxes;
 
 
-            LogLevelSeries = new ISeries[]  // create a new array of chart data series
+            ColumnSeries<int> logLevelColumnSeries = new ColumnSeries<int>  // create one series to preserve the original chart layout
             {
-                new ColumnSeries<int>  // create a bar chart series that stores integer values
-                {
-                    Values = new int[] { infoCount, warningCount, errorCount },  // Set the bar heights using the calculated log counts
-                    Name = "Log Count",  // set the chart series name shown in the legend/tooltip
-                }
+                Values = new int[] { infoCount, warningCount, errorCount },  // set the INFO, WARNING and ERROR bar heights
+                Name = "Log Count"  // set the series name shown in the tooltip
             };
 
-
-            LogLevelXAxes = new Axis[]  // create a new array of X-axis configurations
+            logLevelColumnSeries.PointMeasured += point =>  // customize each bar after LiveCharts creates its visual
             {
-                new Axis  // Create the X-axis
+                if (point.Context.Visual is null)  // stop if the bar visual has not been created
                 {
-                    Labels = new[] { "INFO", "WARNING", "ERROR" },  // set the labels displayed on the X-axis
-                    TextSize = 14,  // font size of the axis labels
-                    LabelsPaint = new SolidColorPaint(SKColors.White)  // display numeric labels clearly on the dark background
+                    return;
                 }
+
+                point.Context.Visual.Fill = point.Index switch  // select the bar color according to its position
+                {
+                    0 => new SolidColorPaint(SKColors.SteelBlue),  // keep INFO blue
+                    1 => new SolidColorPaint(new SKColor(180, 110, 0)),  // display WARNING in dark orange
+                    2 => new SolidColorPaint(new SKColor(190, 45, 45)),  // display ERROR in medium red
+                    _ => new SolidColorPaint(SKColors.SteelBlue)  // use blue as a safe fallback color
+                };
+            };
+
+            LogLevelSeries = new ISeries[]  // provide the completed series to the chart
+            {
+                logLevelColumnSeries
             };
 
 

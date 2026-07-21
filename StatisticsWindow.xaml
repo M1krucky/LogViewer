@@ -42,20 +42,20 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <TextBlock Grid.Row="0" Grid.Column="0" Text="Total entries:"/>
-            <TextBlock Name="TotalEntriesTextBlock" Grid.Row="0" Grid.Column="1" Margin="10,0,0,0" Text="0"/>
+            <TextBlock Grid.Row="0" Grid.Column="0" FontSize="15" Text="Total entries:"/>
+            <TextBlock Name="TotalEntriesTextBlock" Grid.Row="0" Grid.Column="1" Margin="10,0,0,0" FontSize="15" FontWeight="SemiBold" Text="0"/>
 
-            <TextBlock Grid.Row="1" Grid.Column="0" Text="INFO:"/>
-            <TextBlock Name="InfoCountTextBlock" Grid.Row="1" Grid.Column="1" Margin="10,0,0,0" Text="0"/>
+            <TextBlock Grid.Row="1" Grid.Column="0" FontSize="15" Text="INFO:"/>
+            <TextBlock Name="InfoCountTextBlock" Grid.Row="1" Grid.Column="1" Margin="10,0,0,0" FontSize="15" FontWeight="SemiBold" Text="0"/>
 
-            <TextBlock Grid.Row="2" Grid.Column="0" Text="WARNING:"/>
-            <TextBlock Name="WarningCountTextBlock" Grid.Row="2" Grid.Column="1" Margin="10,0,0,0" Text="0"/>
+            <TextBlock Grid.Row="2" Grid.Column="0" FontSize="15" Text="WARNING:"/>
+            <TextBlock Name="WarningCountTextBlock" Grid.Row="2" Grid.Column="1" Margin="10,0,0,0" FontSize="15" FontWeight="SemiBold" Text="0"/>
 
-            <TextBlock Grid.Row="3" Grid.Column="0" Text="ERROR:"/>
-            <TextBlock Name="ErrorCountTextBlock" Grid.Row="3" Grid.Column="1" Margin="10,0,0,0" Text="0"/>
+            <TextBlock Grid.Row="3" Grid.Column="0" FontSize="15" Text="ERROR:"/>
+            <TextBlock Name="ErrorCountTextBlock" Grid.Row="3" Grid.Column="1" Margin="10,0,0,0" FontSize="15" FontWeight="SemiBold" Text="0"/>
 
-            <TextBlock Grid.Row="4" Grid.Column="0" Text="Latest log:"/>
-            <TextBlock Name="LatestLogTextBlock" Grid.Row="4" Grid.Column="1" Margin="10,0,0,0" Text="-"/>
+            <TextBlock Grid.Row="4" Grid.Column="0" FontSize="15" Text="Latest log:"/>
+            <TextBlock Name="LatestLogTextBlock" Grid.Row="4" Grid.Column="1" Margin="10,0,0,0" FontSize="15" FontWeight="SemiBold" Text="-"/>
 
         </Grid>
 
@@ -71,7 +71,7 @@
 
             <!-- display the LiveCharts2 bar chart for INFO, WARNING, and ERROR counts -->
             <lvc:CartesianChart
-                Height="250"
+                Height="245"
                 Background="Transparent"
                 Series="{Binding LogLevelSeries}"
                 XAxes="{Binding LogLevelXAxes}"
@@ -134,6 +134,7 @@
                         Series="{Binding ErrorTrendSeries}"
                         XAxes="{Binding ErrorTrendXAxes}"
                         YAxes="{Binding ErrorTrendYAxes}"/>
+
 
                 </Grid>
 
