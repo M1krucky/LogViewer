@@ -100,10 +100,10 @@ namespace LogViewer
             int errorCount = allLogEntries.Count(item => item.Level == "ERROR");
             DateTime latestTimestamp = allLogEntries.Max(item => item.Timestamp);  // find the latest timestamp
 
-            TotalEntriesTextBlock.Text = totalCount.ToString();
-            InfoCountTextBlock.Text = infoCount.ToString();
-            WarningCountTextBlock.Text = warningCount.ToString();
-            ErrorCountTextBlock.Text = errorCount.ToString();
+            TotalEntriesTextBlock.Text = totalCount.ToString("N0");
+            InfoCountTextBlock.Text = infoCount.ToString("N0");
+            WarningCountTextBlock.Text = warningCount.ToString("N0");
+            ErrorCountTextBlock.Text = errorCount.ToString("N0");
             LatestLogTextBlock.Text = latestTimestamp.ToString("yyyy-MM-dd HH:mm:ss");
 
 
@@ -139,7 +139,7 @@ namespace LogViewer
                 {
                     0 => new SolidColorPaint(SKColors.SteelBlue),  // keep INFO blue
                     1 => new SolidColorPaint(new SKColor(180, 110, 0)),  // display WARNING in dark orange
-                    2 => new SolidColorPaint(new SKColor(190, 45, 45)),  // display ERROR in medium red
+                    2 => new SolidColorPaint(SKColors.Red),  // display ERROR in red
                     _ => new SolidColorPaint(SKColors.SteelBlue)  // use blue as a safe fallback color
                 };
             };
@@ -150,12 +150,23 @@ namespace LogViewer
             };
 
 
+            LogLevelXAxes = new Axis[]  // create a new array of X-axis configurations
+            {
+                new Axis  // create the X-axis
+                {
+                    Labels = new[] { "INFO", "WARNING", "ERROR" },  // display the log level names below the bars
+                    LabelsPaint = new SolidColorPaint(SKColors.White),  // display the labels clearly on the dark background
+                    TextSize = 14  // set the font size of the log level labels
+                }
+            };
+
+
             LogLevelYAxes = new Axis[]  // create a new array of Y-axis configurations
             {
                 new Axis  // create the Y-axis
                 {
                     Name = "Count",  // display the Y-axis title
-                    NameTextSize = 16,  // font size of the axis title
+                    NameTextSize = 14,  // font size of the axis title
                     MinLimit = 0,  // start the Y-axis at 0 instead of auto-calculating the minimum
                     LabelsPaint = new SolidColorPaint(SKColors.White),  // display numeric labels clearly on the dark background
                     NamePaint = new SolidColorPaint(SKColors.White)  // display the axis title clearly on the dark background
