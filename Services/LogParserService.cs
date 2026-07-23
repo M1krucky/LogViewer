@@ -26,9 +26,19 @@ namespace LogViewer.Services
             {
                 string[] parts = line.Split(' ', 4);  // splits the line into date, time, level, and message
 
+                if (parts.Length < 4)  // skips invalid log lines with missing fields
+                {
+                    continue;
+                }
+
+                if (!DateTime.TryParse(parts[0] + " " + parts[1], out DateTime timestamp))  // validates the timestamp format
+                {
+                    continue;  // skips log lines with an invalid timestamp
+                }
+
                 LogEntry entry = new LogEntry();  // creates a new log entry object
 
-                entry.Timestamp = DateTime.Parse(parts[0] + " " + parts[1]);  // parses date and time from the log line
+                entry.Timestamp = timestamp;  // stores the parsed timestamp
 
                 string level = parts[2].Trim('[', ']');  // normalize bracketed log levels so [ERROR] and ERROR are treated the same
 
