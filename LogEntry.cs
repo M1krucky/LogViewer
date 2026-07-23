@@ -9,6 +9,7 @@ namespace LogViewer.Models
     /// <summary>
     /// Defines the structure of a single log entry.
     /// </summary>
+   
     public class LogEntry  // model/class (LogEntry) defines the structure of one log entry
     {
         public string Message { get; set; } = ""; // stores the text of one log entry

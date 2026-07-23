@@ -1,3 +1,4 @@
 <Solution>
+  <Project Path="../LogViewer.Tests/LogViewer.Tests.csproj" Id="b96b88b5-37d5-46ea-98c6-09dbfbd00a87" />
   <Project Path="LogViewer.csproj" />
 </Solution>
