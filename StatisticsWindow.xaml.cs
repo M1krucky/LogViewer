@@ -1,9 +1,11 @@
 ﻿
 using LiveChartsCore;  // Core chart interfaces (ISeries, etc.)
+using LiveChartsCore.Defaults;
 using LiveChartsCore.SkiaSharpView;  // WPF chart controls and chart types (Axis, ColumnSeries, etc.)
 using LiveChartsCore.SkiaSharpView.Painting;
 using LogViewer.Models;
 using LogViewer.Services;
+using LogViewer.Services.LogViewer.Services;
 using SkiaSharp;
 using System;
 using System.Collections.Generic;
@@ -77,12 +79,7 @@ namespace LogViewer
         {
             if (allLogEntries.Count == 0)
             {
-                TotalEntriesTextBlock.Text = "0";
-                InfoCountTextBlock.Text = "0";
-                WarningCountTextBlock.Text = "0";
-                ErrorCountTextBlock.Text = "0";
-                LatestLogTextBlock.Text = "-";
-
+              
                 LogLevelSeries = Array.Empty<ISeries>();
                 LogLevelXAxes = Array.Empty<Axis>();
                 LogLevelYAxes = Array.Empty<Axis>();
@@ -94,17 +91,13 @@ namespace LogViewer
                 return;
             }
 
-            int totalCount = allLogEntries.Count;
-            int infoCount = allLogEntries.Count(item => item.Level == "INFO");
-            int warningCount = allLogEntries.Count(item => item.Level == "WARNING");
-            int errorCount = allLogEntries.Count(item => item.Level == "ERROR");
-            DateTime latestTimestamp = allLogEntries.Max(item => item.Timestamp);  // find the latest timestamp
+            LogStatistics statistics = LogStatisticsService.CalculateStatistics(allLogEntries);  // calculate summary statistics for the current log entries
 
-            TotalEntriesTextBlock.Text = totalCount.ToString("N0");
-            InfoCountTextBlock.Text = infoCount.ToString("N0");
-            WarningCountTextBlock.Text = warningCount.ToString("N0");
-            ErrorCountTextBlock.Text = errorCount.ToString("N0");
-            LatestLogTextBlock.Text = latestTimestamp.ToString("yyyy-MM-dd HH:mm:ss");
+            TotalEntriesTextBlock.Text = statistics.TotalCount.ToString("N0");
+            InfoCountTextBlock.Text = statistics.InfoCount.ToString("N0");
+            WarningCountTextBlock.Text = statistics.WarningCount.ToString("N0");
+            ErrorCountTextBlock.Text = statistics.ErrorCount.ToString("N0");
+            LatestLogTextBlock.Text = statistics.LatestTimestamp?.ToString("yyyy-MM-dd HH:mm:ss") ?? "-";
 
 
 
@@ -124,7 +117,12 @@ namespace LogViewer
 
             ColumnSeries<int> logLevelColumnSeries = new ColumnSeries<int>  // create one series to preserve the original chart layout
             {
-                Values = new int[] { infoCount, warningCount, errorCount },  // set the INFO, WARNING and ERROR bar heights
+                Values = new int[]
+            {
+                    statistics.InfoCount,
+                    statistics.WarningCount,
+                    statistics.ErrorCount   // set the INFO, WARNING and ERROR bar heights
+            },  
                 Name = "Log Count"  // set the series name shown in the tooltip
             };
 
