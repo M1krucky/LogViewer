@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\LogViewer\LogViewer.csproj" />
+	  <ProjectReference Include="..\LogViewer.csproj" />
   </ItemGroup>
 
 </Project>
