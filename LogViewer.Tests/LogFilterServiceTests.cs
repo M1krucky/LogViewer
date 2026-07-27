@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace LogViewer.Tests
 {
     /// <summary>
-    /// Tests for log filtering functionality.
+    /// Contains unit tests for the LogFilterService class.
     /// </summary>
 
     [TestClass]
@@ -253,8 +253,6 @@ namespace LogViewer.Tests
             Assert.AreEqual(2, result.Count);
             Assert.AreEqual("Application started", result[0].Message);
             Assert.AreEqual("Database connection failed", result[1].Message);
-
-
         }
 
 

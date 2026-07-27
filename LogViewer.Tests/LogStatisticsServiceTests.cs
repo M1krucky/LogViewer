@@ -1,13 +1,15 @@
-﻿using LogViewer.Models;
+﻿// -----------------------------------------------------------------------------
+// LogStatisticsServiceTests
+// -----------------------------------------------------------------------------
+
+using LogViewer.Models;
 using LogViewer.Services;
-using LogViewer.Services.LogViewer.Services;
 
 namespace LogViewer.Tests
 {
     /// <summary>
-    /// Tests for log statistics calculation functionality.
+    /// Contains unit tests for the LogStatisticsService class.
     /// </summary>
-
     [TestClass]
     public class LogStatisticsServiceTests
     {
@@ -33,7 +35,6 @@ namespace LogViewer.Tests
             Assert.AreEqual(1, result.ErrorCount);
         }
 
-
         [TestMethod]
         public void CalculateStatistics_ShouldReturnZeroCounts_WhenInputIsEmpty()
         {
@@ -51,7 +52,6 @@ namespace LogViewer.Tests
             Assert.IsNull(result.LatestTimestamp);
         }
 
-
         [TestMethod]
         public void CalculateStatistics_ShouldReturnLatestTimestamp()
         {
@@ -67,9 +67,10 @@ namespace LogViewer.Tests
             LogStatistics result = LogStatisticsService.CalculateStatistics(entries);
 
             // Assert: verify that the latest timestamp is returned
-            Assert.AreEqual(new DateTime(2026, 7, 23, 12, 45, 00), result.LatestTimestamp);
+            Assert.AreEqual(
+                new DateTime(2026, 7, 23, 12, 45, 00),
+                result.LatestTimestamp);
         }
-
 
         [TestMethod]
         public void CalculateStatistics_ShouldIgnoreUnknownLogLevels()
@@ -92,7 +93,6 @@ namespace LogViewer.Tests
             Assert.AreEqual(0, result.WarningCount);
             Assert.AreEqual(1, result.ErrorCount);
         }
-
 
         [TestMethod]
         public void CalculateStatistics_ShouldCountOnlyWarningLogEntries()

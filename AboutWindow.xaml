@@ -1,7 +1,6 @@
 ﻿<Window x:Class="LogViewer.AboutWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-
         Title="About LogViewer"
         Height="725"
         Width="550"
@@ -11,132 +10,155 @@
         Background="#1E1E1E"
         Foreground="White">
 
-    <!-- display application information in a professional About dialog -->
+    <!-- ========================================================= -->
+    <!-- About Window Layout -->
+    <!-- ========================================================= -->
+
+    <!-- Displays application information and the confirmation button. -->
     <Grid Margin="20">
 
-        <!-- keep the information at the top and the OK button at the bottom -->
+        <!--
+            Row 0: Application information
+            Row 1: OK button
+        -->
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
+
+        <!-- ===================================================== -->
+        <!-- Application Information -->
+        <!-- ===================================================== -->
 
         <StackPanel Grid.Row="0"
                     VerticalAlignment="Top">
 
-            <!-- display the application name -->
+            <!-- Application title -->
             <TextBlock Text="LogViewer"
-               FontSize="22"
-               FontWeight="Bold"
-               Margin="0,0,0,18"/>
+                       FontSize="22"
+                       FontWeight="Bold"
+                       Margin="0,0,0,18" />
 
-            <!-- display a short application description -->
+            <!-- Short application description -->
             <TextBlock Text="Desktop application for viewing, filtering, analyzing, and exporting log files."
-               TextWrapping="Wrap"
-               FontSize="13"
-               Foreground="#D0D0D0"
-               Margin="0,0,0,12"/>
+                       FontSize="13"
+                       Foreground="#D0D0D0"
+                       TextWrapping="Wrap"
+                       Margin="0,0,0,12" />
 
-            <!-- display the current application version -->
+            <!-- Application version -->
             <TextBlock Text="Version 1.0"
-               FontSize="12"
-               Foreground="#B8B8B8"
-               Margin="0,0,0,12"/>
+                       FontSize="12"
+                       Foreground="#B8B8B8"
+                       Margin="0,0,0,12" />
 
-            <!-- display the application's key features -->
+            <!-- ================================================= -->
+            <!-- Features -->
+            <!-- ================================================= -->
+
             <Border BorderBrush="#404040"
-            BorderThickness="1"
-            CornerRadius="6"
-            Padding="10"
-            Margin="0,0,0,12">
+                    BorderThickness="1"
+                    CornerRadius="6"
+                    Padding="10"
+                    Margin="0,0,0,12">
 
                 <StackPanel>
 
                     <TextBlock Text="Features"
-                       FontWeight="Bold"
-                       FontSize="15"
-                       Margin="0,0,0,10"/>
+                               FontSize="15"
+                               FontWeight="Bold"
+                               Margin="0,0,0,10" />
 
-                    <TextBlock Text="• Open and review log files"/>
-                    <TextBlock Text="• Search log entries by text"/>
-                    <TextBlock Text="• Filter logs by date"/>
-                    <TextBlock Text="• Combine filters with AND / OR logic"/>
-                    <TextBlock Text="• Sort by timestamp, level, and message"/>
-                    <TextBlock Text="• Highlight warning and error entries"/>
-                    <TextBlock Text="• View log statistics and interactive charts"/>
-                    <TextBlock Text="• Load large log files asynchronously"/>
-                    <TextBlock Text="• Export filtered logs to CSV"/>
-                    <TextBlock Text="• Open recently used files"/>
+                    <TextBlock Text="• Open and review log files" />
+                    <TextBlock Text="• Search log entries by text" />
+                    <TextBlock Text="• Filter logs by date" />
+                    <TextBlock Text="• Combine filters with AND / OR logic" />
+                    <TextBlock Text="• Sort by timestamp, level, and message" />
+                    <TextBlock Text="• Highlight warning and error entries" />
+                    <TextBlock Text="• View log statistics and interactive charts" />
+                    <TextBlock Text="• Load large log files asynchronously" />
+                    <TextBlock Text="• Export filtered logs to CSV" />
+                    <TextBlock Text="• Open recently used files" />
 
                 </StackPanel>
 
             </Border>
 
-            <!-- display the supported log formats -->
+            <!-- ================================================= -->
+            <!-- Supported Log Formats -->
+            <!-- ================================================= -->
+
             <Border BorderBrush="#404040"
-            BorderThickness="1"
-            CornerRadius="6"
-            Padding="10"
-            Margin="0,0,0,12">
+                    BorderThickness="1"
+                    CornerRadius="6"
+                    Padding="10"
+                    Margin="0,0,0,12">
 
                 <StackPanel>
 
                     <TextBlock Text="Supported log formats"
-                       FontWeight="Bold"
-                       FontSize="15"
-                       Margin="0,0,0,10"/>
+                               FontSize="15"
+                               FontWeight="Bold"
+                               Margin="0,0,0,10" />
 
-                    <TextBlock Text="• Plain text log files (.log, .txt)"/>
-                    <TextBlock Text="• Standard log format (e.g. INFO, WARNING, ERROR)"/>
-                    <TextBlock Text="• Bracketed log format (e.g. [INFO], [WARNING], [ERROR])"/>
+                    <TextBlock Text="• Plain text log files (.log, .txt)" />
+                    <TextBlock Text="• Standard log format (e.g. INFO, WARNING, ERROR)" />
+                    <TextBlock Text="• Bracketed log format (e.g. [INFO], [WARNING], [ERROR])" />
 
                 </StackPanel>
 
             </Border>
 
-            <!-- display the technologies used to build the application -->
-            <!-- display the technologies used to build the application -->
+            <!-- ================================================= -->
+            <!-- Technology Stack -->
+            <!-- ================================================= -->
+
             <Border BorderBrush="#404040"
                     BorderThickness="1"
                     CornerRadius="6"
-                    Padding="10">   
+                    Padding="10">
 
                 <StackPanel>
 
                     <TextBlock Text="Technology stack"
-                   FontWeight="Bold"
-                   FontSize="15"
-                   Margin="0,0,0,6"/>
+                               FontSize="15"
+                               FontWeight="Bold"
+                               Margin="0,0,0,6" />
 
-                    <TextBlock Text="• C#"/>
-                    <TextBlock Text="• .NET 10"/>
-                    <TextBlock Text="• WPF"/>
-                    <TextBlock Text="• LiveCharts2"/>
+                    <TextBlock Text="• C#" />
+                    <TextBlock Text="• .NET 10" />
+                    <TextBlock Text="• WPF" />
+                    <TextBlock Text="• LiveCharts2" />
 
                     <TextBlock Text="Developed by"
-                   FontWeight="Bold"
-                   FontSize="15"
-                   Margin="0,12,0,2"/>
+                               FontSize="15"
+                               FontWeight="Bold"
+                               Margin="0,12,0,2" />
 
-                    <TextBlock Text="Mikhail Kryukov  🚀"/>
+                    <TextBlock Text="Mikhail Kryukov 🚀" />
 
                 </StackPanel>
-        
+
             </Border>
 
         </StackPanel>
 
-        <!-- close the About dialog -->
+        <!-- ===================================================== -->
+        <!-- Dialog Actions -->
+        <!-- ===================================================== -->
+
+        <!-- Closes the About window. -->
         <Button Grid.Row="1"
-        Content="OK"
-        Width="90"
-        Height="34"
-        Margin="0,12,0,0"
-        HorizontalAlignment="Right"
-        VerticalAlignment="Bottom"
-        Background="#2D2D30"
-        Foreground="White"
-        BorderBrush="#555555"
-        Click="OkButton_Click"/>
+                Content="OK"
+                Width="90"
+                Height="34"
+                Margin="0,12,0,0"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Background="#2D2D30"
+                Foreground="White"
+                BorderBrush="#555555"
+                Click="OkButton_Click" />
 
     </Grid>
 

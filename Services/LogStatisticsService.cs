@@ -1,18 +1,19 @@
-﻿using LogViewer.Models;
-using LogViewer.Services.LogViewer.Services;
+﻿// -----------------------------------------------------------------------------
+// LogStatisticsService
+// -----------------------------------------------------------------------------
+
+using LogViewer.Models;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace LogViewer.Services
 {
     /// <summary>
     /// Calculates summary statistics for a collection of log entries.
     /// </summary>
-    
     public static class LogStatisticsService
     {
-        public static LogStatistics CalculateStatistics(List<LogEntry> entries)  // calculate summary statistics from the provided log entries
+        public static LogStatistics CalculateStatistics(List<LogEntry> entries)
         {
             if (entries.Count == 0)
             {
@@ -26,6 +27,7 @@ namespace LogViewer.Services
                 };
             }
 
+            // Calculate summary statistics for the provided log entries.
             return new LogStatistics
             {
                 TotalCount = entries.Count,

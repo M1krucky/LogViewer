@@ -1,6 +1,13 @@
-﻿namespace LogViewer
+﻿// -----------------------------------------------------------------------------
+// ErrorTrendGrouping
+// -----------------------------------------------------------------------------
+
+namespace LogViewer
 {
-    public enum ErrorTrendGrouping  // define the allowed time grouping options for the error trend chart
+    /// <summary>
+    /// Defines the supported time grouping options for the error trend chart.
+    /// </summary>
+    public enum ErrorTrendGrouping
     {
         Hour,
         Day,

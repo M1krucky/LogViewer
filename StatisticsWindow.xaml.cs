@@ -1,25 +1,15 @@
-﻿
-using LiveChartsCore;  // Core chart interfaces (ISeries, etc.)
-using LiveChartsCore.Defaults;
-using LiveChartsCore.SkiaSharpView;  // WPF chart controls and chart types (Axis, ColumnSeries, etc.)
+﻿// -----------------------------------------------------------------------------
+// StatisticsWindow
+// -----------------------------------------------------------------------------
+
+using LiveChartsCore;
+using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Painting;
 using LogViewer.Models;
 using LogViewer.Services;
-using LogViewer.Services.LogViewer.Services;
 using SkiaSharp;
-using System;
-using System.Collections.Generic;
-using System.Linq;  // provides LINQ methods such as Count()
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-
 
 namespace LogViewer
 {
@@ -28,58 +18,60 @@ namespace LogViewer
     /// </summary>
     public partial class StatisticsWindow : Window
     {
-        public ISeries[] LogLevelSeries { get; set; } = Array.Empty<ISeries>(); // stores the chart data series (initialized as an empty array). "Array.Empty<ISeries>()" -> call the built-in Empty() method of the Array class to get an empty array of ISeries.
-        public Axis[] LogLevelXAxes { get; set; } = Array.Empty<Axis>();  // stores the X-axis configuration (initialized as an empty array)
-        public Axis[] LogLevelYAxes { get; set; } = Array.Empty<Axis>();  // stores the Y-axis configuration (initialized as an empty array)
+        // Log-level chart configuration.
+        public ISeries[] LogLevelSeries { get; set; } = Array.Empty<ISeries>();
+        public Axis[] LogLevelXAxes { get; set; } = Array.Empty<Axis>();
+        public Axis[] LogLevelYAxes { get; set; } = Array.Empty<Axis>();
 
+        // Error-trend chart configuration.
+        public ISeries[] ErrorTrendSeries { get; set; } = Array.Empty<ISeries>();
+        public Axis[] ErrorTrendXAxes { get; set; } = Array.Empty<Axis>();
+        public Axis[] ErrorTrendYAxes { get; set; } = Array.Empty<Axis>();
 
-        public ISeries[] ErrorTrendSeries { get; set; } = Array.Empty<ISeries>();  // stores the error trend chart data series
-        public Axis[] ErrorTrendXAxes { get; set; } = Array.Empty<Axis>();  // stores the error trend X-axis configuration
-        public Axis[] ErrorTrendYAxes { get; set; } = Array.Empty<Axis>();  // stores the error trend Y-axis configuration
+        private List<LogEntry> currentLogEntries = new List<LogEntry>();
 
-
-        private List<LogEntry> currentLogEntries = new List<LogEntry>();  // store the entries currently displayed in the statistics window
-
-
-        public StatisticsWindow(List<LogEntry> allLogEntries)  // constructor that receives the loaded log entries (from MainWindow)
+        public StatisticsWindow(List<LogEntry> allLogEntries)
         {
-            InitializeComponent();  // // create the UI defined in StatisticsWindow.xaml
+            InitializeComponent();
 
-            currentLogEntries = allLogEntries;  // remember the entries for rebuilding the error trend chart
+            currentLogEntries = allLogEntries;
 
-            DisplayStatistics(allLogEntries);  // calculate statistics and update the UI
+            DisplayStatistics(allLogEntries);
 
-            DataContext = this;  // // set this window as the source for XAML data bindings
+            DataContext = this;
         }
 
-
-        public void RefreshStatistics(List<LogEntry> filteredLogEntries)  // refresh statistics and charts using the latest filtered log entries
+        public void RefreshStatistics(List<LogEntry> filteredLogEntries)
         {
-            currentLogEntries = filteredLogEntries;  // remember the latest log entries
+            currentLogEntries = filteredLogEntries;
 
             DisplayStatistics(filteredLogEntries);
 
-            DataContext = null;  // reload the bindings from this StatisticsWindow object (disconnect all bindings)
-            DataContext = this;  // reconnect and read the current property values again
+            // Reconnect the bindings to read the updated chart properties.
+            DataContext = null;
+            DataContext = this;
         }
 
-
-        private void ErrorTrendGroupingComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)  // rebuild the charts when the selected grouping changes
+        private void ErrorTrendGroupingComboBox_SelectionChanged(
+            object sender,
+            SelectionChangedEventArgs e)
         {
-            if (currentLogEntries.Count == 0) return;  // do nothing until log entries are available
+            if (currentLogEntries.Count == 0)
+            {
+                return;
+            }
 
             DisplayStatistics(currentLogEntries);
 
-            DataContext = null;  // disconnect the existing bindings
-            DataContext = this;  // reconnect the bindings using the updated chart properties
+            // Reconnect the bindings to read the updated chart properties.
+            DataContext = null;
+            DataContext = this;
         }
 
-
-        private void DisplayStatistics(List<LogEntry> allLogEntries)  // calculate and display log statistics
+        private void DisplayStatistics(List<LogEntry> allLogEntries)
         {
             if (allLogEntries.Count == 0)
             {
-              
                 LogLevelSeries = Array.Empty<ISeries>();
                 LogLevelXAxes = Array.Empty<Axis>();
                 LogLevelYAxes = Array.Empty<Axis>();
@@ -91,89 +83,101 @@ namespace LogViewer
                 return;
             }
 
-            LogStatistics statistics = LogStatisticsService.CalculateStatistics(allLogEntries);  // calculate summary statistics for the current log entries
+            LogStatistics statistics =
+                LogStatisticsService.CalculateStatistics(allLogEntries);
 
-            TotalEntriesTextBlock.Text = statistics.TotalCount.ToString("N0");
-            InfoCountTextBlock.Text = statistics.InfoCount.ToString("N0");
-            WarningCountTextBlock.Text = statistics.WarningCount.ToString("N0");
-            ErrorCountTextBlock.Text = statistics.ErrorCount.ToString("N0");
-            LatestLogTextBlock.Text = statistics.LatestTimestamp?.ToString("yyyy-MM-dd HH:mm:ss") ?? "-";
+            TotalEntriesTextBlock.Text =
+                statistics.TotalCount.ToString("N0");
 
+            InfoCountTextBlock.Text =
+                statistics.InfoCount.ToString("N0");
 
+            WarningCountTextBlock.Text =
+                statistics.WarningCount.ToString("N0");
 
-            string selectedGrouping = ((ComboBoxItem)ErrorTrendGroupingComboBox.SelectedItem).Content.ToString() ?? "Day";  // read the selected grouping option
+            ErrorCountTextBlock.Text =
+                statistics.ErrorCount.ToString("N0");
 
-            ErrorTrendGrouping grouping = Enum.TryParse(selectedGrouping, out ErrorTrendGrouping parsedGrouping)
-                        ? parsedGrouping
-                        : ErrorTrendGrouping.Day;  // convert the selected grouping name into an enum value, or use Day if the conversion fails
+            LatestLogTextBlock.Text =
+                statistics.LatestTimestamp?.ToString("yyyy-MM-dd HH:mm:ss") ?? "-";
 
+            string selectedGrouping =
+                ((ComboBoxItem)ErrorTrendGroupingComboBox.SelectedItem)
+                .Content
+                .ToString() ?? "Day";
 
-            var errorTrendChart = LogChartService.CreateErrorTrendChart(allLogEntries, grouping);  // prepare the error trend chart using the selected grouping
+            // Convert the selected grouping name to its enum value.
+            ErrorTrendGrouping grouping =
+                Enum.TryParse(
+                    selectedGrouping,
+                    out ErrorTrendGrouping parsedGrouping)
+                    ? parsedGrouping
+                    : ErrorTrendGrouping.Day;
+
+            var errorTrendChart =
+                LogChartService.CreateErrorTrendChart(
+                    allLogEntries,
+                    grouping);
 
             ErrorTrendSeries = errorTrendChart.Series;
             ErrorTrendXAxes = errorTrendChart.XAxes;
             ErrorTrendYAxes = errorTrendChart.YAxes;
 
+            ColumnSeries<int> logLevelColumnSeries =
+                new ColumnSeries<int>
+                {
+                    Values = new int[]
+                    {
+                        statistics.InfoCount,
+                        statistics.WarningCount,
+                        statistics.ErrorCount
+                    },
+                    Name = "Log Count"
+                };
 
-            ColumnSeries<int> logLevelColumnSeries = new ColumnSeries<int>  // create one series to preserve the original chart layout
+            // Apply a distinct color to each log-level bar.
+            logLevelColumnSeries.PointMeasured += point =>
             {
-                Values = new int[]
-            {
-                    statistics.InfoCount,
-                    statistics.WarningCount,
-                    statistics.ErrorCount   // set the INFO, WARNING and ERROR bar heights
-            },  
-                Name = "Log Count"  // set the series name shown in the tooltip
-            };
-
-            logLevelColumnSeries.PointMeasured += point =>  // customize each bar after LiveCharts creates its visual
-            {
-                if (point.Context.Visual is null)  // stop if the bar visual has not been created
+                if (point.Context.Visual is null)
                 {
                     return;
                 }
 
-                point.Context.Visual.Fill = point.Index switch  // select the bar color according to its position
+                point.Context.Visual.Fill = point.Index switch
                 {
-                    0 => new SolidColorPaint(SKColors.SteelBlue),  // keep INFO blue
-                    1 => new SolidColorPaint(new SKColor(180, 110, 0)),  // display WARNING in dark orange
-                    2 => new SolidColorPaint(SKColors.Red),  // display ERROR in red
-                    _ => new SolidColorPaint(SKColors.SteelBlue)  // use blue as a safe fallback color
+                    0 => new SolidColorPaint(SKColors.SteelBlue),
+                    1 => new SolidColorPaint(new SKColor(180, 110, 0)),
+                    2 => new SolidColorPaint(SKColors.Red),
+                    _ => new SolidColorPaint(SKColors.SteelBlue)
                 };
             };
 
-            LogLevelSeries = new ISeries[]  // provide the completed series to the chart
+            LogLevelSeries = new ISeries[]
             {
                 logLevelColumnSeries
             };
 
-
-            LogLevelXAxes = new Axis[]  // create a new array of X-axis configurations
+            LogLevelXAxes = new Axis[]
             {
-                new Axis  // create the X-axis
+                new Axis
                 {
-                    Labels = new[] { "INFO", "WARNING", "ERROR" },  // display the log level names below the bars
-                    LabelsPaint = new SolidColorPaint(SKColors.White),  // display the labels clearly on the dark background
-                    TextSize = 14  // set the font size of the log level labels
+                    Labels = new[] { "INFO", "WARNING", "ERROR" },
+                    LabelsPaint = new SolidColorPaint(SKColors.White),
+                    TextSize = 14
                 }
             };
 
-
-            LogLevelYAxes = new Axis[]  // create a new array of Y-axis configurations
+            LogLevelYAxes = new Axis[]
             {
-                new Axis  // create the Y-axis
+                new Axis
                 {
-                    Name = "Count",  // display the Y-axis title
-                    NameTextSize = 14,  // font size of the axis title
-                    MinLimit = 0,  // start the Y-axis at 0 instead of auto-calculating the minimum
-                    LabelsPaint = new SolidColorPaint(SKColors.White),  // display numeric labels clearly on the dark background
-                    NamePaint = new SolidColorPaint(SKColors.White)  // display the axis title clearly on the dark background
+                    Name = "Count",
+                    NameTextSize = 14,
+                    MinLimit = 0,
+                    LabelsPaint = new SolidColorPaint(SKColors.White),
+                    NamePaint = new SolidColorPaint(SKColors.White)
                 }
-
             };
-
-            
         }
     }
-    
 }

@@ -1,19 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿// -----------------------------------------------------------------------------
+// AboutWindow
+// -----------------------------------------------------------------------------
+
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace LogViewer
 {
     /// <summary>
-    /// Interaction logic for AboutWindow.xaml
+    /// Displays application information in the About dialog.
     /// </summary>
     public partial class AboutWindow : Window
     {
@@ -22,10 +16,9 @@ namespace LogViewer
             InitializeComponent();
         }
 
-
-        private void OkButton_Click(object sender, RoutedEventArgs e)  // closes the About dialog when the user confirms the information
+        private void OkButton_Click(object sender, RoutedEventArgs e)
         {
-            Close();  // close only the About window
+            Close();
         }
     }
 }

@@ -1,13 +1,16 @@
-﻿using LogViewer.Models;
+﻿// -----------------------------------------------------------------------------
+// LogParserServiceTests
+// -----------------------------------------------------------------------------
+
+using LogViewer.Models;
 using LogViewer.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace LogViewer.Tests
 {
     /// <summary>
-    /// Tests for log parsing functionality.
+    /// Contains unit tests for the LogParserService class.
     /// </summary>
-
     [TestClass]
     public class LogParserServiceTests
     {
@@ -34,7 +37,6 @@ namespace LogViewer.Tests
             Assert.AreEqual("WARNING", result[2].Level);
         }
 
-
         [TestMethod]
         public void ParseLines_ShouldReturnEmptyList_WhenInputIsEmpty()
         {
@@ -49,7 +51,6 @@ namespace LogViewer.Tests
             // Assert: verify that no log entries are returned
             Assert.AreEqual(0, result.Count);
         }
-
 
         [TestMethod]
         public void ParseLines_ShouldSkipInvalidLogLines()
@@ -69,9 +70,8 @@ namespace LogViewer.Tests
             Assert.AreEqual(0, result.Count);
         }
 
-
         [TestMethod]
-        public void ParseLines_ShouldSkipInvalidLines_AndParseValidOnes()
+        public void ParseLines_ShouldSkipInvalidLinesAndParseValidOnes()
         {
             // Arrange: create the log parser service and prepare valid and invalid log lines
             LogParserService parser = new LogParserService();
@@ -91,7 +91,6 @@ namespace LogViewer.Tests
             Assert.AreEqual("INFO", result[0].Level);
             Assert.AreEqual("ERROR", result[1].Level);
         }
-
 
         [TestMethod]
         public void ParseLines_ShouldParseBracketedLogLevels()
@@ -114,7 +113,6 @@ namespace LogViewer.Tests
             Assert.AreEqual("ERROR", result[1].Level);
         }
 
-
         [TestMethod]
         public void ParseLines_ShouldSkipLogLinesWithInvalidTimestamp()
         {
@@ -135,7 +133,6 @@ namespace LogViewer.Tests
             Assert.AreEqual("ERROR", result[0].Level);
         }
 
-
         [TestMethod]
         public void ParseLines_ShouldParseTimestampAndMessageCorrectly()
         {
@@ -153,7 +150,9 @@ namespace LogViewer.Tests
             // Assert: verify that the timestamp and message are parsed correctly
             Assert.AreEqual(1, result.Count);
             Assert.AreEqual(new DateTime(2026, 7, 23, 12, 34, 56), result[0].Timestamp);
-            Assert.AreEqual("Failed to connect to server: timeout after 30 seconds", result[0].Message);
+            Assert.AreEqual(
+                "Failed to connect to server: timeout after 30 seconds",
+                result[0].Message);
         }
     }
 }

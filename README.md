@@ -17,17 +17,17 @@ A Windows desktop application for opening, filtering, analyzing, and reviewing l
 - Display an error trend chart with Hour, Day, Week, and Month grouping
 - Load large log files asynchronously with a loading indicator
 - Highlight ERROR and WARNING entries
+- Export filtered log entries to CSV
 - Recent Files menu with persistent history
-- About window
 - Status bar showing the currently opened file
+- About window
 
 #### Architecture
 
 - WPF (UI)
 - C#
 - .NET 10
-- Service-based architecture
-- MVVM migration planned for Version 2
+- Service-oriented architecture
 
 #### Tech Stack
 
@@ -45,14 +45,20 @@ LogViewer/
 ├── Models/
 ├── Services/
 │   ├── LogParserService.cs
-│   └── LogFilterService.cs
-├── ViewModels/ (planned)
+│   ├── LogFilterService.cs
+│   ├── LogStatisticsService.cs
+│   ├── LogChartService.cs
+│   └── LogExportService.cs
 ├── Views/
+├── Themes/
 ├── MainWindow.xaml
 ├── StatisticsWindow.xaml
 ├── AboutWindow.xaml
 ├── App.xaml
-└── sample.log
+├── sample.log
+├── sample_brackets.log
+├── README.md
+└── LogViewer.csproj
 ```
 
 #### Roadmap
@@ -78,10 +84,27 @@ LogViewer/
 - [x] Add About window
 - [x] Export filtered results to CSV
 - [x] Add error trend chart with time grouping
-- [ ] Final UI polish
+- [x] Final UI polish
 - [ ] Create installer
 - [ ] Publish Version 1.0 on GitHub
 
 #### Status
 
-🚧 **Version 1 in active development (~90% complete)**
+🚀 **Feature complete**
+
+Current focus:
+
+- Create installer
+- Publish Version 1.0 on GitHub
+
+#### Screenshots
+
+*Screenshots will be added below.*
+
+<!-- Main Window -->
+
+<!-- Statistics Window -->
+
+<!-- Error Trend Chart -->
+
+<!-- About Window -->

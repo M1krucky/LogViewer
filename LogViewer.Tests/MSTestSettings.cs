@@ -1,1 +1,5 @@
-﻿[assembly: Parallelize(Scope = ExecutionScope.MethodLevel)]
+﻿// -----------------------------------------------------------------------------
+// MSTestSettings
+// -----------------------------------------------------------------------------
+
+[assembly: Parallelize(Scope = ExecutionScope.MethodLevel)]

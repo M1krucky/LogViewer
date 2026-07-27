@@ -1,116 +1,108 @@
-﻿using LogViewer.Models;  // imports the LogEntry model
+﻿// -----------------------------------------------------------------------------
+// MainWindow
+// -----------------------------------------------------------------------------
+
+using LogViewer.Models;
 using LogViewer.Services;
-using Microsoft.Win32;  // provides the OpenFileDialog class for selecting files
+using Microsoft.Win32;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
-namespace LogViewer // groups related classes together, like a folder for code (created by VS)
+namespace LogViewer
 {
     /// <summary>
     /// Controls the application's main window and connects the UI to the application logic.
     /// </summary>
-    public partial class MainWindow : Window  // define the application's main window (split between XAML and C#)
+    public partial class MainWindow : Window
     {
-        
-        private List<LogEntry> allLogEntries = new List<LogEntry>();  // store all loaded log entries for search and filtering
+        // Loaded log data and current application state.
+        private List<LogEntry> allLogEntries = new List<LogEntry>();
+        private List<LogEntry> filteredLogEntries = new List<LogEntry>();
+        private bool isLoading = false;
+        private StatisticsWindow? statisticsWindow;
 
-        private List<LogEntry> filteredLogEntries = new List<LogEntry>();  // store the log entries after applying the current filters
+        // Recent files are persisted between application sessions.
+        private readonly List<string> recentFiles = new List<string>();
 
-        private bool isLoading = false;  // tracks whether a log file is currently being loaded
-
-        private StatisticsWindow? statisticsWindow;  // stores the currently opened Statistics window (or null until a window is created)
-
-        private readonly List<string> recentFiles = new List<string>();  // store the most recently opened log files for quick access from the File menu
-
-        
         private readonly string recentFilesPath = System.IO.Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
             "LogViewer",
-            "recent-files.txt");  // store the recent files list outside the application installation folder so it persists between application launches
+            "recent-files.txt");
 
-
-        public MainWindow()  // constructor (runs automatically when the window is created)
+        public MainWindow()
         {
-            InitializeComponent();  // load and initialize the UI from MainWindow.xaml
+            InitializeComponent();
 
-            Loaded += MainWindow_Loaded;  // load the default log file after the window is fully initialized ("When the Loaded event happens, call MainWindow_Loaded")
+            Loaded += MainWindow_Loaded;
 
-            LoadRecentFiles();  // restore the recent files list when the application starts
+            LoadRecentFiles();
         }
 
-
-        private async void MainWindow_Loaded(object sender, RoutedEventArgs e)  // loads the default log file after the window is ready
+        private async void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            await LoadLogFileAsync("sample.log");  // load the default log file without blocking the UI during startup
+            await LoadLogFileAsync("sample.log");
         }
 
-
-        private async void OpenFileButton_Click(object sender, RoutedEventArgs e)  // handles the Click event raised by the OpenFileButton without blocking the UI while a log file is loading
+        private async void OpenFileButton_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog dialog = new OpenFileDialog();  // create a Windows file selection dialog
-            dialog.Filter = "Log files (*.log)|*.log|All files (*.*)|*.*";  // display .log files by default, with an option to show all files
-            dialog.Title = "Select a log file";  // set the dialog window title
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Filter = "Log files (*.log)|*.log|All files (*.*)|*.*";
+            dialog.Title = "Select a log file";
 
-            if (dialog.ShowDialog() == true)  // continue only if the user clicks Open
+            if (dialog.ShowDialog() == true)
             {
-                await LoadLogFileAsync(dialog.FileName);  // / load the selected log file without blocking the UI
+                await LoadLogFileAsync(dialog.FileName);
             }
         }
 
-
-        private void ExitMenuItem_Click(object sender, RoutedEventArgs e)  // handles the Click event raised by the Exit menu item
+        private void ExitMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            Close();  // close the main application window and exit the application (Window provides a built-in Close() method)
+            Close();
         }
 
-
-        private void AboutMenuItem_Click(object sender, RoutedEventArgs e)  // handles the Click event raised by the About menu item
+        private void AboutMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            AboutWindow aboutWindow = new AboutWindow();  // create a new About window
+            AboutWindow aboutWindow = new AboutWindow();
 
-            aboutWindow.Owner = this;  // set MainWindow as the owner so the About dialog stays centered relative to the application
+            aboutWindow.Owner = this;
 
-            aboutWindow.ShowDialog();  // display the About window as a modal dialog and wait until it is closed
+            aboutWindow.ShowDialog();
         }
 
-
-        private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)  // handles the TextChanged event raised by SearchTextBox
+        private void SearchTextBox_TextChanged(
+            object sender,
+            TextChangedEventArgs e)
         {
             ApplyFilters();
         }
 
-
-        private void SearchModeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)  // handles changes between OR and AND search modes
+        private void SearchModeComboBox_SelectionChanged(
+            object sender,
+            SelectionChangedEventArgs e)
         {
-            ApplyFilters();  // immediately refresh the displayed logs using the selected search mode
+            ApplyFilters();
         }
 
-
-        private void LevelFilterComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)  // handles the SelectionChanged event raised by the LevelFilterComboBox
+        private void LevelFilterComboBox_SelectionChanged(
+            object sender,
+            SelectionChangedEventArgs e)
         {
-            ApplyFilters();  
+            ApplyFilters();
         }
 
-
-        private void DatePicker_SelectedDateChanged(object? sender, SelectionChangedEventArgs e)  // handles date changes in FromDatePicker and ToDatePicker
+        private void DatePicker_SelectedDateChanged(
+            object? sender,
+            SelectionChangedEventArgs e)
         {
-            ApplyFilters();  // apply all active filters whenever the selected date range changes
+            ApplyFilters();
         }
 
-               
-        private void LogGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)  // handles the SelectionChanged event raised by the LogGrid
+        private void LogGrid_SelectionChanged(
+            object sender,
+            SelectionChangedEventArgs e)
         {
-            LogEntry? selectedLogEntry = LogGrid.SelectedItem as LogEntry;  // get the currently selected log entry (null if no row is selected)
+            LogEntry? selectedLogEntry = LogGrid.SelectedItem as LogEntry;
 
             if (selectedLogEntry == null)
             {
@@ -120,98 +112,115 @@ namespace LogViewer // groups related classes together, like a folder for code (
                 return;
             }
 
-            SelectedTimestampTextBlock.Text = $"Timestamp: {selectedLogEntry.Timestamp}";
-            SelectedLevelTextBlock.Text = $"Level: {selectedLogEntry.Level}";
-            SelectedMessageTextBlock.Text = $"Message: {selectedLogEntry.Message}";
+            SelectedTimestampTextBlock.Text =
+                $"Timestamp: {selectedLogEntry.Timestamp}";
+
+            SelectedLevelTextBlock.Text =
+                $"Level: {selectedLogEntry.Level}";
+
+            SelectedMessageTextBlock.Text =
+                $"Message: {selectedLogEntry.Message}";
         }
 
-
-        private void ApplyFilters()  // applies all active filters
+        private void ApplyFilters()
         {
-            if (LogGrid == null)  // exit the method if the DataGrid has not been created yet during window initialization (t's a guard against code running too early)
-            {
-                return;  // prevent a NullReferenceException while the UI is still being initialized
-            }
-
-            string searchText = SearchTextBox.Text;  // get the current text entered in the SearchTextBox
-
-            string[] searchTerms = searchText.Split(' ',StringSplitOptions.RemoveEmptyEntries);  // divide the search text into separate non-empty words
-
-            string selectedLevel = ((ComboBoxItem)LevelFilterComboBox.SelectedItem).Content.ToString() ?? "All";  // get the selected log level from the ComboBox (use "All" as a safe default if the result is null)
-
-            string searchMode = ((ComboBoxItem)SearchModeComboBox.SelectedItem).Content.ToString() ?? "OR";  // get the selected search mode (use "OR" as a safe default if the result is null)
-
-            DateTime? fromDate = FromDatePicker.SelectedDate;  // get the selected start date (null means no lower date limit)
-
-            DateTime? toDate = ToDatePicker.SelectedDate;  // get the selected end date (null means no upper date limit)
-
-            filteredLogEntries = LogFilterService.Filter(allLogEntries, searchTerms, searchMode, selectedLevel, fromDate, toDate);  // apply all current filters through the filtering service
-
-            LogGrid.ItemsSource = filteredLogEntries; // display the filteredLogEntries list in the table with logs on the MainWindow
-
-            if (statisticsWindow != null)  // refresh the Statistics window only if the StatisticsWindow object exists
-            {
-                statisticsWindow.RefreshStatistics(filteredLogEntries);  // update the statistics and chart using the latest filtered log entries
-            }
-        }
-
-
-        private async Task LoadLogFileAsync(string filePath)  // load the specified log file without blocking the UI (async load)
-        {
-
-            if (isLoading)  // prevent starting another file load while the current load is still running
+            // Prevent filter processing before the DataGrid is initialized.
+            if (LogGrid == null)
             {
                 return;
             }
 
-            isLoading = true;  // mark the application as busy while the log file is loading
+            string searchText = SearchTextBox.Text;
 
-            LoadingPanel.Visibility = Visibility.Visible;  // display the loading indicator while the log file is loading
+            string[] searchTerms = searchText.Split(
+                ' ',
+                StringSplitOptions.RemoveEmptyEntries);
 
-            OpenFileButton.IsEnabled = false;  // prevent the user from starting another file load while the current file is loading
+            string selectedLevel =
+                ((ComboBoxItem)LevelFilterComboBox.SelectedItem)
+                .Content
+                .ToString() ?? "All";
 
-            StatisticsButton.IsEnabled = false;  // prevent opening statistics while log data is still loading
+            string searchMode =
+                ((ComboBoxItem)SearchModeComboBox.SelectedItem)
+                .Content
+                .ToString() ?? "OR";
 
-            try
+            DateTime? fromDate = FromDatePicker.SelectedDate;
+            DateTime? toDate = ToDatePicker.SelectedDate;
+
+            filteredLogEntries = LogFilterService.Filter(
+                allLogEntries,
+                searchTerms,
+                searchMode,
+                selectedLevel,
+                fromDate,
+                toDate);
+
+            LogGrid.ItemsSource = filteredLogEntries;
+
+            // Keep the open Statistics window synchronized with active filters.
+            if (statisticsWindow != null)
             {
-                LogParserService parser = new LogParserService();  // create a new LogParserService object
-
-                allLogEntries = await Task.Run(() => parser.Parse(filePath));  // parse the log file on a background thread so the UI stays responsive
-
-                ApplyFilters();  // apply the currently selected search, level, and date filters to the newly loaded file
-
-                CurrentFileTextBlock.Text = $"Opened file:  {filePath}";  // display the currently opened log file in the application status bar
-
-                AddRecentFile(filePath);  // update the recent files list after the log file is successfully loaded
-            }
-
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Failed to load log file.\n\n{ex.Message}",  // display a user-friendly error message followed by the exception details
-                    "Error",  // set the message box window title
-                    MessageBoxButton.OK,  // display an OK button
-                    MessageBoxImage.Error  // display the standard Windows error icon
-                 );
-            }
-
-            finally
-            {
-                isLoading = false;  // mark the application as ready after loading finishes or fails
-
-                LoadingPanel.Visibility = Visibility.Collapsed;  // hide the loading indicator after loading finishes
-
-                OpenFileButton.IsEnabled = true;  // allow the user to open another log file after loading finishes
-
-                StatisticsButton.IsEnabled = true;  // allow viewing statistics after loading finishes
+                statisticsWindow.RefreshStatistics(filteredLogEntries);
             }
         }
 
-
-        private async void RecentFileMenuItem_Click(object sender, RoutedEventArgs e)  // handles opening a file selected from the Recent Files menu
+        private async Task LoadLogFileAsync(string filePath)
         {
-            if (sender is MenuItem menuItem && menuItem.Tag is string filePath)
+            // Prevent concurrent file-loading operations.
+            if (isLoading)
             {
-                if (!File.Exists(filePath))  // stop if the recent file no longer exists at the saved location
+                return;
+            }
+
+            isLoading = true;
+
+            LoadingPanel.Visibility = Visibility.Visible;
+            OpenFileButton.IsEnabled = false;
+            StatisticsButton.IsEnabled = false;
+
+            try
+            {
+                LogParserService parser = new LogParserService();
+
+                // Parse the file on a background thread to keep the UI responsive.
+                allLogEntries = await Task.Run(
+                    () => parser.Parse(filePath));
+
+                ApplyFilters();
+
+                CurrentFileTextBlock.Text =
+                    $"Opened file:  {filePath}";
+
+                AddRecentFile(filePath);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    $"Failed to load log file.\n\n{ex.Message}",
+                    "Error",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+            }
+            finally
+            {
+                isLoading = false;
+
+                LoadingPanel.Visibility = Visibility.Collapsed;
+                OpenFileButton.IsEnabled = true;
+                StatisticsButton.IsEnabled = true;
+            }
+        }
+
+        private async void RecentFileMenuItem_Click(
+            object sender,
+            RoutedEventArgs e)
+        {
+            if (sender is MenuItem menuItem &&
+                menuItem.Tag is string filePath)
+            {
+                if (!File.Exists(filePath))
                 {
                     MessageBox.Show(
                         "The selected recent file could not be found.",
@@ -222,106 +231,120 @@ namespace LogViewer // groups related classes together, like a folder for code (
                     return;
                 }
 
-                await LoadLogFileAsync(filePath);  // load the selected recent file without blocking the UI
+                await LoadLogFileAsync(filePath);
             }
         }
 
-
-        private void AddRecentFile(string filePath)  // add the successfully opened file to the recent files list
+        private void AddRecentFile(string filePath)
         {
-            recentFiles.Remove(filePath);  // prevent duplicate entries by removing the file if it already exists
+            // Move an existing entry to the top instead of creating a duplicate.
+            recentFiles.Remove(filePath);
+            recentFiles.Insert(0, filePath);
 
-            recentFiles.Insert(0, filePath);  // add the file to the top of the recent files list
-
-            if (recentFiles.Count > 5)  // keep only the five most recent files
+            if (recentFiles.Count > 5)
             {
-                recentFiles.RemoveAt(5);  // remove the oldest file from the list
+                recentFiles.RemoveAt(5);
             }
 
-        RefreshRecentFilesMenu();  // update the Recent Files menu after the recent files list changes
-
-        SaveRecentFiles();  // save the updated recent files list
+            RefreshRecentFilesMenu();
+            SaveRecentFiles();
         }
 
-
-        private void RefreshRecentFilesMenu()  // rebuild the Recent Files submenu using the latest file list
+        private void RefreshRecentFilesMenu()
         {
-            RecentFilesMenuItem.Items.Clear();  // remove previously displayed recent files
+            RecentFilesMenuItem.Items.Clear();
 
-            foreach (string item in recentFiles)  // create one menu item for each recent file
+            foreach (string item in recentFiles)
             {
-                MenuItem recentFileMenuItem = new MenuItem();  // create a new menu item
+                MenuItem recentFileMenuItem = new MenuItem();
 
-                recentFileMenuItem.Header = System.IO.Path.GetFileName(item);  // display only the file name
-                recentFileMenuItem.Tag = item;  // store the full file path
-                recentFileMenuItem.Click += RecentFileMenuItem_Click;  // handle clicks on this menu item
+                recentFileMenuItem.Header =
+                    System.IO.Path.GetFileName(item);
 
-                RecentFilesMenuItem.Items.Add(recentFileMenuItem);  // add the menu item to the Recent Files submenu (attaches the object to the UI)
+                recentFileMenuItem.Tag = item;
+                recentFileMenuItem.Click += RecentFileMenuItem_Click;
+
+                RecentFilesMenuItem.Items.Add(recentFileMenuItem);
             }
         }
 
-
-        private void SaveRecentFiles()  // save the current recent files list to a text file
+        private void SaveRecentFiles()
         {
-            string directory = System.IO.Path.GetDirectoryName(recentFilesPath)!;  // get the folder that will contain the recent files file
-                                                                                   
-            Directory.CreateDirectory(directory);  // create the folder if it does not already exist
+            string directory =
+                System.IO.Path.GetDirectoryName(recentFilesPath)!;
 
-            File.WriteAllLines(recentFilesPath, recentFiles);  // save the current recent files list as one file path per line
+            Directory.CreateDirectory(directory);
+
+            File.WriteAllLines(recentFilesPath, recentFiles);
         }
 
-
-        private void LoadRecentFiles()  // restore the saved recent files list when the application starts
+        private void LoadRecentFiles()
         {
-            if (!File.Exists(recentFilesPath))  // stop if the recent files settings file has not been created yet
+            if (!File.Exists(recentFilesPath))
             {
                 return;
             }
 
-            recentFiles.Clear();  // remove any current entries before restoring the saved list
+            recentFiles.Clear();
 
-            recentFiles.AddRange(File.ReadAllLines(recentFilesPath));  // read each saved file path and add it to the recent files list
+            recentFiles.AddRange(
+                File.ReadAllLines(recentFilesPath));
 
-            RefreshRecentFilesMenu();  // display the restored recent files in the File menu
+            RefreshRecentFilesMenu();
         }
 
-
-        private void StatisticsButton_Click(object sender, RoutedEventArgs e)  // handles the Click event raised by the StatisticsButton
+        private void StatisticsButton_Click(
+            object sender,
+            RoutedEventArgs e)
         {
-            if (statisticsWindow == null)  // create a new Statistics window only if no Statistics window is currently open; otherwise, reuse the existing one
+            // Keep only one Statistics window open at a time.
+            if (statisticsWindow == null)
             {
-                statisticsWindow = new StatisticsWindow(filteredLogEntries);  // create a new StatisticsWindow object
-                statisticsWindow.Closed += StatisticsWindow_Closed; // call StatisticsWindow_Closed when the Statistics window is closed
-                statisticsWindow.Show();  // display the Statistics window
+                statisticsWindow =
+                    new StatisticsWindow(filteredLogEntries);
+
+                statisticsWindow.Closed += StatisticsWindow_Closed;
+                statisticsWindow.Show();
             }
             else
             {
-                statisticsWindow.Activate();  // each time the Statistics button is clicked, bring the existing Statistics window to the front and make it the active window to prevent it from remaining hidden behind another window
+                statisticsWindow.Activate();
             }
         }
 
-
-        private void StatisticsWindow_Closed(object? sender, EventArgs e)  // handles the Closed event raised by the Statistics window
+        private void StatisticsWindow_Closed(
+            object? sender,
+            EventArgs e)
         {
-            statisticsWindow = null;  // clear the reference so MainWindow knows the Statistics window is no longer open and can create a new one when the Statistics button is clicked again, fixing the issue where the Statistics window could not be reopened after being closed
+            statisticsWindow = null;
         }
 
-
-        private void ExportButton_Click(object sender, RoutedEventArgs e)  // handles the Click event raised by the Export CSV button
+        private void ExportButton_Click(
+            object sender,
+            RoutedEventArgs e)
         {
             SaveFileDialog dialog = new SaveFileDialog();
 
-            dialog.Filter = "CSV files (*.csv)|*.csv|All files (*.*)|*.*";
+            dialog.Filter =
+                "CSV files (*.csv)|*.csv|All files (*.*)|*.*";
 
-            dialog.Title = "Export filtered log entries";
+            dialog.Title =
+                "Export filtered log entries";
 
-            dialog.FileName = "log-export.csv";
+            dialog.FileName =
+                "log-export.csv";
 
             if (dialog.ShowDialog() == true)
             {
-                LogExportService.ExportToCsv(filteredLogEntries, dialog.FileName);  // export the currently filtered log entries to the selected CSV file
+                LogExportService.ExportToCsv(
+                    filteredLogEntries,
+                    dialog.FileName);
 
-                MessageBox.Show("Log entries exported successfully.", "Export Complete", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show(
+                    "Log entries exported successfully.",
+                    "Export Complete",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Information);
             }
         }
     }

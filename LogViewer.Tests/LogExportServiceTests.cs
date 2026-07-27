@@ -1,4 +1,8 @@
-﻿using LogViewer.Models;
+﻿// -----------------------------------------------------------------------------
+// LogExportServiceTests
+// -----------------------------------------------------------------------------
+
+using LogViewer.Models;
 using LogViewer.Services;
 
 namespace LogViewer.Tests
@@ -6,14 +10,13 @@ namespace LogViewer.Tests
     /// <summary>
     /// Contains unit tests for the LogExportService class.
     /// </summary>
-
     [TestClass]
     public class LogExportServiceTests
     {
         [TestMethod]
         public void ExportToCsv_ShouldCreateCsvFile()
         {
-            // Arrange: create a log entry and a temporary file path
+            // Arrange: create a log entry and a path to a file that does not exist
             List<LogEntry> entries = new List<LogEntry>
             {
                 new LogEntry
@@ -24,17 +27,20 @@ namespace LogViewer.Tests
                 }
             };
 
-            string filePath = Path.GetTempFileName();
+            string filePath = Path.Combine(
+                Path.GetTempPath(),
+                $"{Guid.NewGuid()}.csv");
+
+            Assert.IsFalse(File.Exists(filePath));
 
             try
             {
-                // Act: export the log entry to a CSV file 
+                // Act: export the log entry to a CSV file
                 LogExportService.ExportToCsv(entries, filePath);
 
-                // Assert: verify that the file exists
+                // Assert: verify that the CSV file was created
                 Assert.IsTrue(File.Exists(filePath));
             }
-
             finally
             {
                 if (File.Exists(filePath))
@@ -43,16 +49,13 @@ namespace LogViewer.Tests
                     File.Delete(filePath);
                 }
             }
-
         }
-
 
         [TestMethod]
         public void ExportToCsv_ShouldWriteCsvHeader()
         {
             // Arrange: create an empty list of log entries and a temporary file path
             List<LogEntry> entries = new List<LogEntry>();
-
             string filePath = Path.GetTempFileName();
 
             try
@@ -65,7 +68,6 @@ namespace LogViewer.Tests
 
                 Assert.AreEqual("Timestamp;Level;Message", lines[0]);
             }
-
             finally
             {
                 if (File.Exists(filePath))
@@ -75,7 +77,6 @@ namespace LogViewer.Tests
                 }
             }
         }
-
 
         [TestMethod]
         public void ExportToCsv_ShouldWriteLogEntry()
@@ -116,9 +117,7 @@ namespace LogViewer.Tests
                     File.Delete(filePath);
                 }
             }
-
         }
-
 
         [TestMethod]
         public void ExportToCsv_ShouldWriteMultipleLogEntries()
@@ -164,20 +163,19 @@ namespace LogViewer.Tests
             }
         }
 
-
         [TestMethod]
         public void ExportToCsv_ShouldEscapeQuotesInMessage()
         {
             // Arrange: create a log entry containing quotation marks
             List<LogEntry> entries = new List<LogEntry>
-        {
-            new LogEntry
             {
-                Timestamp = new DateTime(2026, 7, 26, 10, 00, 00),
-                Level = "INFO",
-                Message = "User clicked \"Login\" button"
-            }
-        };
+                new LogEntry
+                {
+                    Timestamp = new DateTime(2026, 7, 26, 10, 00, 00),
+                    Level = "INFO",
+                    Message = "User clicked \"Login\" button"
+                }
+            };
 
             string filePath = Path.GetTempFileName();
 
@@ -200,7 +198,6 @@ namespace LogViewer.Tests
                 }
             }
         }
-
 
         [TestMethod]
         public void ExportToCsv_ShouldHandleEmptyMessage()
@@ -238,13 +235,11 @@ namespace LogViewer.Tests
             }
         }
 
-
         [TestMethod]
         public void ExportToCsv_ShouldHandleEmptyLogList()
         {
             // Arrange: create an empty list of log entries
             List<LogEntry> entries = new List<LogEntry>();
-
             string filePath = Path.GetTempFileName();
 
             try
@@ -261,7 +256,8 @@ namespace LogViewer.Tests
             finally
             {
                 if (File.Exists(filePath))
-                {   // Cleanup: remove the temporary file
+                {
+                    // Cleanup: remove the temporary file
                     File.Delete(filePath);
                 }
             }

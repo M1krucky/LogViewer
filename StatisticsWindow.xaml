@@ -4,7 +4,6 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
-        xmlns:local="clr-namespace:LogViewer"
         mc:Ignorable="d"
         Background="#1E1E1E"
         Foreground="White"
@@ -12,41 +11,55 @@
         Height="700"
         Width="900">
 
-    <!-- contain all statistics window content with consistent outer spacing -->
+    <!-- ========================================================= -->
+    <!-- Statistics Window Layout -->
+    <!-- ========================================================= -->
+
+    <!-- Provides consistent spacing around all statistics content. -->
     <Grid Margin="20">
 
-        <!-- divide the window into summary, spacing, distribution chart, spacing, and error trend areas -->
+        <!--
+            Row 0: Summary statistics
+            Row 1: Vertical spacing
+            Row 2: Log-level distribution chart
+            Row 3: Vertical spacing
+            Row 4: Error-trend chart
+        -->
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="28"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="20"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="28" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="20" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <!-- display summary statistics for the current filtered log entries -->
+        <!-- ===================================================== -->
+        <!-- Summary Statistics -->
+        <!-- ===================================================== -->
+
+        <!-- Displays summary values for the currently visible log entries. -->
         <Grid Grid.Row="0">
 
-            <!-- divide the summary into statistic labels and corresponding values -->
+            <!-- Statistic labels and corresponding values -->
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <!-- create one row for each displayed statistic -->
+            <!-- One row for each displayed statistic -->
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <!-- display the total number of visible log entries -->
+            <!-- Total entries -->
             <TextBlock Grid.Row="0"
                        Grid.Column="0"
                        FontSize="15"
-                       Text="Total entries:"/>
+                       Text="Total entries:" />
 
             <TextBlock Name="TotalEntriesTextBlock"
                        Grid.Row="0"
@@ -54,15 +67,15 @@
                        Margin="10,0,0,0"
                        FontSize="15"
                        FontWeight="SemiBold"
-                       Text="0"/>
+                       Text="0" />
 
-            <!-- display the number of INFO entries -->
+            <!-- INFO entries -->
             <TextBlock Grid.Row="1"
                        Grid.Column="0"
                        FontSize="15"
                        Foreground="SteelBlue"
                        FontWeight="SemiBold"
-                       Text="INFO:"/>
+                       Text="INFO:" />
 
             <TextBlock Name="InfoCountTextBlock"
                        Grid.Row="1"
@@ -70,15 +83,15 @@
                        Margin="10,0,0,0"
                        FontSize="15"
                        FontWeight="SemiBold"
-                       Text="0"/>
+                       Text="0" />
 
-            <!-- display the number of WARNING entries -->
+            <!-- WARNING entries -->
             <TextBlock Grid.Row="2"
                        Grid.Column="0"
                        FontSize="15"
                        Foreground="#B46E00"
                        FontWeight="SemiBold"
-                       Text="WARNING:"/>
+                       Text="WARNING:" />
 
             <TextBlock Name="WarningCountTextBlock"
                        Grid.Row="2"
@@ -86,15 +99,15 @@
                        Margin="10,0,0,0"
                        FontSize="15"
                        FontWeight="SemiBold"
-                       Text="0"/>
+                       Text="0" />
 
-            <!-- display the number of ERROR entries -->
+            <!-- ERROR entries -->
             <TextBlock Grid.Row="3"
                        Grid.Column="0"
                        FontSize="15"
                        Foreground="Red"
                        FontWeight="SemiBold"
-                       Text="ERROR:"/>
+                       Text="ERROR:" />
 
             <TextBlock Name="ErrorCountTextBlock"
                        Grid.Row="3"
@@ -102,13 +115,13 @@
                        Margin="10,0,0,0"
                        FontSize="15"
                        FontWeight="SemiBold"
-                       Text="0"/>
+                       Text="0" />
 
-            <!-- display the timestamp of the latest visible log entry -->
+            <!-- Latest visible log timestamp -->
             <TextBlock Grid.Row="4"
                        Grid.Column="0"
                        FontSize="15"
-                       Text="Latest log:"/>
+                       Text="Latest log:" />
 
             <TextBlock Name="LatestLogTextBlock"
                        Grid.Row="4"
@@ -116,67 +129,76 @@
                        Margin="10,0,0,0"
                        FontSize="15"
                        FontWeight="SemiBold"
-                       Text="-"/>
+                       Text="-" />
 
         </Grid>
 
-        <!-- display the log level distribution section below the summary statistics -->
+        <!-- ===================================================== -->
+        <!-- Log-Level Distribution -->
+        <!-- ===================================================== -->
+
         <StackPanel Grid.Row="2">
 
-            <!-- display the log level distribution chart title -->
+            <!-- Section title -->
             <TextBlock Text="Log Level Distribution"
                        FontSize="14"
                        FontWeight="Bold"
-                       Margin="0,0,0,6"/>
+                       Margin="0,0,0,6" />
 
-            <!-- display INFO, WARNING, and ERROR counts as a column chart -->
+            <!-- Displays INFO, WARNING, and ERROR counts as columns. -->
             <lvc:CartesianChart Height="225"
                                 Background="Transparent"
                                 Series="{Binding LogLevelSeries}"
                                 XAxes="{Binding LogLevelXAxes}"
-                                YAxes="{Binding LogLevelYAxes}"/>
+                                YAxes="{Binding LogLevelYAxes}" />
 
         </StackPanel>
 
-        <!-- display the error trend section in the remaining window space -->
+        <!-- ===================================================== -->
+        <!-- Error Trend -->
+        <!-- ===================================================== -->
+
+        <!-- Uses the remaining window space for the trend chart. -->
         <Grid Grid.Row="4">
 
-            <!-- divide the error trend section into a header and expandable chart area -->
+            <!-- Header and expandable chart area -->
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <!-- display the chart title and time-grouping selector on one row -->
+            <!-- =============================================== -->
+            <!-- Error Trend Header -->
+            <!-- =============================================== -->
+
+            <!-- Displays the chart title and grouping selector. -->
             <DockPanel Grid.Row="0"
                        Margin="0,0,0,-5">
 
-                <!-- display the error trend chart title -->
                 <TextBlock Text="Error Trend"
                            FontSize="14"
                            FontWeight="Bold"
-                           VerticalAlignment="Center"/>
+                           VerticalAlignment="Center" />
 
-                <!-- position the time-grouping controls on the right side -->
+                <!-- Time-grouping controls -->
                 <StackPanel DockPanel.Dock="Right"
                             Orientation="Horizontal">
 
-                    <!-- identify the purpose of the grouping selector -->
                     <TextBlock Text="Group by:"
                                Margin="20,0,5,0"
-                               VerticalAlignment="Center"/>
+                               VerticalAlignment="Center" />
 
-                    <!-- allow the user to group ERROR entries by a selected time period -->
+                    <!-- Groups ERROR entries by the selected time period. -->
                     <ComboBox Name="ErrorTrendGroupingComboBox"
                               Width="90"
                               SelectedIndex="1"
                               VerticalContentAlignment="Center"
                               SelectionChanged="ErrorTrendGroupingComboBox_SelectionChanged">
 
-                        <ComboBoxItem Content="Hour"/>
-                        <ComboBoxItem Content="Day"/>
-                        <ComboBoxItem Content="Week"/>
-                        <ComboBoxItem Content="Month"/>
+                        <ComboBoxItem Content="Hour" />
+                        <ComboBoxItem Content="Day" />
+                        <ComboBoxItem Content="Week" />
+                        <ComboBoxItem Content="Month" />
 
                     </ComboBox>
 
@@ -184,12 +206,16 @@
 
             </DockPanel>
 
-            <!-- display the number of ERROR entries over time as a line chart -->
+            <!-- =============================================== -->
+            <!-- Error Trend Chart -->
+            <!-- =============================================== -->
+
+            <!-- Displays the number of ERROR entries over time. -->
             <lvc:CartesianChart Grid.Row="1"
                                 Background="Transparent"
                                 Series="{Binding ErrorTrendSeries}"
                                 XAxes="{Binding ErrorTrendXAxes}"
-                                YAxes="{Binding ErrorTrendYAxes}"/>
+                                YAxes="{Binding ErrorTrendYAxes}" />
 
         </Grid>
 

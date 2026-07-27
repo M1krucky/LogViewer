@@ -1,4 +1,8 @@
-﻿using LogViewer.Models;
+﻿// -----------------------------------------------------------------------------
+// LogParserService
+// -----------------------------------------------------------------------------
+
+using LogViewer.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,48 +12,49 @@ namespace LogViewer.Services
     /// <summary>
     /// Reads log data and converts it into LogEntry objects.
     /// </summary>
-
     public class LogParserService
     {
-        public List<LogEntry> Parse(string filePath)  // read the selected file and parse all log entries
+        public List<LogEntry> Parse(string filePath)
         {
-            string[] lines = File.ReadAllLines(filePath);  // reads all lines from the selected log file
+            string[] lines = File.ReadAllLines(filePath);
 
-            return ParseLines(lines);  // parses the loaded lines
+            return ParseLines(lines);
         }
 
-        public List<LogEntry> ParseLines(string[] lines)  // parse log lines and return a list of log entries
+        public List<LogEntry> ParseLines(string[] lines)
         {
-            List<LogEntry> logEntries = new List<LogEntry>();  // creates an empty list of log entries
+            List<LogEntry> logEntries = new List<LogEntry>();
 
-            foreach (string line in lines)  // processes each line from the log file
+            foreach (string line in lines)
             {
-                string[] parts = line.Split(' ', 4);  // splits the line into date, time, level, and message
+                string[] parts = line.Split(' ', 4);
 
-                if (parts.Length < 4)  // skips invalid log lines with missing fields
+                // Ignore malformed lines that do not contain all required fields.
+                if (parts.Length < 4)
                 {
                     continue;
                 }
 
-                if (!DateTime.TryParse(parts[0] + " " + parts[1], out DateTime timestamp))  // validates the timestamp format
+                // Ignore lines with an invalid date or time value.
+                if (!DateTime.TryParse(parts[0] + " " + parts[1], out DateTime timestamp))
                 {
-                    continue;  // skips log lines with an invalid timestamp
+                    continue;
                 }
 
-                LogEntry entry = new LogEntry();  // creates a new log entry object
+                LogEntry entry = new LogEntry();
 
-                entry.Timestamp = timestamp;  // stores the parsed timestamp
+                entry.Timestamp = timestamp;
 
-                string level = parts[2].Trim('[', ']');  // normalize bracketed log levels so [ERROR] and ERROR are treated the same
+                // Treat bracketed and unbracketed log levels consistently.
+                string level = parts[2].Trim('[', ']');
 
-                entry.Level = level;  // stores the normalized log level
+                entry.Level = level;
+                entry.Message = parts[3];
 
-                entry.Message = parts[3];  // stores the log message
-
-                logEntries.Add(entry);  // adds the parsed log entry object to the list
+                logEntries.Add(entry);
             }
 
-            return logEntries;  // returns all parsed log entries
+            return logEntries;
         }
     }
 }

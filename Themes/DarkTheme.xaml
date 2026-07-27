@@ -3,104 +3,104 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <!-- ========================================================= -->
-    <!-- Application colors -->
+    <!-- Application Colors -->
     <!-- ========================================================= -->
 
     <SolidColorBrush x:Key="WindowBackgroundBrush"
-                     Color="#1E1E1E"/>
+                     Color="#1E1E1E" />
 
     <SolidColorBrush x:Key="PanelBackgroundBrush"
-                     Color="#252526"/>
+                     Color="#252526" />
 
     <SolidColorBrush x:Key="ControlBackgroundBrush"
-                     Color="#2D2D30"/>
+                     Color="#2D2D30" />
 
     <SolidColorBrush x:Key="ControlHoverBrush"
-                     Color="#3E3E42"/>
+                     Color="#3E3E42" />
 
     <SolidColorBrush x:Key="ControlPressedBrush"
-                     Color="#45454A"/>
+                     Color="#45454A" />
 
     <SolidColorBrush x:Key="BorderBrushDark"
-                     Color="#3F3F46"/>
+                     Color="#3F3F46" />
 
     <SolidColorBrush x:Key="PrimaryTextBrush"
-                     Color="#F3F3F3"/>
+                     Color="#F3F3F3" />
 
     <SolidColorBrush x:Key="SecondaryTextBrush"
-                     Color="#C8C8C8"/>
+                     Color="#C8C8C8" />
 
     <SolidColorBrush x:Key="AccentBrush"
-                     Color="#007ACC"/>
+                     Color="#007ACC" />
 
     <SolidColorBrush x:Key="SelectionBrush"
-                     Color="#094771"/>
+                     Color="#094771" />
 
     <SolidColorBrush x:Key="ErrorRowBrush"
-                     Color="#5A1D1D"/>
+                     Color="#5A1D1D" />
 
     <SolidColorBrush x:Key="WarningRowBrush"
-                     Color="#514100"/>
+                     Color="#514100" />
 
     <!-- ========================================================= -->
-    <!-- Window -->
+    <!-- Window Styles -->
     <!-- ========================================================= -->
 
     <Style x:Key="DarkWindowStyle"
            TargetType="Window">
 
         <Setter Property="Background"
-                Value="{StaticResource WindowBackgroundBrush}"/>
+                Value="{StaticResource WindowBackgroundBrush}" />
 
         <Setter Property="Foreground"
-                Value="{StaticResource PrimaryTextBrush}"/>
+                Value="{StaticResource PrimaryTextBrush}" />
 
         <Setter Property="FontFamily"
-                Value="Segoe UI"/>
+                Value="Segoe UI" />
 
         <Setter Property="FontSize"
-                Value="13"/>
+                Value="13" />
 
     </Style>
 
     <!-- ========================================================= -->
-    <!-- Border -->
+    <!-- Border Styles -->
     <!-- ========================================================= -->
 
     <Style TargetType="Border">
 
         <Setter Property="BorderBrush"
-                Value="{StaticResource BorderBrushDark}"/>
+                Value="{StaticResource BorderBrushDark}" />
 
     </Style>
 
     <!-- ========================================================= -->
-    <!-- Menu -->
+    <!-- Menu Styles -->
     <!-- ========================================================= -->
 
     <Style TargetType="Menu">
 
         <Setter Property="Background"
-                Value="{StaticResource PanelBackgroundBrush}"/>
+                Value="{StaticResource PanelBackgroundBrush}" />
 
         <Setter Property="Foreground"
-                Value="{StaticResource PrimaryTextBrush}"/>
+                Value="{StaticResource PrimaryTextBrush}" />
 
         <Setter Property="BorderThickness"
-                Value="0"/>
+                Value="0" />
 
     </Style>
 
     <Style TargetType="MenuItem">
 
         <Setter Property="Foreground"
-                Value="{StaticResource PrimaryTextBrush}"/>
+                Value="{StaticResource PrimaryTextBrush}" />
 
         <Setter Property="Background"
-                Value="{StaticResource PanelBackgroundBrush}"/>
+                Value="{StaticResource PanelBackgroundBrush}" />
 
         <Setter Property="Padding"
-                Value="8,4"/>
+                Value="8,4" />
 
         <Style.Triggers>
 
@@ -108,7 +108,7 @@
                      Value="True">
 
                 <Setter Property="Background"
-                        Value="{StaticResource ControlHoverBrush}"/>
+                        Value="{StaticResource ControlHoverBrush}" />
 
             </Trigger>
 
@@ -117,63 +117,63 @@
     </Style>
 
     <!-- ========================================================= -->
-    <!-- Status bar -->
+    <!-- Status Bar Styles -->
     <!-- ========================================================= -->
 
     <Style TargetType="StatusBar">
 
         <Setter Property="Background"
-                Value="{StaticResource PanelBackgroundBrush}"/>
+                Value="{StaticResource PanelBackgroundBrush}" />
 
         <Setter Property="Foreground"
-                Value="{StaticResource PrimaryTextBrush}"/>
+                Value="{StaticResource PrimaryTextBrush}" />
 
         <Setter Property="BorderThickness"
-                Value="0"/>
+                Value="0" />
 
     </Style>
 
     <Style TargetType="StatusBarItem">
 
         <Setter Property="Foreground"
-                Value="{StaticResource PrimaryTextBrush}"/>
+                Value="{StaticResource PrimaryTextBrush}" />
 
     </Style>
 
     <!-- ========================================================= -->
-    <!-- Title bar buttons -->
+    <!-- Title Bar Button Styles -->
     <!-- ========================================================= -->
 
-    <!-- style buttons displayed in the custom title bar -->
+    <!-- Provides the appearance for buttons displayed in the custom title bar. -->
     <Style x:Key="TitleBarButtonStyle"
            TargetType="Button">
 
         <Setter Property="Width"
-                Value="46"/>
+                Value="46" />
 
         <Setter Property="Height"
-                Value="36"/>
+                Value="36" />
 
         <Setter Property="Background"
-                Value="Transparent"/>
+                Value="Transparent" />
 
         <Setter Property="BorderBrush"
-                Value="Transparent"/>
+                Value="Transparent" />
 
         <Setter Property="BorderThickness"
-                Value="0"/>
+                Value="0" />
 
         <Setter Property="Foreground"
-                Value="White"/>
+                Value="White" />
 
         <Setter Property="FontSize"
-                Value="14"/>
+                Value="14" />
 
         <Setter Property="FontFamily"
-                Value="Segoe UI"/>
+                Value="Segoe UI" />
 
         <Setter Property="Padding"
-                Value="0"/>
+                Value="0" />
 
         <Style.Triggers>
 
@@ -181,7 +181,7 @@
                      Value="True">
 
                 <Setter Property="Background"
-                        Value="#3A3A3A"/>
+                        Value="#3A3A3A" />
 
             </Trigger>
 
@@ -189,7 +189,7 @@
                      Value="True">
 
                 <Setter Property="Background"
-                        Value="#505050"/>
+                        Value="#505050" />
 
             </Trigger>
 
@@ -198,28 +198,28 @@
     </Style>
 
     <!-- ========================================================= -->
-    <!-- Buttons -->
+    <!-- Button Styles -->
     <!-- ========================================================= -->
 
     <Style TargetType="Button">
 
         <Setter Property="Background"
-                Value="{StaticResource ControlBackgroundBrush}"/>
+                Value="{StaticResource ControlBackgroundBrush}" />
 
         <Setter Property="Foreground"
-                Value="{StaticResource PrimaryTextBrush}"/>
+                Value="{StaticResource PrimaryTextBrush}" />
 
         <Setter Property="BorderBrush"
-                Value="{StaticResource BorderBrushDark}"/>
+                Value="{StaticResource BorderBrushDark}" />
 
         <Setter Property="BorderThickness"
-                Value="1"/>
+                Value="1" />
 
         <Setter Property="Padding"
-                Value="10,5"/>
+                Value="10,5" />
 
         <Setter Property="Cursor"
-                Value="Hand"/>
+                Value="Hand" />
 
         <Setter Property="Template">
 
@@ -233,9 +233,8 @@
                             BorderThickness="{TemplateBinding BorderThickness}"
                             CornerRadius="4">
 
-                        <ContentPresenter
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"/>
+                        <ContentPresenter HorizontalAlignment="Center"
+                                          VerticalAlignment="Center" />
 
                     </Border>
 
@@ -246,7 +245,7 @@
 
                             <Setter TargetName="ButtonBorder"
                                     Property="Background"
-                                    Value="{StaticResource ControlHoverBrush}"/>
+                                    Value="{StaticResource ControlHoverBrush}" />
 
                         </Trigger>
 
@@ -255,7 +254,7 @@
 
                             <Setter TargetName="ButtonBorder"
                                     Property="Background"
-                                    Value="{StaticResource ControlPressedBrush}"/>
+                                    Value="{StaticResource ControlPressedBrush}" />
 
                         </Trigger>
 
@@ -263,7 +262,7 @@
                                  Value="False">
 
                             <Setter Property="Opacity"
-                                    Value="0.5"/>
+                                    Value="0.5" />
 
                         </Trigger>
 
@@ -278,55 +277,55 @@
     </Style>
 
     <!-- ========================================================= -->
-    <!-- TextBox -->
+    <!-- Text Input Styles -->
     <!-- ========================================================= -->
 
     <Style TargetType="TextBox">
 
         <Setter Property="Background"
-                Value="{StaticResource ControlBackgroundBrush}"/>
+                Value="{StaticResource ControlBackgroundBrush}" />
 
         <Setter Property="Foreground"
-                Value="{StaticResource PrimaryTextBrush}"/>
+                Value="{StaticResource PrimaryTextBrush}" />
 
         <Setter Property="CaretBrush"
-                Value="{StaticResource PrimaryTextBrush}"/>
+                Value="{StaticResource PrimaryTextBrush}" />
 
         <Setter Property="BorderBrush"
-                Value="{StaticResource BorderBrushDark}"/>
+                Value="{StaticResource BorderBrushDark}" />
 
         <Setter Property="BorderThickness"
-                Value="1"/>
+                Value="1" />
 
         <Setter Property="Padding"
-                Value="6,3"/>
+                Value="6,3" />
 
         <Setter Property="VerticalContentAlignment"
-                Value="Center"/>
+                Value="Center" />
 
     </Style>
 
     <!-- ========================================================= -->
-    <!-- ComboBox -->
+    <!-- ComboBox Styles -->
     <!-- ========================================================= -->
 
-    <!-- display ComboBoxes with a consistent dark selection area and dropdown -->
+    <!-- Provides a consistent dark appearance for ComboBox controls. -->
     <Style TargetType="ComboBox">
 
         <Setter Property="Height"
-                Value="32"/>
+                Value="32" />
 
         <Setter Property="Foreground"
-                Value="White"/>
+                Value="White" />
 
         <Setter Property="Background"
-                Value="#2B2B2B"/>
+                Value="#2B2B2B" />
 
         <Setter Property="BorderBrush"
-                Value="#454545"/>
+                Value="#454545" />
 
         <Setter Property="BorderThickness"
-                Value="1"/>
+                Value="1" />
 
         <Setter Property="Template">
 
@@ -359,27 +358,27 @@
                                         <Grid>
 
                                             <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="30"/>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="30" />
                                             </Grid.ColumnDefinitions>
 
-                                            <!-- display the currently selected item -->
+                                            <!-- Displays the currently selected item. -->
                                             <ContentPresenter Grid.Column="0"
                                                               Margin="8,0,4,0"
-                                                              VerticalAlignment="Center"
                                                               HorizontalAlignment="Left"
+                                                              VerticalAlignment="Center"
                                                               Content="{Binding SelectionBoxItem,
                                                                                 RelativeSource={RelativeSource AncestorType=ComboBox}}"
                                                               ContentTemplate="{Binding SelectionBoxItemTemplate,
-                                                                                        RelativeSource={RelativeSource AncestorType=ComboBox}}"/>
+                                                                                        RelativeSource={RelativeSource AncestorType=ComboBox}}" />
 
-                                            <!-- display the dropdown arrow -->
+                                            <!-- Displays the dropdown arrow. -->
                                             <TextBlock Grid.Column="1"
                                                        Text="V"
                                                        Foreground="White"
                                                        FontSize="11"
                                                        HorizontalAlignment="Center"
-                                                       VerticalAlignment="Center"/>
+                                                       VerticalAlignment="Center" />
 
                                         </Grid>
 
@@ -392,7 +391,7 @@
 
                                             <Setter TargetName="ToggleBorder"
                                                     Property="Background"
-                                                    Value="#353535"/>
+                                                    Value="#353535" />
 
                                         </Trigger>
 
@@ -404,7 +403,7 @@
 
                         </ToggleButton>
 
-                        <!-- display the available filter values -->
+                        <!-- Displays the available ComboBox items. -->
                         <Popup x:Name="Popup"
                                Placement="Bottom"
                                IsOpen="{TemplateBinding IsDropDownOpen}"
@@ -419,7 +418,7 @@
                                                        RelativeSource={RelativeSource AncestorType=ComboBox}}">
 
                                 <ScrollViewer>
-                                    <ItemsPresenter/>
+                                    <ItemsPresenter />
                                 </ScrollViewer>
 
                             </Border>
@@ -434,7 +433,7 @@
                                  Value="False">
 
                             <Setter Property="Opacity"
-                                    Value="0.5"/>
+                                    Value="0.5" />
 
                         </Trigger>
 
@@ -451,13 +450,13 @@
     <Style TargetType="ComboBoxItem">
 
         <Setter Property="Background"
-                Value="{StaticResource ControlBackgroundBrush}"/>
+                Value="{StaticResource ControlBackgroundBrush}" />
 
         <Setter Property="Foreground"
-                Value="{StaticResource PrimaryTextBrush}"/>
+                Value="{StaticResource PrimaryTextBrush}" />
 
         <Setter Property="Padding"
-                Value="6,4"/>
+                Value="6,4" />
 
         <Style.Triggers>
 
@@ -465,7 +464,7 @@
                      Value="True">
 
                 <Setter Property="Background"
-                        Value="{StaticResource ControlHoverBrush}"/>
+                        Value="{StaticResource ControlHoverBrush}" />
 
             </Trigger>
 
@@ -473,7 +472,7 @@
                      Value="True">
 
                 <Setter Property="Background"
-                        Value="{StaticResource SelectionBrush}"/>
+                        Value="{StaticResource SelectionBrush}" />
 
             </Trigger>
 
@@ -482,44 +481,44 @@
     </Style>
 
     <!-- ========================================================= -->
-    <!-- DatePicker -->
+    <!-- DatePicker Styles -->
     <!-- ========================================================= -->
 
-    <!-- display dark date filter fields while keeping the popup calendar readable -->
+    <!-- Provides dark date fields while keeping the popup calendar readable. -->
     <Style TargetType="DatePicker">
 
         <Setter Property="Background"
-            Value="{StaticResource ControlBackgroundBrush}"/>
+                Value="{StaticResource ControlBackgroundBrush}" />
 
         <Setter Property="Foreground"
-                Value="{StaticResource PrimaryTextBrush}"/>
+                Value="{StaticResource PrimaryTextBrush}" />
 
         <Setter Property="BorderBrush"
-                Value="{StaticResource BorderBrushDark}"/>
+                Value="{StaticResource BorderBrushDark}" />
 
         <Setter Property="BorderThickness"
-                Value="1"/>
+                Value="1" />
 
         <Setter Property="Language"
-                Value="en-US"/>
+                Value="en-US" />
 
         <Setter Property="VerticalContentAlignment"
-                Value="Center"/>
+                Value="Center" />
 
     </Style>
 
-    <!-- display an English placeholder inside empty DatePicker fields -->
+    <!-- Displays a placeholder when no date is selected. -->
     <Style TargetType="DatePickerTextBox">
-       
+
         <Setter Property="Foreground"
-            Value="{StaticResource PrimaryTextBrush}"/>
+                Value="{StaticResource PrimaryTextBrush}" />
 
         <Setter Property="CaretBrush"
-            Value="{StaticResource PrimaryTextBrush}"/>
+                Value="{StaticResource PrimaryTextBrush}" />
 
         <Setter Property="Padding"
-            Value="5,2"/>
-       
+                Value="5,2" />
+
         <Setter Property="Template">
 
             <Setter.Value>
@@ -528,57 +527,56 @@
 
                     <Grid>
 
-                        <!-- display the editable date text -->
+                        <!-- Displays the editable date value. -->
                         <ScrollViewer x:Name="PART_ContentHost"
-                                  Margin="{TemplateBinding Padding}"
-                                  VerticalAlignment="Center"/>
+                                      Margin="{TemplateBinding Padding}"
+                                      VerticalAlignment="Center" />
 
-                        <!-- display an English prompt before a date is selected -->
+                        <!-- Displays the prompt before a date is selected. -->
                         <TextBlock x:Name="DateWatermark"
-                               Text="Choose date"
-                               Foreground="{StaticResource SecondaryTextBrush}"
-                               Margin="5,0,0,0"
-                               VerticalAlignment="Center"
-                               IsHitTestVisible="False"
-                               Visibility="Collapsed"/>
+                                   Text="Choose date"
+                                   Foreground="{StaticResource SecondaryTextBrush}"
+                                   Margin="5,0,0,0"
+                                   VerticalAlignment="Center"
+                                   IsHitTestVisible="False"
+                                   Visibility="Collapsed" />
 
                     </Grid>
 
                     <ControlTemplate.Triggers>
 
-                        <!-- hide the prompt after a date is entered -->
                         <Trigger Property="Text"
-                             Value="">
+                                 Value="">
 
                             <Setter TargetName="DateWatermark"
-                                Property="Visibility"
-                                Value="Visible"/>
+                                    Property="Visibility"
+                                    Value="Visible" />
 
                         </Trigger>
 
                         <Trigger Property="Text"
-                             Value="{x:Null}">
+                                 Value="{x:Null}">
 
                             <Setter TargetName="DateWatermark"
-                                Property="Visibility"
-                                Value="Visible"/>
+                                    Property="Visibility"
+                                    Value="Visible" />
 
                         </Trigger>
 
                         <Trigger Property="IsKeyboardFocusWithin"
-                             Value="True">
+                                 Value="True">
 
                             <Setter TargetName="DateWatermark"
-                                Property="Visibility"
-                                Value="Collapsed"/>
+                                    Property="Visibility"
+                                    Value="Collapsed" />
 
                         </Trigger>
 
                         <Trigger Property="IsEnabled"
-                             Value="False">
+                                 Value="False">
 
                             <Setter Property="Opacity"
-                                Value="0.5"/>
+                                    Value="0.5" />
 
                         </Trigger>
 
@@ -593,75 +591,75 @@
     </Style>
 
     <!-- ========================================================= -->
-    <!-- DataGrid -->
+    <!-- DataGrid Styles -->
     <!-- ========================================================= -->
 
     <Style TargetType="DataGrid">
 
         <Setter Property="Background"
-                Value="{StaticResource WindowBackgroundBrush}"/>
+                Value="{StaticResource WindowBackgroundBrush}" />
 
         <Setter Property="Foreground"
-                Value="{StaticResource PrimaryTextBrush}"/>
+                Value="{StaticResource PrimaryTextBrush}" />
 
         <Setter Property="BorderBrush"
-                Value="{StaticResource BorderBrushDark}"/>
+                Value="{StaticResource BorderBrushDark}" />
 
         <Setter Property="GridLinesVisibility"
-                Value="Horizontal"/>
+                Value="Horizontal" />
 
         <Setter Property="HorizontalGridLinesBrush"
-                Value="{StaticResource BorderBrushDark}"/>
+                Value="{StaticResource BorderBrushDark}" />
 
         <Setter Property="VerticalGridLinesBrush"
-                Value="{StaticResource BorderBrushDark}"/>
+                Value="{StaticResource BorderBrushDark}" />
 
         <Setter Property="RowBackground"
-                Value="{StaticResource WindowBackgroundBrush}"/>
+                Value="{StaticResource WindowBackgroundBrush}" />
 
         <Setter Property="AlternatingRowBackground"
-                Value="{StaticResource PanelBackgroundBrush}"/>
+                Value="{StaticResource PanelBackgroundBrush}" />
 
         <Setter Property="HeadersVisibility"
-                Value="Column"/>
+                Value="Column" />
 
     </Style>
 
     <Style TargetType="DataGridColumnHeader">
 
         <Setter Property="Background"
-                Value="{StaticResource PanelBackgroundBrush}"/>
+                Value="{StaticResource PanelBackgroundBrush}" />
 
         <Setter Property="Foreground"
-                Value="{StaticResource PrimaryTextBrush}"/>
+                Value="{StaticResource PrimaryTextBrush}" />
 
         <Setter Property="BorderBrush"
-                Value="{StaticResource BorderBrushDark}"/>
+                Value="{StaticResource BorderBrushDark}" />
 
         <Setter Property="BorderThickness"
-                Value="0,0,1,1"/>
+                Value="0,0,1,1" />
 
         <Setter Property="Padding"
-                Value="8,5"/>
+                Value="8,5" />
 
         <Setter Property="FontWeight"
-                Value="SemiBold"/>
+                Value="SemiBold" />
 
     </Style>
 
     <Style TargetType="DataGridCell">
 
         <Setter Property="Background"
-                Value="Transparent"/>
+                Value="Transparent" />
 
         <Setter Property="Foreground"
-                Value="{StaticResource PrimaryTextBrush}"/>
+                Value="{StaticResource PrimaryTextBrush}" />
 
         <Setter Property="BorderThickness"
-                Value="0"/>
+                Value="0" />
 
         <Setter Property="Padding"
-                Value="5,2"/>
+                Value="5,2" />
 
         <Style.Triggers>
 
@@ -669,10 +667,10 @@
                      Value="True">
 
                 <Setter Property="Background"
-                        Value="{StaticResource SelectionBrush}"/>
+                        Value="{StaticResource SelectionBrush}" />
 
                 <Setter Property="Foreground"
-                        Value="{StaticResource PrimaryTextBrush}"/>
+                        Value="{StaticResource PrimaryTextBrush}" />
 
             </Trigger>
 
@@ -683,10 +681,10 @@
     <Style TargetType="DataGridRow">
 
         <Setter Property="Background"
-                Value="{StaticResource WindowBackgroundBrush}"/>
+                Value="{StaticResource WindowBackgroundBrush}" />
 
         <Setter Property="Foreground"
-                Value="{StaticResource PrimaryTextBrush}"/>
+                Value="{StaticResource PrimaryTextBrush}" />
 
         <Style.Triggers>
 
@@ -694,10 +692,10 @@
                      Value="True">
 
                 <Setter Property="Background"
-                        Value="{StaticResource SelectionBrush}"/>
+                        Value="{StaticResource SelectionBrush}" />
 
                 <Setter Property="Foreground"
-                        Value="{StaticResource PrimaryTextBrush}"/>
+                        Value="{StaticResource PrimaryTextBrush}" />
 
             </Trigger>
 
@@ -706,19 +704,19 @@
     </Style>
 
     <!-- ========================================================= -->
-    <!-- ProgressBar -->
+    <!-- ProgressBar Styles -->
     <!-- ========================================================= -->
 
     <Style TargetType="ProgressBar">
 
         <Setter Property="Background"
-                Value="{StaticResource ControlBackgroundBrush}"/>
+                Value="{StaticResource ControlBackgroundBrush}" />
 
         <Setter Property="Foreground"
-                Value="{StaticResource AccentBrush}"/>
+                Value="{StaticResource AccentBrush}" />
 
         <Setter Property="BorderBrush"
-                Value="{StaticResource BorderBrushDark}"/>
+                Value="{StaticResource BorderBrushDark}" />
 
     </Style>
 

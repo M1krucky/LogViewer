@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:LogViewer"
         xmlns:controls="clr-namespace:LogViewer.Controls"
         xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
         mc:Ignorable="d"
@@ -13,7 +12,11 @@
         Width="1070"
         WindowStyle="None">
 
-    <!-- provide native resizing and a custom window frame -->
+    <!-- ========================================================= -->
+    <!-- Custom Window Frame -->
+    <!-- ========================================================= -->
+
+    <!-- Enables native resizing while using a custom title bar. -->
     <shell:WindowChrome.WindowChrome>
         <shell:WindowChrome CaptionHeight="36"
                             ResizeBorderThickness="6"
@@ -22,247 +25,319 @@
                             UseAeroCaptionButtons="False" />
     </shell:WindowChrome.WindowChrome>
 
-        <DockPanel>
+    <!-- ========================================================= -->
+    <!-- Main Window Layout -->
+    <!-- ========================================================= -->
 
-        <!-- display a custom title bar -->
+    <DockPanel>
+
+        <!-- ===================================================== -->
+        <!-- Custom Title Bar -->
+        <!-- ===================================================== -->
+
         <controls:TitleBar DockPanel.Dock="Top"
-                   Title="LogViewer" />
+                           Title="LogViewer" />
 
-        <!-- provide the main application menu for file management and user assistance -->
-		<Menu DockPanel.Dock="Top">
-			<MenuItem Header="_File">
-				<MenuItem Header="_Open Log File..." Click="OpenFileButton_Click" />
-				
-				<Separator />
-				
-	            <!-- display the list of recently opened log files -->
-				<MenuItem x:Name="RecentFilesMenuItem"
-						  Header="_Recent Files" />
+        <!-- ===================================================== -->
+        <!-- Application Menu -->
+        <!-- ===================================================== -->
 
-				<Separator />
+        <!-- Provides file-management and application-help commands. -->
+        <Menu DockPanel.Dock="Top">
 
-				<!-- export the currently filtered log entries to a CSV file -->
-				<MenuItem Header="_Export CSV..."
-						  Click="ExportButton_Click" />
+            <!-- File operations -->
+            <MenuItem Header="_File">
 
-				<Separator />
-				
-				<MenuItem Header="E_xit" Click="ExitMenuItem_Click" />
-			</MenuItem>
+                <MenuItem Header="_Open Log File..."
+                          Click="OpenFileButton_Click" />
 
-			<MenuItem Header="_Help">
-				<MenuItem Header="_About" Click="AboutMenuItem_Click" />
-			</MenuItem>
-		</Menu>
+                <Separator />
 
-		<!-- display current application status and active log file information -->
-		<StatusBar DockPanel.Dock="Bottom">
-			<StatusBarItem>
-				<TextBlock x:Name="CurrentFileTextBlock"
-						   Text="File: No file opened" />
-			</StatusBarItem>
-		</StatusBar>
-		
-		<!-- main layout container -->
-		<Grid>
+                <!-- Populated dynamically with recently opened files. -->
+                <MenuItem x:Name="RecentFilesMenuItem"
+                          Header="_Recent Files" />
 
-			<!-- divide the window into three rows: toolbar, log table, and details panel -->
-			<Grid.RowDefinitions>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="*"/>
-				<RowDefinition Height="Auto"/>
-			</Grid.RowDefinitions>
+                <Separator />
 
-            <!-- top toolbar containing file operations, filters, and statistics -->
-            <StackPanel Orientation="Horizontal"
-			Margin="10,8">
+                <!-- Exports the currently filtered log entries. -->
+                <MenuItem Header="_Export CSV..."
+                          Click="ExportButton_Click" />
 
-                <!-- provide quick access to opening a log file -->
+                <Separator />
+
+                <MenuItem Header="E_xit"
+                          Click="ExitMenuItem_Click" />
+
+            </MenuItem>
+
+            <!-- Help and application information -->
+            <MenuItem Header="_Help">
+
+                <MenuItem Header="_About"
+                          Click="AboutMenuItem_Click" />
+
+            </MenuItem>
+
+        </Menu>
+
+        <!-- ===================================================== -->
+        <!-- Status Bar -->
+        <!-- ===================================================== -->
+
+        <!-- Displays the path of the currently opened log file. -->
+        <StatusBar DockPanel.Dock="Bottom">
+
+            <StatusBarItem>
+
+                <TextBlock x:Name="CurrentFileTextBlock"
+                           Text="File: No file opened" />
+
+            </StatusBarItem>
+
+        </StatusBar>
+
+        <!-- ===================================================== -->
+        <!-- Main Content Area -->
+        <!-- ===================================================== -->
+
+        <Grid>
+
+            <!--
+                Row 0: Toolbar and filters
+                Row 1: Log entries table
+                Row 2: Selected-entry details and loading status
+            -->
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <!-- ================================================= -->
+            <!-- Toolbar and Filters -->
+            <!-- ================================================= -->
+
+            <StackPanel Grid.Row="0"
+                        Orientation="Horizontal"
+                        Margin="10,8">
+
+                <!-- File action -->
                 <Button Name="OpenFileButton"
-				Width="82"
-				Click="OpenFileButton_Click">
+                        Width="82"
+                        Click="OpenFileButton_Click">
 
                     <StackPanel Orientation="Horizontal">
+
                         <TextBlock Text="&#xE8E5;"
-					   FontFamily="Segoe MDL2 Assets"
-					   FontSize="16"
-					   Margin="0,0,7,0"
-					   VerticalAlignment="Center"/>
+                                   FontFamily="Segoe MDL2 Assets"
+                                   FontSize="16"
+                                   Margin="0,0,7,0"
+                                   VerticalAlignment="Center" />
 
                         <TextBlock Text="Open"
-					   VerticalAlignment="Center"/>
+                                   VerticalAlignment="Center" />
+
                     </StackPanel>
 
                 </Button>
 
-                <!-- provide quick access to log statistics -->
+                <!-- Statistics action -->
                 <Button Name="StatisticsButton"
-				Width="110"
-				Click="StatisticsButton_Click">
+                        Width="110"
+                        Click="StatisticsButton_Click">
 
                     <StackPanel Orientation="Horizontal">
+
                         <TextBlock Text="&#xE9D2;"
-					   FontFamily="Segoe MDL2 Assets"
-					   FontSize="16"
-					   Margin="0,0,7,0"
-					   VerticalAlignment="Center"/>
+                                   FontFamily="Segoe MDL2 Assets"
+                                   FontSize="16"
+                                   Margin="0,0,7,0"
+                                   VerticalAlignment="Center" />
 
                         <TextBlock Text="Statistics"
-					   VerticalAlignment="Center"/>
+                                   VerticalAlignment="Center" />
+
                     </StackPanel>
 
                 </Button>
 
+                <!-- Search text -->
                 <TextBlock Text="Search:"
-			   Margin="20,0,5,0"
-			   VerticalAlignment="Center"/>
+                           Margin="20,0,5,0"
+                           VerticalAlignment="Center" />
 
                 <TextBox Name="SearchTextBox"
-			 Width="200"
-			 TextChanged="SearchTextBox_TextChanged"/>
+                         Width="200"
+                         TextChanged="SearchTextBox_TextChanged" />
 
-                <!-- allow the user to choose whether any or all search words must match -->
+                <!-- Determines whether any or all search terms must match. -->
                 <ComboBox Name="SearchModeComboBox"
-			  Width="70"
-			  Margin="5,0,0,0"
-			  SelectedIndex="0"
-			  VerticalContentAlignment="Center"
-			  SelectionChanged="SearchModeComboBox_SelectionChanged">
+                          Width="70"
+                          Margin="5,0,0,0"
+                          SelectedIndex="0"
+                          VerticalContentAlignment="Center"
+                          SelectionChanged="SearchModeComboBox_SelectionChanged">
 
-                    <ComboBoxItem Content="OR"/>
-                    <ComboBoxItem Content="AND"/>
+                    <ComboBoxItem Content="OR" />
+                    <ComboBoxItem Content="AND" />
 
                 </ComboBox>
 
+                <!-- Log-level filter -->
                 <TextBlock Text="Level:"
-			   VerticalAlignment="Center"
-			   Margin="10,0,5,0"/>
+                           Margin="10,0,5,0"
+                           VerticalAlignment="Center" />
 
                 <ComboBox Name="LevelFilterComboBox"
-			  Width="100"
-			  SelectedIndex="0"
-			  VerticalContentAlignment="Center"
-			  SelectionChanged="LevelFilterComboBox_SelectionChanged">
+                          Width="100"
+                          SelectedIndex="0"
+                          VerticalContentAlignment="Center"
+                          SelectionChanged="LevelFilterComboBox_SelectionChanged">
 
-                    <ComboBoxItem Content="All"/>
-                    <ComboBoxItem Content="INFO"/>
-                    <ComboBoxItem Content="WARNING"/>
-                    <ComboBoxItem Content="ERROR"/>
+                    <ComboBoxItem Content="All" />
+                    <ComboBoxItem Content="INFO" />
+                    <ComboBoxItem Content="WARNING" />
+                    <ComboBoxItem Content="ERROR" />
 
                 </ComboBox>
 
+                <!-- Start-date filter -->
                 <TextBlock Text="From:"
-			   VerticalAlignment="Center"
-			   Margin="10,0,5,0"/>
+                           Margin="10,0,5,0"
+                           VerticalAlignment="Center" />
 
                 <DatePicker Name="FromDatePicker"
-				Width="120"
-				VerticalAlignment="Center"
-				SelectedDateChanged="DatePicker_SelectedDateChanged"/>
+                            Width="120"
+                            VerticalAlignment="Center"
+                            SelectedDateChanged="DatePicker_SelectedDateChanged" />
 
+                <!-- End-date filter -->
                 <TextBlock Text="To:"
-			   VerticalAlignment="Center"
-			   Margin="10,0,5,0"/>
+                           Margin="10,0,5,0"
+                           VerticalAlignment="Center" />
 
                 <DatePicker Name="ToDatePicker"
-				Width="120"
-				VerticalAlignment="Center"
-				SelectedDateChanged="DatePicker_SelectedDateChanged"/>
+                            Width="120"
+                            VerticalAlignment="Center"
+                            SelectedDateChanged="DatePicker_SelectedDateChanged" />
 
             </StackPanel>
 
-            <!-- display parsed and filtered log entries -->
-			<DataGrid Name="LogGrid"
-					  Grid.Row="1"
-					  AutoGenerateColumns="False"
-					  CanUserAddRows="False"
-					  SelectionChanged="LogGrid_SelectionChanged"> 
+            <!-- ================================================= -->
+            <!-- Log Entries Table -->
+            <!-- ================================================= -->
 
-				<!-- highlight log entries based on their severity level -->
-				<DataGrid.RowStyle>
+            <!-- Displays the parsed log entries after active filters are applied. -->
+            <DataGrid Name="LogGrid"
+                      Grid.Row="1"
+                      AutoGenerateColumns="False"
+                      CanUserAddRows="False"
+                      SelectionChanged="LogGrid_SelectionChanged">
 
-					<Style TargetType="DataGridRow">
-						<Style.Triggers>
+                <!-- Severity-based row highlighting -->
+                <DataGrid.RowStyle>
 
-							<DataTrigger Binding="{Binding Level}" Value="ERROR">
-                                <Setter Property="Background" Value="{StaticResource ErrorRowBrush}"/>
+                    <Style TargetType="DataGridRow">
+
+                        <Style.Triggers>
+
+                            <DataTrigger Binding="{Binding Level}"
+                                         Value="ERROR">
+
+                                <Setter Property="Background"
+                                        Value="{StaticResource ErrorRowBrush}" />
+
                             </DataTrigger>
 
-							<DataTrigger Binding="{Binding Level}" Value="WARNING">
-                                <Setter Property="Background" Value="{StaticResource WarningRowBrush}"/>
+                            <DataTrigger Binding="{Binding Level}"
+                                         Value="WARNING">
+
+                                <Setter Property="Background"
+                                        Value="{StaticResource WarningRowBrush}" />
+
                             </DataTrigger>
 
-						</Style.Triggers>
-					</Style>
+                        </Style.Triggers>
 
-				</DataGrid.RowStyle>
+                    </Style>
 
-				<!-- define the columns displayed in the log table -->
-				<DataGrid.Columns>
+                </DataGrid.RowStyle>
 
-					<!-- display the timestamp of each log entry -->
-					<DataGridTextColumn Header="Timestamp"
-										Binding="{Binding Timestamp}"/>
+                <!-- Log-entry columns -->
+                <DataGrid.Columns>
 
-					<!-- display the severity level of each log entry -->
-					<DataGridTextColumn Header="Level"
-										Binding="{Binding Level}"/>
+                    <DataGridTextColumn Header="Timestamp"
+                                        Binding="{Binding Timestamp}" />
 
-					<!-- display the log message of each log entry -->
-					<DataGridTextColumn Header="Message"
-										Binding="{Binding Message}"/>
+                    <DataGridTextColumn Header="Level"
+                                        Binding="{Binding Level}" />
 
-				</DataGrid.Columns>
+                    <DataGridTextColumn Header="Message"
+                                        Binding="{Binding Message}" />
 
-			</DataGrid>
+                </DataGrid.Columns>
 
-			<!-- display details of the currently selected log entry -->
-			<Border Grid.Row="2"
-					Margin="10"
-					Padding="10"
-					BorderBrush="LightGray"
-					BorderThickness="1">
+            </DataGrid>
 
-				<!-- organize the selected log entry information vertically -->
-				<StackPanel>
+            <!-- ================================================= -->
+            <!-- Selected Log Entry Details -->
+            <!-- ================================================= -->
 
-					<TextBlock Text="Selected Log Details"
-							   FontWeight="Bold"
-							   FontSize="14"
-							   Margin="0,0,0,10"/>
+            <Border Grid.Row="2"
+                    Margin="10"
+                    Padding="10"
+                    BorderBrush="LightGray"
+                    BorderThickness="1">
 
-					<TextBlock Name="SelectedTimestampTextBlock"
-							   Text="Timestamp: -"
-							   Margin="0,0,0,5"/>
+                <StackPanel>
 
-					<TextBlock Name="SelectedLevelTextBlock"
-							   Text="Level: -"
-							   Margin="0,0,0,5"/>
+                    <!-- Details heading -->
+                    <TextBlock Text="Selected Log Details"
+                               FontWeight="Bold"
+                               FontSize="14"
+                               Margin="0,0,0,10" />
 
-					<TextBlock Name="SelectedMessageTextBlock"
-							   Text="Message: -"
-							   TextWrapping="Wrap"/>
+                    <!-- Selected timestamp -->
+                    <TextBlock Name="SelectedTimestampTextBlock"
+                               Text="Timestamp: -"
+                               Margin="0,0,0,5" />
 
-					<!-- show loading status while a log file is being loaded -->
-					<StackPanel x:Name="LoadingPanel"
-								Orientation="Horizontal"
-								Visibility="Collapsed"
-								Margin="0,8,0,8">
-						<ProgressBar Width="160"
-									 Height="16"
-									 IsIndeterminate="True"
-									 Margin="0,0,10,0" />
+                    <!-- Selected severity level -->
+                    <TextBlock Name="SelectedLevelTextBlock"
+                               Text="Level: -"
+                               Margin="0,0,0,5" />
 
-						<TextBlock Text="Loading log file..."
-								   VerticalAlignment="Center" />
-					</StackPanel>
+                    <!-- Selected log message -->
+                    <TextBlock Name="SelectedMessageTextBlock"
+                               Text="Message: -"
+                               TextWrapping="Wrap" />
 
-				</StackPanel>
+                    <!-- ========================================= -->
+                    <!-- Loading Indicator -->
+                    <!-- ========================================= -->
 
-			</Border>
+                    <!-- Hidden until a log file is being loaded. -->
+                    <StackPanel x:Name="LoadingPanel"
+                                Orientation="Horizontal"
+                                Visibility="Collapsed"
+                                Margin="0,8,0,8">
 
-		</Grid>
+                        <ProgressBar Width="160"
+                                     Height="16"
+                                     IsIndeterminate="True"
+                                     Margin="0,0,10,0" />
 
-	</DockPanel>
+                        <TextBlock Text="Loading log file..."
+                                   VerticalAlignment="Center" />
+
+                    </StackPanel>
+
+                </StackPanel>
+
+            </Border>
+
+        </Grid>
+
+    </DockPanel>
 
 </Window>
