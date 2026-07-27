@@ -21,13 +21,12 @@ A Windows desktop application for opening, filtering, analyzing, and reviewing l
 - Recent Files menu with persistent history
 - Status bar showing the currently opened file
 - About window
+- Comprehensive unit tests for core business logic
 
-#### Architecture
+#### Application Architecture
 
-- WPF (UI)
-- C#
-- .NET 10
 - Service-oriented architecture
+- Layered separation between Models, Services, and Views
 
 #### Tech Stack
 
@@ -35,30 +34,73 @@ A Windows desktop application for opening, filtering, analyzing, and reviewing l
 - .NET 10
 - WPF
 - LiveCharts2
+- MSTest
+
+#### Development Tools
+
 - Git
 - GitHub
+
+#### Testing
+
+##### Automated Testing
+
+The project includes automated unit tests built with MSTest.
+
+Current unit tests cover the core business logic, including:
+
+- Log parsing
+- Log filtering
+- Statistics calculation
+- CSV export
+
+The tests validate business logic, edge cases, and expected behavior of the core services independently from the WPF user interface.
+
+##### Exploratory Testing
+
+The WPF user interface was verified through exploratory testing, including:
+
+- Opening log files
+- Searching log entries
+- AND/OR text filtering
+- Filtering by log level
+- Filtering by date range
+- Sorting DataGrid columns
+- Displaying statistics
+- Displaying log level distribution and error trend charts
+- Exporting filtered log entries to CSV
+- Loading large log files asynchronously
+- Error handling for invalid and unsupported log files
 
 #### Project Structure
 
 ```text
 LogViewer/
-├── Models/
-├── Services/
-│   ├── LogParserService.cs
-│   ├── LogFilterService.cs
-│   ├── LogStatisticsService.cs
-│   ├── LogChartService.cs
-│   └── LogExportService.cs
-├── Views/
-├── Themes/
-├── MainWindow.xaml
-├── StatisticsWindow.xaml
-├── AboutWindow.xaml
-├── App.xaml
-├── sample.log
-├── sample_brackets.log
-├── README.md
-└── LogViewer.csproj
+├── LogViewer/
+│   ├── Models/
+│   ├── Services/
+│   │   ├── LogParserService.cs
+│   │   ├── LogFilterService.cs
+│   │   ├── LogStatisticsService.cs
+│   │   ├── LogChartService.cs
+│   │   └── LogExportService.cs
+│   ├── Views/
+│   ├── Themes/
+│   ├── MainWindow.xaml
+│   ├── StatisticsWindow.xaml
+│   ├── AboutWindow.xaml
+│   ├── App.xaml
+│   ├── sample.log
+│   ├── sample_brackets.log
+│   ├── README.md
+│   └── LogViewer.csproj
+│
+└── LogViewer.Tests/
+    ├── LogExportServiceTests.cs
+    ├── LogFilterServiceTests.cs
+    ├── LogParserServiceTests.cs
+    ├── LogStatisticsServiceTests.cs
+    └── MSTestSettings.cs
 ```
 
 #### Roadmap
@@ -84,6 +126,8 @@ LogViewer/
 - [x] Add About window
 - [x] Export filtered results to CSV
 - [x] Add error trend chart with time grouping
+- [x] Add automated unit tests
+- [x] Perform exploratory UI testing
 - [x] Final UI polish
 - [ ] Create installer
 - [ ] Publish Version 1.0 on GitHub
