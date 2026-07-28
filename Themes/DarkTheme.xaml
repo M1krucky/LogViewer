@@ -105,10 +105,31 @@
         <Style.Triggers>
 
             <Trigger Property="IsHighlighted"
-                     Value="True">
+             Value="True">
+
+                <Setter Property="Foreground"
+                Value="Black" />
+
+            </Trigger>
+
+        </Style.Triggers>
+
+    </Style>
+
+    <Style x:Key="TopMenuItemStyle"
+       TargetType="MenuItem"
+       BasedOn="{StaticResource {x:Type MenuItem}}">
+
+        <Style.Triggers>
+
+            <Trigger Property="IsHighlighted"
+                 Value="True">
 
                 <Setter Property="Background"
-                        Value="{StaticResource ControlHoverBrush}" />
+                    Value="Yellow" />
+
+                <Setter Property="Foreground"
+                    Value="{StaticResource PrimaryTextBrush}" />
 
             </Trigger>
 

@@ -46,7 +46,8 @@
         <Menu DockPanel.Dock="Top">
 
             <!-- File operations -->
-            <MenuItem Header="_File">
+            <MenuItem Header="_File"
+                      Style="{StaticResource TopMenuItemStyle}">
 
                 <MenuItem Header="_Open Log File..."
                           Click="OpenFileButton_Click" />
@@ -71,7 +72,8 @@
             </MenuItem>
 
             <!-- Help and application information -->
-            <MenuItem Header="_Help">
+            <MenuItem Header="_Help"
+                      Style="{StaticResource TopMenuItemStyle}">
 
                 <MenuItem Header="_About"
                           Click="AboutMenuItem_Click" />
