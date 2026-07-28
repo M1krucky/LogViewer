@@ -22,6 +22,16 @@ A Windows desktop application for opening, filtering, analyzing, and reviewing l
 - Status bar showing the currently opened file
 - About window
 - Comprehensive unit tests for core business logic
+- Self-contained Windows installer
+
+#### Installation
+
+1. Open the repository's **Releases** page.
+2. Download **LogViewer_Setup_v1.0.exe**.
+3. Run the installer.
+4. Launch LogViewer from the Windows Start menu or the optional desktop shortcut.
+
+The installer contains the required .NET runtime, so a separate .NET installation is not required.
 
 #### Application Architecture
 
@@ -40,6 +50,7 @@ A Windows desktop application for opening, filtering, analyzing, and reviewing l
 
 - Git
 - GitHub
+- Inno Setup
 
 #### Testing
 
@@ -71,11 +82,16 @@ The WPF user interface was verified through exploratory testing, including:
 - Exporting filtered log entries to CSV
 - Loading large log files asynchronously
 - Error handling for invalid and unsupported log files
+- Installing and launching the application through the Windows installer
+- Launching the application from the Windows Start menu
 
 #### Project Structure
 
 ```text
 LogViewer/
+├── Installer/
+│   └── LogViewer.iss
+│
 ├── LogViewer/
 │   ├── Models/
 │   ├── Services/
@@ -92,15 +108,16 @@ LogViewer/
 │   ├── App.xaml
 │   ├── sample.log
 │   ├── sample_brackets.log
-│   ├── README.md
 │   └── LogViewer.csproj
 │
-└── LogViewer.Tests/
-    ├── LogExportServiceTests.cs
-    ├── LogFilterServiceTests.cs
-    ├── LogParserServiceTests.cs
-    ├── LogStatisticsServiceTests.cs
-    └── MSTestSettings.cs
+├── LogViewer.Tests/
+│   ├── LogExportServiceTests.cs
+│   ├── LogFilterServiceTests.cs
+│   ├── LogParserServiceTests.cs
+│   ├── LogStatisticsServiceTests.cs
+│   └── MSTestSettings.cs
+│
+└── README.md
 ```
 
 #### Roadmap
@@ -129,26 +146,10 @@ LogViewer/
 - [x] Add automated unit tests
 - [x] Perform exploratory UI testing
 - [x] Final UI polish
-- [ ] Create installer
-- [ ] Publish Version 1.0 on GitHub
+- [x] Create a self-contained Windows installer
 
 #### Status
 
-🚀 **Feature complete**
+🚀 **Version 1.0 — Feature Complete**
 
-Current focus:
-
-- Create installer
-- Publish Version 1.0 on GitHub
-
-#### Screenshots
-
-*Screenshots will be added below.*
-
-<!-- Main Window -->
-
-<!-- Statistics Window -->
-
-<!-- Error Trend Chart -->
-
-<!-- About Window -->
+The application has been fully developed, tested, published, and packaged as a self-contained Windows installer.
