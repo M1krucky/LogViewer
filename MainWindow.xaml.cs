@@ -41,7 +41,7 @@ namespace LogViewer
 
         private async void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            await LoadLogFileAsync("sample.log");
+            CurrentFileTextBlock.Text = "No file opened";
         }
 
         private async void OpenFileButton_Click(object sender, RoutedEventArgs e)
