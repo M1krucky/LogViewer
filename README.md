@@ -2,6 +2,17 @@
 
 A Windows desktop application for opening, filtering, analyzing, and reviewing log files, built with C#, .NET 10, WPF, and LiveCharts2.
 
+#### Screenshots
+
+##### Main Window
+
+![Main Window](Images/MainWindow.png)
+
+##### Statistics
+
+![Statistics](Images/StatisticsWindow.png)
+
+
 #### Features
 
 - Open log files from disk
@@ -153,3 +164,5 @@ LogViewer/
 🚀 **Version 1.0 — Feature Complete**
 
 The application has been fully developed, tested, published, and packaged as a self-contained Windows installer.
+
+
